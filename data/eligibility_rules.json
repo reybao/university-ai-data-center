@@ -12,8 +12,8 @@
     {
       "rule_id": "RESTRICTED_APPROVED",
       "workload_component": "Restricted human genomic or clinical data jobs approved for transfer",
-      "planning_location": "us_owned_secure_enclave",
-      "why": "Institution-controlled secure environment can be off campus if dataset terms permit",
+      "planning_location": "us_consortium_controlled_secure_enclave",
+      "why": "Institution-controlled owned or contracted secure environment can be off campus if dataset terms permit",
       "validation_needed": "Dataset agreement responsible institution authorized users security isolation audit and service agreements",
       "status": "conditional_candidate_not_automatic_approval"
     },
@@ -28,7 +28,7 @@
     {
       "rule_id": "US_SHARED_BATCH",
       "workload_component": "Permitted training fine-tuning scientific HPC simulation and offline replay",
-      "planning_location": "us_owned_general_compute",
+      "planning_location": "us_consortium_controlled_general_compute",
       "why": "US shared facility planning envelope",
       "validation_needed": "Project permission data transfer time completion target and equipment fit",
       "status": "pending_project_validation"
@@ -36,7 +36,7 @@
     {
       "rule_id": "US_SHARED_INTERACTIVE",
       "workload_component": "Permitted general inference coding agents and noncritical planning",
-      "planning_location": "us_owned_general_compute",
+      "planning_location": "us_consortium_controlled_general_compute",
       "why": "US shared site can be tested without adding cross-border scenarios",
       "validation_needed": "Self-hosting decision p95/p99 latency availability and request volumes",
       "status": "pending_service_validation"

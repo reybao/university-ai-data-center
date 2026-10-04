@@ -61,11 +61,11 @@
       "accounting_role": "nonadditive_tag",
       "security_gate": "Restricted human or clinical datasets require dataset agreement responsible institution and secure-enclave review; ownership alone is insufficient",
       "latency_gate": "Inherited from primary compute task",
-      "data_gravity_gate": "Approved restricted data may move to US consortium-owned secure enclave; otherwise remain at originating institution",
+      "data_gravity_gate": "Approved restricted data may move to US consortium-controlled owned or contracted secure enclave; otherwise remain at originating institution",
       "gpu_freshness_gate": "Inherited from primary compute task",
       "reliability_gate": "Audit backup and recovery per agreement",
       "utilization_gate": "No independent GPU-hours",
-      "geographic_eligibility_status": "us_owned_secure_enclave_if_approved_else_origin_institution"
+      "geographic_eligibility_status": "us_controlled_secure_enclave_if_approved_else_origin_institution"
     },
     {
       "display_category": "robotics",

@@ -1,0 +1,1444 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-10-04",
+  "status": "conditional_research_no_site_or_capital_approval",
+  "research_recommendation": "Start flexible compute and site due diligence; do not approve full 25 MW construction before member, workload, utility, security, and quote gates.",
+  "facility_target": {
+    "value": 25,
+    "unit": "MW total facility design input",
+    "status": "user_confirmed_definition_not_build_approval"
+  },
+  "geographic_eligibility": [
+    {
+      "rule_id": "LOCAL_CLOSED_LOOP",
+      "workload_component": "Robot or instrument closed-loop control",
+      "planning_location": "device_or_campus",
+      "why": "Real-time control and safe operation during network failure",
+      "validation_needed": "Measure project control cycle jitter and fail-safe design",
+      "status": "planning_assumption_needs_project_test"
+    },
+    {
+      "rule_id": "RESTRICTED_APPROVED",
+      "workload_component": "Restricted human genomic or clinical data jobs approved for transfer",
+      "planning_location": "us_consortium_controlled_secure_enclave",
+      "why": "Institution-controlled owned or contracted secure environment can be off campus if dataset terms permit",
+      "validation_needed": "Dataset agreement responsible institution authorized users security isolation audit and service agreements",
+      "status": "conditional_candidate_not_automatic_approval"
+    },
+    {
+      "rule_id": "RESTRICTED_NOT_APPROVED",
+      "workload_component": "Restricted data jobs without transfer or processing approval",
+      "planning_location": "origin_institution",
+      "why": "Ownership of shared center does not itself transfer data rights",
+      "validation_needed": "Check dataset and institution-specific agreements; reassess only after approval",
+      "status": "retain_at_origin"
+    },
+    {
+      "rule_id": "US_SHARED_BATCH",
+      "workload_component": "Permitted training fine-tuning scientific HPC simulation and offline replay",
+      "planning_location": "us_consortium_controlled_general_compute",
+      "why": "US shared facility planning envelope",
+      "validation_needed": "Project permission data transfer time completion target and equipment fit",
+      "status": "pending_project_validation"
+    },
+    {
+      "rule_id": "US_SHARED_INTERACTIVE",
+      "workload_component": "Permitted general inference coding agents and noncritical planning",
+      "planning_location": "us_consortium_controlled_general_compute",
+      "why": "US shared site can be tested without adding cross-border scenarios",
+      "validation_needed": "Self-hosting decision p95/p99 latency availability and request volumes",
+      "status": "pending_service_validation"
+    }
+  ],
+  "candidate_regions": [
+    {
+      "region_id": "TX_ERCOT",
+      "screening_area": "Texas within ERCOT service area",
+      "grid_envelope": "ERCOT",
+      "state_industrial_retail_cents_per_kwh": "6.12",
+      "price_year": "2024",
+      "price_status": "observed_state_average_not_site_quote",
+      "grid_status": "ERCOT 2026 preliminary large-load forecast is highly uncertain",
+      "site_25mw_status": "unknown",
+      "priority_evidence": "utility site-specific staged 25 MW service study; tariffs; fiber; water",
+      "decision_status": "inquiry_pool_unranked"
+    },
+    {
+      "region_id": "IA_MISO",
+      "screening_area": "Iowa within MISO service area",
+      "grid_envelope": "MISO",
+      "state_industrial_retail_cents_per_kwh": "6.80",
+      "price_year": "2024",
+      "price_status": "observed_state_average_not_site_quote",
+      "grid_status": "MISO identifies rapid large-load requests and integration challenges",
+      "site_25mw_status": "unknown",
+      "priority_evidence": "utility site-specific staged 25 MW service study; resource adequacy; fiber; water",
+      "decision_status": "inquiry_pool_unranked"
+    },
+    {
+      "region_id": "OH_AEP_PJM",
+      "screening_area": "Central Ohio within AEP Ohio service area",
+      "grid_envelope": "PJM",
+      "state_industrial_retail_cents_per_kwh": "7.10",
+      "price_year": "2024",
+      "price_status": "observed_state_average_not_site_quote",
+      "grid_status": "AEP Ohio has dedicated data-center study/tariff process",
+      "site_25mw_status": "unknown",
+      "priority_evidence": "25 MW threshold applicability; minimum bill/collateral; service date; fiber",
+      "decision_status": "inquiry_pool_unranked"
+    },
+    {
+      "region_id": "VA_DOM_PJM",
+      "screening_area": "Virginia within Dominion PJM service area",
+      "grid_envelope": "PJM",
+      "state_industrial_retail_cents_per_kwh": "8.99",
+      "price_year": "2024",
+      "price_status": "observed_state_average_not_site_quote",
+      "grid_status": "JLARC and PJM report strong data-center load growth",
+      "site_25mw_status": "unknown",
+      "priority_evidence": "utility site-specific staged 25 MW service study; permitting; fiber; water",
+      "decision_status": "inquiry_pool_unranked"
+    }
+  ],
+  "ownership_options": [
+    {
+      "option_id": "cloud_on_demand",
+      "asset_owner": "provider",
+      "facility_operator": "provider",
+      "gpu_owner": "provider",
+      "upfront_capex": "low",
+      "contract_commitment": "usage_based",
+      "eligible_workload": "permitted elastic jobs",
+      "main_risk": "price_capacity_and_data_terms",
+      "current_role": "transition_and_burst"
+    },
+    {
+      "option_id": "dedicated_gpu_rental",
+      "asset_owner": "provider",
+      "facility_operator": "provider",
+      "gpu_owner": "provider",
+      "upfront_capex": "low_to_medium",
+      "contract_commitment": "reserved_capacity",
+      "eligible_workload": "permitted stable jobs subject to enclave approval",
+      "main_risk": "take_or_pay_and_refresh_terms",
+      "current_role": "quote_comparator"
+    },
+    {
+      "option_id": "colo_own_gpu",
+      "asset_owner": "colo_provider",
+      "facility_operator": "colo_provider",
+      "gpu_owner": "consortium",
+      "upfront_capex": "medium",
+      "contract_commitment": "facility_lease",
+      "eligible_workload": "stable jobs and approved secure enclave",
+      "main_risk": "colo_power_cooling_expansion_and_exit",
+      "current_role": "quote_comparator"
+    },
+    {
+      "option_id": "full_ownership",
+      "asset_owner": "consortium",
+      "facility_operator": "consortium",
+      "gpu_owner": "consortium",
+      "upfront_capex": "high",
+      "contract_commitment": "grid_and_construction",
+      "eligible_workload": "stable jobs and approved secure enclave",
+      "main_risk": "power_delay_utilization_capital_and_obsolescence",
+      "current_role": "conditional_future_option"
+    },
+    {
+      "option_id": "hybrid_dedicated_cloud",
+      "asset_owner": "provider_plus_cloud",
+      "facility_operator": "mixed",
+      "gpu_owner": "provider",
+      "upfront_capex": "low_to_medium",
+      "contract_commitment": "reserved_core_plus_elastic",
+      "eligible_workload": "approved core plus permitted bursts",
+      "main_risk": "orchestration_data_transfer_and_reserved_core_underuse",
+      "current_role": "preferred_sequence_to_validate"
+    },
+    {
+      "option_id": "hybrid_own_cloud",
+      "asset_owner": "consortium_plus_provider",
+      "facility_operator": "mixed",
+      "gpu_owner": "mixed",
+      "upfront_capex": "phased",
+      "contract_commitment": "core_commitment_plus_elastic",
+      "eligible_workload": "approved core plus permitted bursts",
+      "main_risk": "orchestration_data_transfer_and_core_underuse",
+      "current_role": "conditional_future_option"
+    }
+  ],
+  "financial_options": [
+    {
+      "option": "cloud",
+      "demand_case": "base",
+      "capex_usd": "0.0",
+      "opex_usd": "2896867186.5",
+      "cloud_bridge_or_burst_usd": "0.0",
+      "total_tco_usd": "2896867186.5",
+      "cost_npv_usd": "1962650538.0379305",
+      "b200_reference_gpu_hours": "129465604.8",
+      "h200_reference_gpu_hours": "159398086.8",
+      "cpu_core_hours": "4514261220.0",
+      "max_site_it_design_mw": "0.0",
+      "min_core_fraction_served_after_open": "0.0"
+    },
+    {
+      "option": "dedicated",
+      "demand_case": "base",
+      "capex_usd": "0.0",
+      "opex_usd": "1883634156.0",
+      "cloud_bridge_or_burst_usd": "0.0",
+      "total_tco_usd": "1883634156.0",
+      "cost_npv_usd": "1278323098.5568144",
+      "b200_reference_gpu_hours": "129465604.8",
+      "h200_reference_gpu_hours": "159398086.8",
+      "cpu_core_hours": "4514261220.0",
+      "max_site_it_design_mw": "0.0",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "option": "hybrid_dedicated",
+      "demand_case": "base",
+      "capex_usd": "0.0",
+      "opex_usd": "2340754609.9500003",
+      "cloud_bridge_or_burst_usd": "0.0",
+      "total_tco_usd": "2340754609.9500003",
+      "cost_npv_usd": "1616824306.114464",
+      "b200_reference_gpu_hours": "129465604.8",
+      "h200_reference_gpu_hours": "159398086.8",
+      "cpu_core_hours": "4514261220.0",
+      "max_site_it_design_mw": "0.0",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "option": "colo",
+      "demand_case": "base",
+      "capex_usd": "1051432355.0",
+      "opex_usd": "564840367.79488",
+      "cloud_bridge_or_burst_usd": "500336430.0",
+      "total_tco_usd": "2116609152.79488",
+      "cost_npv_usd": "1518309317.9120588",
+      "b200_reference_gpu_hours": "129465604.8",
+      "h200_reference_gpu_hours": "159398086.8",
+      "cpu_core_hours": "4514261220.0",
+      "max_site_it_design_mw": "18.731969999999997",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "option": "own",
+      "demand_case": "base",
+      "capex_usd": "1240020085.0",
+      "opex_usd": "381715323.24487996",
+      "cloud_bridge_or_burst_usd": "500336430.0",
+      "total_tco_usd": "2122071838.24488",
+      "cost_npv_usd": "1562792974.2536037",
+      "b200_reference_gpu_hours": "129465604.8",
+      "h200_reference_gpu_hours": "159398086.8",
+      "cpu_core_hours": "4514261220.0",
+      "max_site_it_design_mw": "18.731969999999997",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "option": "hybrid",
+      "demand_case": "base",
+      "capex_usd": "876199030.0",
+      "opex_usd": "314821645.68216",
+      "cloud_bridge_or_burst_usd": "1183295656.95",
+      "total_tco_usd": "2374316332.63216",
+      "cost_npv_usd": "1697618013.3516185",
+      "b200_reference_gpu_hours": "129465604.8",
+      "h200_reference_gpu_hours": "159398086.8",
+      "cpu_core_hours": "4514261220.0",
+      "max_site_it_design_mw": "13.105019999999998",
+      "min_core_fraction_served_after_open": "0.7"
+    }
+  ],
+  "financial_sensitivities": [
+    {
+      "sensitivity": "low_demand",
+      "option": "cloud",
+      "cost_npv_usd": "1145942722",
+      "total_tco_usd": "1653531158",
+      "min_core_fraction_served_after_open": "0.0"
+    },
+    {
+      "sensitivity": "low_demand",
+      "option": "dedicated",
+      "cost_npv_usd": "760085706",
+      "total_tco_usd": "1094693883",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "low_demand",
+      "option": "hybrid_dedicated",
+      "cost_npv_usd": "968476381",
+      "total_tco_usd": "1371097915",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "low_demand",
+      "option": "colo",
+      "cost_npv_usd": "886291655",
+      "total_tco_usd": "1201316306",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "low_demand",
+      "option": "own",
+      "cost_npv_usd": "916488736",
+      "total_tco_usd": "1209654987",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "low_demand",
+      "option": "hybrid",
+      "cost_npv_usd": "1000412512",
+      "total_tco_usd": "1362969909",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "high_demand",
+      "option": "cloud",
+      "cost_npv_usd": "3351679295",
+      "total_tco_usd": "5073330657",
+      "min_core_fraction_served_after_open": "0.0"
+    },
+    {
+      "sensitivity": "high_demand",
+      "option": "dedicated",
+      "cost_npv_usd": "2159545226",
+      "total_tco_usd": "3264453465",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "high_demand",
+      "option": "hybrid_dedicated",
+      "cost_npv_usd": "2709073000",
+      "total_tco_usd": "4024401478",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "high_demand",
+      "option": "colo",
+      "cost_npv_usd": "2727576221",
+      "total_tco_usd": "3987232789",
+      "min_core_fraction_served_after_open": "0.539"
+    },
+    {
+      "sensitivity": "high_demand",
+      "option": "own",
+      "cost_npv_usd": "2757458639",
+      "total_tco_usd": "3947294426",
+      "min_core_fraction_served_after_open": "0.539"
+    },
+    {
+      "sensitivity": "high_demand",
+      "option": "hybrid",
+      "cost_npv_usd": "2875853832",
+      "total_tco_usd": "4143591882",
+      "min_core_fraction_served_after_open": "0.539"
+    },
+    {
+      "sensitivity": "low_power_price",
+      "option": "cloud",
+      "cost_npv_usd": "1962650538",
+      "total_tco_usd": "2896867186",
+      "min_core_fraction_served_after_open": "0.0"
+    },
+    {
+      "sensitivity": "low_power_price",
+      "option": "dedicated",
+      "cost_npv_usd": "1278323099",
+      "total_tco_usd": "1883634156",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "low_power_price",
+      "option": "hybrid_dedicated",
+      "cost_npv_usd": "1616824306",
+      "total_tco_usd": "2340754610",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "low_power_price",
+      "option": "colo",
+      "cost_npv_usd": "1509943665",
+      "total_tco_usd": "2103173224",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "low_power_price",
+      "option": "own",
+      "cost_npv_usd": "1554427321",
+      "total_tco_usd": "2108635909",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "low_power_price",
+      "option": "hybrid",
+      "cost_npv_usd": "1691759855",
+      "total_tco_usd": "2364908335",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "high_power_price",
+      "option": "cloud",
+      "cost_npv_usd": "1962650538",
+      "total_tco_usd": "2896867186",
+      "min_core_fraction_served_after_open": "0.0"
+    },
+    {
+      "sensitivity": "high_power_price",
+      "option": "dedicated",
+      "cost_npv_usd": "1278323099",
+      "total_tco_usd": "1883634156",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "high_power_price",
+      "option": "hybrid_dedicated",
+      "cost_npv_usd": "1616824306",
+      "total_tco_usd": "2340754610",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "high_power_price",
+      "option": "colo",
+      "cost_npv_usd": "1535040624",
+      "total_tco_usd": "2143481011",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "high_power_price",
+      "option": "own",
+      "cost_npv_usd": "1579524281",
+      "total_tco_usd": "2148943697",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "high_power_price",
+      "option": "hybrid",
+      "cost_npv_usd": "1709334329",
+      "total_tco_usd": "2393132327",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "lower_hardware_capex",
+      "option": "cloud",
+      "cost_npv_usd": "1962650538",
+      "total_tco_usd": "2896867186",
+      "min_core_fraction_served_after_open": "0.0"
+    },
+    {
+      "sensitivity": "lower_hardware_capex",
+      "option": "dedicated",
+      "cost_npv_usd": "1278323099",
+      "total_tco_usd": "1883634156",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "lower_hardware_capex",
+      "option": "hybrid_dedicated",
+      "cost_npv_usd": "1616824306",
+      "total_tco_usd": "2340754610",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "lower_hardware_capex",
+      "option": "colo",
+      "cost_npv_usd": "1276174121",
+      "total_tco_usd": "1746032794",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "lower_hardware_capex",
+      "option": "own",
+      "cost_npv_usd": "1320657778",
+      "total_tco_usd": "1751495480",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "lower_hardware_capex",
+      "option": "hybrid",
+      "cost_npv_usd": "1528107566",
+      "total_tco_usd": "2114938483",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "higher_hardware_capex",
+      "option": "cloud",
+      "cost_npv_usd": "1962650538",
+      "total_tco_usd": "2896867186",
+      "min_core_fraction_served_after_open": "0.0"
+    },
+    {
+      "sensitivity": "higher_hardware_capex",
+      "option": "dedicated",
+      "cost_npv_usd": "1278323099",
+      "total_tco_usd": "1883634156",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "higher_hardware_capex",
+      "option": "hybrid_dedicated",
+      "cost_npv_usd": "1616824306",
+      "total_tco_usd": "2340754610",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "higher_hardware_capex",
+      "option": "colo",
+      "cost_npv_usd": "1760444515",
+      "total_tco_usd": "2487185511",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "higher_hardware_capex",
+      "option": "own",
+      "cost_npv_usd": "1804928171",
+      "total_tco_usd": "2492648197",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "higher_hardware_capex",
+      "option": "hybrid",
+      "cost_npv_usd": "1867128461",
+      "total_tco_usd": "2633694182",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "lower_cloud_prices",
+      "option": "cloud",
+      "cost_npv_usd": "1306159779",
+      "total_tco_usd": "1924963671",
+      "min_core_fraction_served_after_open": "0.0"
+    },
+    {
+      "sensitivity": "lower_cloud_prices",
+      "option": "dedicated",
+      "cost_npv_usd": "1278323099",
+      "total_tco_usd": "1883634156",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "lower_cloud_prices",
+      "option": "hybrid_dedicated",
+      "cost_npv_usd": "1307607944",
+      "total_tco_usd": "1926601130",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "lower_cloud_prices",
+      "option": "colo",
+      "cost_npv_usd": "1357924840",
+      "total_tco_usd": "1941491402",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "lower_cloud_prices",
+      "option": "own",
+      "cost_npv_usd": "1402408496",
+      "total_tco_usd": "1946954088",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "lower_cloud_prices",
+      "option": "hybrid",
+      "cost_npv_usd": "1388401651",
+      "total_tco_usd": "1960162853",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "higher_dedicated_rental",
+      "option": "cloud",
+      "cost_npv_usd": "1962650538",
+      "total_tco_usd": "2896867186",
+      "min_core_fraction_served_after_open": "0.0"
+    },
+    {
+      "sensitivity": "higher_dedicated_rental",
+      "option": "dedicated",
+      "cost_npv_usd": "1635731232",
+      "total_tco_usd": "2412724403",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "higher_dedicated_rental",
+      "option": "hybrid_dedicated",
+      "cost_npv_usd": "1805919492",
+      "total_tco_usd": "2644432296",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "higher_dedicated_rental",
+      "option": "colo",
+      "cost_npv_usd": "1518309318",
+      "total_tco_usd": "2116609153",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "higher_dedicated_rental",
+      "option": "own",
+      "cost_npv_usd": "1562792974",
+      "total_tco_usd": "2122071838",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "higher_dedicated_rental",
+      "option": "hybrid",
+      "cost_npv_usd": "1697618013",
+      "total_tco_usd": "2374316333",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "higher_colo_rent",
+      "option": "cloud",
+      "cost_npv_usd": "1962650538",
+      "total_tco_usd": "2896867186",
+      "min_core_fraction_served_after_open": "0.0"
+    },
+    {
+      "sensitivity": "higher_colo_rent",
+      "option": "dedicated",
+      "cost_npv_usd": "1278323099",
+      "total_tco_usd": "1883634156",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "higher_colo_rent",
+      "option": "hybrid_dedicated",
+      "cost_npv_usd": "1616824306",
+      "total_tco_usd": "2340754610",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "higher_colo_rent",
+      "option": "colo",
+      "cost_npv_usd": "1577995770",
+      "total_tco_usd": "2212470520",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "higher_colo_rent",
+      "option": "own",
+      "cost_npv_usd": "1562792974",
+      "total_tco_usd": "2122071838",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "higher_colo_rent",
+      "option": "hybrid",
+      "cost_npv_usd": "1697618013",
+      "total_tco_usd": "2374316333",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "core_delivery_delay_2_years",
+      "option": "cloud",
+      "cost_npv_usd": "1962650538",
+      "total_tco_usd": "2896867186",
+      "min_core_fraction_served_after_open": "0.0"
+    },
+    {
+      "sensitivity": "core_delivery_delay_2_years",
+      "option": "dedicated",
+      "cost_npv_usd": "1278323099",
+      "total_tco_usd": "1883634156",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "core_delivery_delay_2_years",
+      "option": "hybrid_dedicated",
+      "cost_npv_usd": "1713550487",
+      "total_tco_usd": "2467532526",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "core_delivery_delay_2_years",
+      "option": "colo",
+      "cost_npv_usd": "1765439544",
+      "total_tco_usd": "2542206413",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "core_delivery_delay_2_years",
+      "option": "own",
+      "cost_npv_usd": "1824927721",
+      "total_tco_usd": "2589538758",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "core_delivery_delay_2_years",
+      "option": "hybrid",
+      "cost_npv_usd": "1877406486",
+      "total_tco_usd": "2698184735",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "lower_facility_capex",
+      "option": "cloud",
+      "cost_npv_usd": "1962650538",
+      "total_tco_usd": "2896867186",
+      "min_core_fraction_served_after_open": "0.0"
+    },
+    {
+      "sensitivity": "lower_facility_capex",
+      "option": "dedicated",
+      "cost_npv_usd": "1278323099",
+      "total_tco_usd": "1883634156",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "lower_facility_capex",
+      "option": "hybrid_dedicated",
+      "cost_npv_usd": "1616824306",
+      "total_tco_usd": "2340754610",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "lower_facility_capex",
+      "option": "colo",
+      "cost_npv_usd": "1518309318",
+      "total_tco_usd": "2116609153",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "lower_facility_capex",
+      "option": "own",
+      "cost_npv_usd": "1502408510",
+      "total_tco_usd": "2045326117",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "lower_facility_capex",
+      "option": "hybrid",
+      "cost_npv_usd": "1655355376",
+      "total_tco_usd": "2320617715",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "higher_facility_capex",
+      "option": "cloud",
+      "cost_npv_usd": "1962650538",
+      "total_tco_usd": "2896867186",
+      "min_core_fraction_served_after_open": "0.0"
+    },
+    {
+      "sensitivity": "higher_facility_capex",
+      "option": "dedicated",
+      "cost_npv_usd": "1278323099",
+      "total_tco_usd": "1883634156",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "higher_facility_capex",
+      "option": "hybrid_dedicated",
+      "cost_npv_usd": "1616824306",
+      "total_tco_usd": "2340754610",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "higher_facility_capex",
+      "option": "colo",
+      "cost_npv_usd": "1518309318",
+      "total_tco_usd": "2116609153",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "higher_facility_capex",
+      "option": "own",
+      "cost_npv_usd": "1623177438",
+      "total_tco_usd": "2198817559",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "higher_facility_capex",
+      "option": "hybrid",
+      "cost_npv_usd": "1739880650",
+      "total_tco_usd": "2428014951",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "refresh_3_years",
+      "option": "cloud",
+      "cost_npv_usd": "1962650538",
+      "total_tco_usd": "2896867186",
+      "min_core_fraction_served_after_open": "0.0"
+    },
+    {
+      "sensitivity": "refresh_3_years",
+      "option": "dedicated",
+      "cost_npv_usd": "1278323099",
+      "total_tco_usd": "1883634156",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "refresh_3_years",
+      "option": "hybrid_dedicated",
+      "cost_npv_usd": "1616824306",
+      "total_tco_usd": "2340754610",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "refresh_3_years",
+      "option": "colo",
+      "cost_npv_usd": "1737641355",
+      "total_tco_usd": "2515184353",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "refresh_3_years",
+      "option": "own",
+      "cost_npv_usd": "1782125012",
+      "total_tco_usd": "2520647038",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "refresh_3_years",
+      "option": "hybrid",
+      "cost_npv_usd": "1851295325",
+      "total_tco_usd": "2653594733",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "refresh_5_years",
+      "option": "cloud",
+      "cost_npv_usd": "1962650538",
+      "total_tco_usd": "2896867186",
+      "min_core_fraction_served_after_open": "0.0"
+    },
+    {
+      "sensitivity": "refresh_5_years",
+      "option": "dedicated",
+      "cost_npv_usd": "1278323099",
+      "total_tco_usd": "1883634156",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "refresh_5_years",
+      "option": "hybrid_dedicated",
+      "cost_npv_usd": "1616824306",
+      "total_tco_usd": "2340754610",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "refresh_5_years",
+      "option": "colo",
+      "cost_npv_usd": "1482891544",
+      "total_tco_usd": "2080015393",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "refresh_5_years",
+      "option": "own",
+      "cost_npv_usd": "1527375200",
+      "total_tco_usd": "2085478078",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "refresh_5_years",
+      "option": "hybrid",
+      "cost_npv_usd": "1672974537",
+      "total_tco_usd": "2349036173",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "gpu_schedulable_utilization_x0.70",
+      "option": "cloud",
+      "cost_npv_usd": "1962650538",
+      "total_tco_usd": "2896867186",
+      "min_core_fraction_served_after_open": "0.0"
+    },
+    {
+      "sensitivity": "gpu_schedulable_utilization_x0.70",
+      "option": "dedicated",
+      "cost_npv_usd": "1734016934",
+      "total_tco_usd": "2558154156",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "gpu_schedulable_utilization_x0.70",
+      "option": "hybrid_dedicated",
+      "cost_npv_usd": "1857777016",
+      "total_tco_usd": "2727827474",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "gpu_schedulable_utilization_x0.70",
+      "option": "colo",
+      "cost_npv_usd": "1867167991",
+      "total_tco_usd": "2646937707",
+      "min_core_fraction_served_after_open": "0.828"
+    },
+    {
+      "sensitivity": "gpu_schedulable_utilization_x0.70",
+      "option": "own",
+      "cost_npv_usd": "1902816436",
+      "total_tco_usd": "2620772089",
+      "min_core_fraction_served_after_open": "0.828"
+    },
+    {
+      "sensitivity": "gpu_schedulable_utilization_x0.70",
+      "option": "hybrid",
+      "cost_npv_usd": "1966524962",
+      "total_tco_usd": "2775380186",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "gpu_schedulable_utilization_x1.30",
+      "option": "cloud",
+      "cost_npv_usd": "1962650538",
+      "total_tco_usd": "2896867186",
+      "min_core_fraction_served_after_open": "0.0"
+    },
+    {
+      "sensitivity": "gpu_schedulable_utilization_x1.30",
+      "option": "dedicated",
+      "cost_npv_usd": "1033204109",
+      "total_tco_usd": "1520714364",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "gpu_schedulable_utilization_x1.30",
+      "option": "hybrid_dedicated",
+      "cost_npv_usd": "1487122539",
+      "total_tco_usd": "2132522402",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "gpu_schedulable_utilization_x1.30",
+      "option": "colo",
+      "cost_npv_usd": "1315725331",
+      "total_tco_usd": "1804697923",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "gpu_schedulable_utilization_x1.30",
+      "option": "own",
+      "cost_npv_usd": "1356216644",
+      "total_tco_usd": "1814098902",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "gpu_schedulable_utilization_x1.30",
+      "option": "hybrid",
+      "cost_npv_usd": "1553084272",
+      "total_tco_usd": "2158960250",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "low_usage_fixed_base_capacity",
+      "option": "cloud",
+      "cost_npv_usd": "1145942722",
+      "total_tco_usd": "1653531158",
+      "min_core_fraction_served_after_open": "0.0"
+    },
+    {
+      "sensitivity": "low_usage_fixed_base_capacity",
+      "option": "dedicated",
+      "cost_npv_usd": "1278323099",
+      "total_tco_usd": "1883634156",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "low_usage_fixed_base_capacity",
+      "option": "hybrid_dedicated",
+      "cost_npv_usd": "1260167389",
+      "total_tco_usd": "1845171376",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "low_usage_fixed_base_capacity",
+      "option": "colo",
+      "cost_npv_usd": "1358817072",
+      "total_tco_usd": "1941491402",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "low_usage_fixed_base_capacity",
+      "option": "own",
+      "cost_npv_usd": "1403300728",
+      "total_tco_usd": "1946954088",
+      "min_core_fraction_served_after_open": "1.0"
+    },
+    {
+      "sensitivity": "low_usage_fixed_base_capacity",
+      "option": "hybrid",
+      "cost_npv_usd": "1340961096",
+      "total_tco_usd": "1878733099",
+      "min_core_fraction_served_after_open": "0.7"
+    },
+    {
+      "sensitivity": "high_usage_fixed_base_capacity",
+      "option": "cloud",
+      "cost_npv_usd": "3351679295",
+      "total_tco_usd": "5073330657",
+      "min_core_fraction_served_after_open": "0.0"
+    },
+    {
+      "sensitivity": "high_usage_fixed_base_capacity",
+      "option": "dedicated",
+      "cost_npv_usd": "2701761797",
+      "total_tco_usd": "4109366746",
+      "min_core_fraction_served_after_open": "0.485"
+    },
+    {
+      "sensitivity": "high_usage_fixed_base_capacity",
+      "option": "hybrid_dedicated",
+      "cost_npv_usd": "3022146881",
+      "total_tco_usd": "4543306464",
+      "min_core_fraction_served_after_open": "0.339"
+    },
+    {
+      "sensitivity": "high_usage_fixed_base_capacity",
+      "option": "colo",
+      "cost_npv_usd": "2930614957",
+      "total_tco_usd": "4330341743",
+      "min_core_fraction_served_after_open": "0.485"
+    },
+    {
+      "sensitivity": "high_usage_fixed_base_capacity",
+      "option": "own",
+      "cost_npv_usd": "2975098614",
+      "total_tco_usd": "4335804429",
+      "min_core_fraction_served_after_open": "0.485"
+    },
+    {
+      "sensitivity": "high_usage_fixed_base_capacity",
+      "option": "hybrid",
+      "cost_npv_usd": "3102940588",
+      "total_tco_usd": "4576868187",
+      "min_core_fraction_served_after_open": "0.339"
+    }
+  ],
+  "gpu_unit_economics": [
+    {
+      "gpu_class": "B200",
+      "option": "cloud_published",
+      "usd_per_served_reference_gpu_hour": "12.355",
+      "schedulable_utilization_assumed": "0.55",
+      "utilization_break_even_vs_published_cloud": "",
+      "scope": "direct_class_cost_excludes_fixed_staff_secure_enclave_grid_land_CPU_and_cloud_data_ops"
+    },
+    {
+      "gpu_class": "B200",
+      "option": "dedicated_reserved_assumption",
+      "usd_per_served_reference_gpu_hour": "6.818",
+      "schedulable_utilization_assumed": "0.55",
+      "utilization_break_even_vs_published_cloud": "0.304",
+      "scope": "direct_class_cost_excludes_fixed_staff_secure_enclave_grid_land_CPU_and_cloud_data_ops"
+    },
+    {
+      "gpu_class": "B200",
+      "option": "colo_own_gpu_direct",
+      "usd_per_served_reference_gpu_hour": "6.897",
+      "schedulable_utilization_assumed": "0.55",
+      "utilization_break_even_vs_published_cloud": "0.307",
+      "scope": "direct_class_cost_excludes_fixed_staff_secure_enclave_grid_land_CPU_and_cloud_data_ops"
+    },
+    {
+      "gpu_class": "B200",
+      "option": "own_direct",
+      "usd_per_served_reference_gpu_hour": "6.579",
+      "schedulable_utilization_assumed": "0.55",
+      "utilization_break_even_vs_published_cloud": "0.293",
+      "scope": "direct_class_cost_excludes_fixed_staff_secure_enclave_grid_land_CPU_and_cloud_data_ops"
+    },
+    {
+      "gpu_class": "H200",
+      "option": "cloud_published",
+      "usd_per_served_reference_gpu_hour": "5.97",
+      "schedulable_utilization_assumed": "0.6",
+      "utilization_break_even_vs_published_cloud": "",
+      "scope": "direct_class_cost_excludes_fixed_staff_secure_enclave_grid_land_CPU_and_cloud_data_ops"
+    },
+    {
+      "gpu_class": "H200",
+      "option": "dedicated_reserved_assumption",
+      "usd_per_served_reference_gpu_hour": "4.333",
+      "schedulable_utilization_assumed": "0.6",
+      "utilization_break_even_vs_published_cloud": "0.436",
+      "scope": "direct_class_cost_excludes_fixed_staff_secure_enclave_grid_land_CPU_and_cloud_data_ops"
+    },
+    {
+      "gpu_class": "H200",
+      "option": "colo_own_gpu_direct",
+      "usd_per_served_reference_gpu_hour": "4.44",
+      "schedulable_utilization_assumed": "0.6",
+      "utilization_break_even_vs_published_cloud": "0.446",
+      "scope": "direct_class_cost_excludes_fixed_staff_secure_enclave_grid_land_CPU_and_cloud_data_ops"
+    },
+    {
+      "gpu_class": "H200",
+      "option": "own_direct",
+      "usd_per_served_reference_gpu_hour": "4.232",
+      "schedulable_utilization_assumed": "0.6",
+      "utilization_break_even_vs_published_cloud": "0.425",
+      "scope": "direct_class_cost_excludes_fixed_staff_secure_enclave_grid_land_CPU_and_cloud_data_ops"
+    }
+  ],
+  "risk_register": [
+    {
+      "risk_id": "POWER_DELAY",
+      "risk": "25_MW_grid_connection_delay",
+      "level": "high",
+      "indicator": "Utility date conditional or upgrades required",
+      "mitigation": "Compare two parcels and retain cloud/dedicated bridge",
+      "decision_gate": "Written phased MW dates and liabilities before own-site approval",
+      "model_impact": "2030_to_2032_own_npv_usd_1.563bn_to_1.825bn"
+    },
+    {
+      "risk_id": "GPU_REFRESH",
+      "risk": "GPU_supply_obsolescence",
+      "level": "high",
+      "indicator": "Hardware availability or benchmark shifts",
+      "mitigation": "Phased cohorts and 3_4_5_year_refresh_sensitivities",
+      "decision_gate": "Representative task benchmark and delivery guarantee before procurement",
+      "model_impact": "3_year_own_npv_1.782bn_5_year_1.527bn"
+    },
+    {
+      "risk_id": "DEMAND_UTIL",
+      "risk": "demand_and_utilization_shortfall",
+      "level": "high",
+      "indicator": "Committed hours below reserved capacity",
+      "mitigation": "Telemetry and cancellable bridge first",
+      "decision_gate": "Member minimum commitments plus queue and utilization evidence",
+      "model_impact": "low_usage_fixed_base_capacity_own_npv_1.403bn_vs_cloud_1.146bn"
+    },
+    {
+      "risk_id": "GPU_TIER",
+      "risk": "high_end_GPU_mix_wrong",
+      "level": "high",
+      "indicator": "L40S or CPU fit more jobs than modeled",
+      "mitigation": "Benchmark by task and tier",
+      "decision_gate": "Device-hours and per-work performance verified before MW design",
+      "model_impact": "MW_unquantified"
+    },
+    {
+      "risk_id": "DATA_PERMISSION",
+      "risk": "restricted_data_not_approved",
+      "level": "high",
+      "indicator": "Dataset terms prohibit processing transfer",
+      "mitigation": "Origin-institution fallback and reviewed secure enclave",
+      "decision_gate": "Data-owner institutional and security approvals",
+      "model_impact": "site_share_unquantified"
+    },
+    {
+      "risk_id": "BUILD_PERMIT",
+      "risk": "land_construction_cooling_permit",
+      "level": "medium_high",
+      "indicator": "Zoning water air or cooling design unresolved",
+      "mitigation": "Independent engineering and phased design",
+      "decision_gate": "Permits and fixed-scope EPC before irreversible orders",
+      "model_impact": "schedule_and_capex_unquantified"
+    },
+    {
+      "risk_id": "FIBER",
+      "risk": "connectivity_latency",
+      "level": "medium_high",
+      "indicator": "Single route or failed p95_p99 test",
+      "mitigation": "Two diverse routes and measured transfer tests",
+      "decision_gate": "Named carriers and campus measurements",
+      "model_impact": "site_eligibility_unquantified"
+    },
+    {
+      "risk_id": "TARIFF",
+      "risk": "rate_minimum_and_policy",
+      "level": "medium_high",
+      "indicator": "Tariff exceeds assumed energy or minimum take",
+      "mitigation": "Full contract cashflow and exit review",
+      "decision_gate": "Comparable 10-year tariff and upgrade estimate",
+      "model_impact": "power_price_0.06_0.12_sensitivity"
+    },
+    {
+      "risk_id": "GRID_HAZARD",
+      "risk": "weather_and_dynamic_load",
+      "level": "medium_high",
+      "indicator": "Flood/heat exposure or dynamic grid-study failure",
+      "mitigation": "Parcel hazards backup and commissioning",
+      "decision_gate": "Engineering and insurer review",
+      "model_impact": "reliability_unquantified"
+    }
+  ],
+  "timeline": [
+    {
+      "phase_id": "DISCOVERY",
+      "start": "2026_Q4",
+      "end": "2027_H1",
+      "work": "Member telemetry governance GPU benchmarks site utility screening",
+      "gate": "Member roster permissions and 12 months data",
+      "status": "provisional"
+    },
+    {
+      "phase_id": "PROCUREMENT",
+      "start": "2027_H2",
+      "end": "2028",
+      "work": "Cloud or dedicated bridge and comparative RFP for two sites",
+      "gate": "Written grid fiber cooling permits tariffs and demand commitments",
+      "status": "provisional"
+    },
+    {
+      "phase_id": "DESIGN_BUILD",
+      "start": "2028",
+      "end": "2029",
+      "work": "Conditional site control engineering permits construction secure enclave",
+      "gate": "Capital gate power service date and institutional approvals",
+      "status": "provisional"
+    },
+    {
+      "phase_id": "FIRST_PHASE",
+      "start": "2030",
+      "end": "2030",
+      "work": "Conditional first-phase energization commissioning and migration",
+      "gate": "Electrical network workload performance and security acceptance",
+      "status": "conditional_not_committed"
+    },
+    {
+      "phase_id": "EXPANSION_REFRESH",
+      "start": "2031",
+      "end": "2036",
+      "work": "Annual demand review modular expansion GPU refresh and burst capacity",
+      "gate": "Reapprove capacity and cohorts from observed utilization",
+      "status": "provisional"
+    }
+  ],
+  "key_judgments": [
+    {
+      "id": "J01",
+      "topic": "facility_target",
+      "value_or_rule": "25_MW_total_facility_design_power",
+      "type": "user_confirmed_definition",
+      "evidence_or_source": "User confirmation; research-source-of-truth/model_inputs.json",
+      "why_it_matters": "Prevents confusing IT MW and utility input",
+      "revisit_trigger": "Only if user changes project scope"
+    },
+    {
+      "id": "J02",
+      "topic": "consortium_demand",
+      "value_or_rule": "5_hypothetical_members_3.5_MIT_reference_units",
+      "type": "model_assumption",
+      "evidence_or_source": "research-source-of-truth/model_inputs.json",
+      "why_it_matters": "Scales every 2027-2035 demand scenario",
+      "revisit_trigger": "Actual member roster and telemetry"
+    },
+    {
+      "id": "J03",
+      "topic": "growth_2030",
+      "value_or_rule": "low_1.2_base_2.0_high_3.0_vs_2027_base",
+      "type": "model_assumption",
+      "evidence_or_source": "research-source-of-truth/model_inputs.json",
+      "why_it_matters": "Drives 2030 capacity and capex",
+      "revisit_trigger": "Member project pipeline and historical usage"
+    },
+    {
+      "id": "J04",
+      "topic": "growth_2035",
+      "value_or_rule": "low_1.5_base_3.0_high_6.0_vs_2027_base",
+      "type": "model_assumption",
+      "evidence_or_source": "research-source-of-truth/model_inputs.json",
+      "why_it_matters": "Shows high demand exceeds 25 MW",
+      "revisit_trigger": "Updated project pipeline and GPU efficiency"
+    },
+    {
+      "id": "J05",
+      "topic": "compute_accounting",
+      "value_or_rule": "mutually_exclusive_primary_tasks_with_nonadditive_biomedical_robotics_tags",
+      "type": "user_confirmed_rule",
+      "evidence_or_source": "step2/decision_log.md",
+      "why_it_matters": "Avoids double-counting GPU-hours",
+      "revisit_trigger": "Member job request IDs and task taxonomy"
+    },
+    {
+      "id": "J06",
+      "topic": "gpu_tier",
+      "value_or_rule": "all_current_reference_gpu_hours_on_B200_or_H200",
+      "type": "unvalidated_model_assumption",
+      "evidence_or_source": "step2/gpu_tier_audit.md",
+      "why_it_matters": "May overstate high-end cards and MW",
+      "revisit_trigger": "Representative midrange H200 B200 benchmark and actual card-hours"
+    },
+    {
+      "id": "J07",
+      "topic": "utilization",
+      "value_or_rule": "B200_0.55_H200_0.60_CPU_0.60_schedulable",
+      "type": "model_assumption",
+      "evidence_or_source": "research-source-of-truth/model_inputs.json",
+      "why_it_matters": "Sets installed card/core counts and economic break-even",
+      "revisit_trigger": "Queue and GPU telemetry"
+    },
+    {
+      "id": "J08",
+      "topic": "pue",
+      "value_or_rule": "1.20_design_overhead_proxy",
+      "type": "model_assumption",
+      "evidence_or_source": "DOE data center design guidance; step3/architecture_bridge.md",
+      "why_it_matters": "Sets IT-to-facility conversion but not energy bill",
+      "revisit_trigger": "Engineering load and cooling design"
+    },
+    {
+      "id": "J09",
+      "topic": "restricted_data",
+      "value_or_rule": "US_secure_enclave_if_dataset_institution_security_approved_else_origin_institution",
+      "type": "conditional_policy",
+      "evidence_or_source": "NIH controlled data guidance; step5/eligibility_tree.md",
+      "why_it_matters": "Defines eligible central facility demand",
+      "revisit_trigger": "Project data-use and institution approval"
+    },
+    {
+      "id": "J10",
+      "topic": "robotics_control",
+      "value_or_rule": "closed_loop_device_or_campus_user_selected",
+      "type": "user_confirmed_rule",
+      "evidence_or_source": "step2/decision_log.md",
+      "why_it_matters": "Removes safety-critical control from remote center",
+      "revisit_trigger": "Project latency and fail-safe validation"
+    },
+    {
+      "id": "J11",
+      "topic": "site_range",
+      "value_or_rule": "US_only_screening_four_unranked_regions",
+      "type": "planning_choice",
+      "evidence_or_source": "step6/site_screening.md",
+      "why_it_matters": "Keeps site comparison inside feasible envelope",
+      "revisit_trigger": "Actual member geography and utility site letters"
+    },
+    {
+      "id": "J12",
+      "topic": "site_gate",
+      "value_or_rule": "parcel_specific_25_MW_service_letter_required",
+      "type": "reasoned_decision",
+      "evidence_or_source": "step6/site_due_diligence.csv; MISO NERC",
+      "why_it_matters": "Prevents state price from masquerading as power availability",
+      "revisit_trigger": "Utility binding or conditional service plan"
+    },
+    {
+      "id": "J13",
+      "topic": "financial_horizon",
+      "value_or_rule": "2027_to_2036_8_percent_real_discount",
+      "type": "model_assumption",
+      "evidence_or_source": "step8/financial_inputs.json",
+      "why_it_matters": "Makes TCO/NPV comparable",
+      "revisit_trigger": "Consortium cost of capital and financing plan"
+    },
+    {
+      "id": "J14",
+      "topic": "facility_capex",
+      "value_or_rule": "10.5m_USD_per_IT_MW_plus_20m_fixed",
+      "type": "unquoted_model_assumption",
+      "evidence_or_source": "Turner and Townsend 2025-26 index; step8/financial_inputs.json",
+      "why_it_matters": "Controls own vs colo comparison",
+      "revisit_trigger": "Engineer estimate and utility upgrade quote"
+    },
+    {
+      "id": "J15",
+      "topic": "energy_price",
+      "value_or_rule": "0.08_USD_per_kWh_and_0.60_average_energy_fraction",
+      "type": "unquoted_model_assumption",
+      "evidence_or_source": "EIA historical state sector averages; step8/financial_inputs.json",
+      "why_it_matters": "Sets annual power OPEX",
+      "revisit_trigger": "Site tariff and hourly load profile"
+    },
+    {
+      "id": "J16",
+      "topic": "owned_online",
+      "value_or_rule": "2030_conditional_with_2027_2029_cloud_bridge",
+      "type": "model_and_timeline_assumption",
+      "evidence_or_source": "step9/risk_and_timeline.md",
+      "why_it_matters": "Prevents 2027 greenfield assumption",
+      "revisit_trigger": "Site grid and permit schedule"
+    },
+    {
+      "id": "J17",
+      "topic": "gpu_refresh",
+      "value_or_rule": "4_year_base_3_and_5_sensitivity",
+      "type": "model_assumption",
+      "evidence_or_source": "step2/gpu_refresh.md; step8/financial_inputs.json",
+      "why_it_matters": "Major TCO driver",
+      "revisit_trigger": "OEM warranty performance and procurement quotes"
+    },
+    {
+      "id": "J18",
+      "topic": "dedicated_prices",
+      "value_or_rule": "B200_3.75_H200_2.60_USD_per_reserved_GPU_hour",
+      "type": "unquoted_model_assumption",
+      "evidence_or_source": "step8/financial_inputs.json",
+      "why_it_matters": "Current cheapest assumed option; 24_percent_price_increase_flips_vs_own",
+      "revisit_trigger": "Two binding vendor proposals"
+    },
+    {
+      "id": "J19",
+      "topic": "hybrid_core",
+      "value_or_rule": "0.70_owned_or_dedicated_core_fraction",
+      "type": "unvalidated_model_assumption",
+      "evidence_or_source": "step8/financial_inputs.json",
+      "why_it_matters": "Tests core plus cloud burst and transfer rules",
+      "revisit_trigger": "Telemetry and data eligibility"
+    },
+    {
+      "id": "J20",
+      "topic": "investment_gate",
+      "value_or_rule": "no_25MW_build_approval_now",
+      "type": "research_recommendation",
+      "evidence_or_source": "step10/csuite_recommendation.md",
+      "why_it_matters": "Limits irreversible commitment under major uncertainty",
+      "revisit_trigger": "All five gate conditions satisfied"
+    }
+  ],
+  "website_mapping": [
+    {
+      "page": "Overview",
+      "primary_files": "step10/csuite_recommendation.md;research-source-of-truth/decision_data.json",
+      "approved_display": "25 MW facility-input definition; conditional recommendation; 2030 base 14.05 MW",
+      "mandatory_caveat": "Investment and site not approved"
+    },
+    {
+      "page": "Demand",
+      "primary_files": "research-source-of-truth/website_data.json;research-progress-summary-2026-10-04.md",
+      "approved_display": "2027 2030 2035 low/base/high; hypothetical 3.5 MIT units",
+      "mandatory_caveat": "Multipliers and member weights are assumptions"
+    },
+    {
+      "page": "Architecture",
+      "primary_files": "research-source-of-truth/website_data.json;step3/architecture_bridge.md;step2/gpu_tier_audit.md",
+      "approved_display": "GPU CPU HBM nodes IT/facility MW and refresh sensitivities",
+      "mandatory_caveat": "All hours reference B200/H200 tiers not verified purchases"
+    },
+    {
+      "page": "Location",
+      "primary_files": "step5/eligibility_rules.csv;step6/candidate_regions.csv;step6/site_screening.md",
+      "approved_display": "US-only eligibility and four unranked regional inquiries",
+      "mandatory_caveat": "No parcel has verified 25 MW or quote; state average prices are historical"
+    },
+    {
+      "page": "Economics",
+      "primary_files": "step8/option_summary.csv;step8/sensitivity_outputs.csv;step8/underwriting.md",
+      "approved_display": "Illustrative 10-year TCO/NPV and quote-sensitive ownership comparison",
+      "mandatory_caveat": "All CAPEX and dedicated rental are unquoted assumptions"
+    },
+    {
+      "page": "Risk & Delivery",
+      "primary_files": "step9/risk_register.csv;step9/timeline.csv;step9/risk_and_timeline.md",
+      "approved_display": "Power delay GPU utilization security permitting and conditional 2030 target",
+      "mandatory_caveat": "No guaranteed energization date"
+    },
+    {
+      "page": "Scenario Lab",
+      "primary_files": "research-source-of-truth/website_data.json;step8/financial_inputs.json;step8/sensitivity_outputs.csv",
+      "approved_display": "Demand PUE utilization refresh power cloud and rental what-if",
+      "mandatory_caveat": "Changed values are scenarios; no engineered or vendor commitment"
+    }
+  ],
+  "source_checksums": {
+    "step5/eligibility_rules.csv": "2a347c82730e17d5869a7e5e7351df5b0fe5018ea32d75f4f99d55b730b7fd70",
+    "step6/candidate_regions.csv": "d8430874691f846adcd28e8f87529f9e221a08c2c2bc9eebf2b55b4d578e4ecc",
+    "step7/ownership_matrix.csv": "6faf6c54cd8421473ed8b41cb2780c21dfaa0355fa7f4487de8e9b559d9af77b",
+    "step8/option_summary.csv": "d656e3e83a43adf3bdc3354cad4eea6c071c2796e9687ff22fa79923333984d6",
+    "step8/sensitivity_outputs.csv": "d325d8f7392aa23686e9c6f4d1504b043a2b2404a1e97b8823200515291bc447",
+    "step8/gpu_unit_economics.csv": "240fad9dbd12fcfade3d4d56fbacdcdcd0bb364fb439bb664fcfe420887db657",
+    "step9/risk_register.csv": "592ecc8a3254115c2e8b6b48bfe5aefe4fcfebb882de51c2c8609f03e4949edc",
+    "step9/timeline.csv": "f365a0cd510c2d56a62ebee9cbb471bd315cc204572df4568b4e08bbee2abd61",
+    "step10/key_judgments_assumptions.csv": "aac8c39ad161f2aa0fcd54c9e43273fbe34bbe87f7bfda25767b25011e5ece38",
+    "step10/website_mapping.csv": "30687f5886ccf3b6dafd156baddd5c8031a8bcc10b3c0b8af6887a86de494dab"
+  }
+}
