@@ -1817,7 +1817,7 @@
     },
     "facility_target_mw": 25,
     "facility_target_definition": "total_facility_design_power_confirmed_by_user_2026_10_04",
-    "geography_planning_assumption": "Restricted human/clinical datasets and closed-loop robotics control remain campus-local; other eligible workloads use a US shared-facility planning envelope. No quantitative local share is subtracted until project-tagged hours exist.",
+    "geography_planning_assumption": "Closed-loop robotics/instrument control remains at device or campus. Restricted human/clinical data may use an isolated secure environment in a US consortium-owned facility only when the dataset agreement, responsible institution, and security review allow it; otherwise keep the workload at its originating institution. Other eligible workloads use the US shared facility. No location share is quantified without project-tagged hours.",
     "accounting_rule": "Each modeled GPU-hour belongs to one mutually exclusive compute activity. Biomedical and robotics are nonadditive tags; coding and agents are an inference subtype with distinct usage allocation, not a second count of the same request.",
     "display_categories": [
       {

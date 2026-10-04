@@ -59,13 +59,13 @@
     {
       "display_category": "biomedical_private_ai",
       "accounting_role": "nonadditive_tag",
-      "security_gate": "Restricted human or clinical datasets stay campus-local by user planning choice; ordinary biomedical data are reviewed by project",
+      "security_gate": "Restricted human or clinical datasets require dataset agreement responsible institution and secure-enclave review; ownership alone is insufficient",
       "latency_gate": "Inherited from primary compute task",
-      "data_gravity_gate": "Restricted data excluded from shared-site transfer pending project review",
+      "data_gravity_gate": "Approved restricted data may move to US consortium-owned secure enclave; otherwise remain at originating institution",
       "gpu_freshness_gate": "Inherited from primary compute task",
       "reliability_gate": "Audit backup and recovery per agreement",
       "utilization_gate": "No independent GPU-hours",
-      "geographic_eligibility_status": "campus_local_if_restricted_otherwise_us_shared_candidate"
+      "geographic_eligibility_status": "us_owned_secure_enclave_if_approved_else_origin_institution"
     },
     {
       "display_category": "robotics",
