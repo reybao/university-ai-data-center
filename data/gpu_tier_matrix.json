@@ -1,0 +1,76 @@
+{
+  "as_of": "2026-10-04",
+  "status": "assumption_led_audit",
+  "rows": [
+    {
+      "display_category": "training",
+      "accounting_role": "additive_primary_task",
+      "reference_gpu_hours_2030_base": "6138720",
+      "reference_device": "B200",
+      "candidate_tier_decision": "Dense training only when model memory communication and time-to-result require it; smaller runs may qualify for lower tiers",
+      "qualification_measurements": "model and batch size; peak HBM; GPUs and nodes; interconnect traffic; benchmark completion time",
+      "evidence_status": "assumption_led",
+      "source_ids": "NVIDIA_DGX_B200_SPEC;MLCOMMONS_TRAINING_BENCHMARK"
+    },
+    {
+      "display_category": "fine_tuning_rl",
+      "accounting_role": "additive_primary_task",
+      "reference_gpu_hours_2030_base": "5524848",
+      "reference_device": "B200",
+      "candidate_tier_decision": "Test mid-tier or H200 for parameter-efficient and small jobs; reserve dense-training tier for measured needs",
+      "qualification_measurements": "full versus parameter-efficient tuning; rollout versus update hours; peak HBM; precision; completion time",
+      "evidence_status": "assumption_led",
+      "source_ids": "MIT_CS_FT_EXAMPLE;MIT_ORCD_GPU_GUIDE"
+    },
+    {
+      "display_category": "scientific_ai_hpc",
+      "accounting_role": "additive_primary_task",
+      "reference_gpu_hours_2030_base": "12430908",
+      "reference_device": "H200",
+      "candidate_tier_decision": "Retain large-memory/high-precision tier only for measured FP64 HBM or bandwidth needs; assess CPU-only alternatives",
+      "qualification_measurements": "FP64 requirement; peak HBM; bandwidth; GPU busy time; CPU baseline; application benchmark",
+      "evidence_status": "assumption_led",
+      "source_ids": "MIT_ORCD_GPU_GUIDE;NVIDIA_DGX_H200_SPEC"
+    },
+    {
+      "display_category": "biomedical_private_ai",
+      "accounting_role": "nonadditive_domain_or_governance_tag",
+      "reference_gpu_hours_2030_base": "",
+      "reference_device": "none",
+      "candidate_tier_decision": "Choose tier from actual training scientific or inference task; sensitive data changes access and site eligibility",
+      "qualification_measurements": "primary task; dataset governance; GPU memory and precision; job or token log",
+      "evidence_status": "unquantified_tag",
+      "source_ids": "MIT_ORCD_AF3;MIT_ORCD_CRYOSPARC"
+    },
+    {
+      "display_category": "student_faculty_inference",
+      "accounting_role": "additive_inference_subtype",
+      "reference_gpu_hours_2030_base": "146464",
+      "reference_device": "H200",
+      "candidate_tier_decision": "Test mid-tier where model fits and throughput and latency pass; account for external SaaS",
+      "qualification_measurements": "self-hosted model; tokens; concurrency; p95/p99 latency; memory; server power",
+      "evidence_status": "assumption_led",
+      "source_ids": "MIT_ORCD_GPU_GUIDE;NVIDIA_L40S"
+    },
+    {
+      "display_category": "coding_agents",
+      "accounting_role": "additive_incremental_inference_subtype",
+      "reference_gpu_hours_2030_base": "1782816",
+      "reference_device": "H200",
+      "candidate_tier_decision": "Test mid-tier and serving optimization; count only distinct self-hosted requests",
+      "qualification_measurements": "token and context length; concurrent sessions; repeated calls; SaaS share; latency",
+      "evidence_status": "assumption_led",
+      "source_ids": "MIT_ORCD_GPU_GUIDE;MLCOMMONS_INFERENCE_BENCHMARK"
+    },
+    {
+      "display_category": "robotics",
+      "accounting_role": "nonadditive_domain_tag",
+      "reference_gpu_hours_2030_base": "",
+      "reference_device": "none",
+      "candidate_tier_decision": "Real-time control local; training and simulation shared-site candidates; remote inference must pass service tests",
+      "qualification_measurements": "primary task; control latency and jitter; fail-safe; training hours; simulation hours",
+      "evidence_status": "unquantified_tag",
+      "source_ids": "MIT_ROBOTICS_VLASH;MIT_OPENVLA"
+    }
+  ]
+}

@@ -7,7 +7,8 @@
     "cpu_core_hours": "CPU-only HPC/data processing core-hours, excluding CPUs included in GPU nodes.",
     "facility_design_mw": "Nameplate IT power times assumed PUE, not observed average draw.",
     "effective_mit_demand_units": "Sum of assumed member-level demand intensity weights against one MIT reference workload; not a count of MIT-sized institutions.",
-    "reference_equivalent_gpu_hours": "2026-era reference device-hours for the same modeled work; sensitivity factors are illustrative and do not prove workload-specific speedup."
+    "reference_equivalent_gpu_hours": "2026-era reference device-hours for the same modeled work; sensitivity factors are illustrative and do not prove workload-specific speedup.",
+    "facility_target_mw": "25 MW of total facility design/input power, confirmed by user on 2026-10-04. IT design capacity is 25 MW divided by assumed PUE."
   },
   "scenario_outputs": [
     {
@@ -868,6 +869,332 @@
       "local_gpu_hours": 0
     }
   ],
+  "primary_task_mix_outputs": [
+    {
+      "year": 2027,
+      "case": "low",
+      "primary_compute_task": "training",
+      "reference_device": "B200",
+      "shared_reference_gpu_hours": 2148552,
+      "share_of_shared_reference_gpu_hours_pct": 23.59,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2027,
+      "case": "low",
+      "primary_compute_task": "fine_tuning_rl",
+      "reference_device": "B200",
+      "shared_reference_gpu_hours": 1933697,
+      "share_of_shared_reference_gpu_hours_pct": 21.23,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2027,
+      "case": "low",
+      "primary_compute_task": "scientific_ai_hpc",
+      "reference_device": "H200",
+      "shared_reference_gpu_hours": 4350818,
+      "share_of_shared_reference_gpu_hours_pct": 47.77,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2027,
+      "case": "low",
+      "primary_compute_task": "inference",
+      "reference_device": "H200",
+      "shared_reference_gpu_hours": 675248,
+      "share_of_shared_reference_gpu_hours_pct": 7.41,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2027,
+      "case": "base",
+      "primary_compute_task": "training",
+      "reference_device": "B200",
+      "shared_reference_gpu_hours": 3069360,
+      "share_of_shared_reference_gpu_hours_pct": 23.59,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2027,
+      "case": "base",
+      "primary_compute_task": "fine_tuning_rl",
+      "reference_device": "B200",
+      "shared_reference_gpu_hours": 2762424,
+      "share_of_shared_reference_gpu_hours_pct": 21.23,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2027,
+      "case": "base",
+      "primary_compute_task": "scientific_ai_hpc",
+      "reference_device": "H200",
+      "shared_reference_gpu_hours": 6215454,
+      "share_of_shared_reference_gpu_hours_pct": 47.77,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2027,
+      "case": "base",
+      "primary_compute_task": "inference",
+      "reference_device": "H200",
+      "shared_reference_gpu_hours": 964640,
+      "share_of_shared_reference_gpu_hours_pct": 7.41,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2027,
+      "case": "high",
+      "primary_compute_task": "training",
+      "reference_device": "B200",
+      "shared_reference_gpu_hours": 4604040,
+      "share_of_shared_reference_gpu_hours_pct": 23.59,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2027,
+      "case": "high",
+      "primary_compute_task": "fine_tuning_rl",
+      "reference_device": "B200",
+      "shared_reference_gpu_hours": 4143636,
+      "share_of_shared_reference_gpu_hours_pct": 21.23,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2027,
+      "case": "high",
+      "primary_compute_task": "scientific_ai_hpc",
+      "reference_device": "H200",
+      "shared_reference_gpu_hours": 9323181,
+      "share_of_shared_reference_gpu_hours_pct": 47.77,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2027,
+      "case": "high",
+      "primary_compute_task": "inference",
+      "reference_device": "H200",
+      "shared_reference_gpu_hours": 1446960,
+      "share_of_shared_reference_gpu_hours_pct": 7.41,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2030,
+      "case": "low",
+      "primary_compute_task": "training",
+      "reference_device": "B200",
+      "shared_reference_gpu_hours": 3683232,
+      "share_of_shared_reference_gpu_hours_pct": 23.59,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2030,
+      "case": "low",
+      "primary_compute_task": "fine_tuning_rl",
+      "reference_device": "B200",
+      "shared_reference_gpu_hours": 3314909,
+      "share_of_shared_reference_gpu_hours_pct": 21.23,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2030,
+      "case": "low",
+      "primary_compute_task": "scientific_ai_hpc",
+      "reference_device": "H200",
+      "shared_reference_gpu_hours": 7458545,
+      "share_of_shared_reference_gpu_hours_pct": 47.77,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2030,
+      "case": "low",
+      "primary_compute_task": "inference",
+      "reference_device": "H200",
+      "shared_reference_gpu_hours": 1157568,
+      "share_of_shared_reference_gpu_hours_pct": 7.41,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2030,
+      "case": "base",
+      "primary_compute_task": "training",
+      "reference_device": "B200",
+      "shared_reference_gpu_hours": 6138720,
+      "share_of_shared_reference_gpu_hours_pct": 23.59,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2030,
+      "case": "base",
+      "primary_compute_task": "fine_tuning_rl",
+      "reference_device": "B200",
+      "shared_reference_gpu_hours": 5524848,
+      "share_of_shared_reference_gpu_hours_pct": 21.23,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2030,
+      "case": "base",
+      "primary_compute_task": "scientific_ai_hpc",
+      "reference_device": "H200",
+      "shared_reference_gpu_hours": 12430908,
+      "share_of_shared_reference_gpu_hours_pct": 47.77,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2030,
+      "case": "base",
+      "primary_compute_task": "inference",
+      "reference_device": "H200",
+      "shared_reference_gpu_hours": 1929280,
+      "share_of_shared_reference_gpu_hours_pct": 7.41,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2030,
+      "case": "high",
+      "primary_compute_task": "training",
+      "reference_device": "B200",
+      "shared_reference_gpu_hours": 9208080,
+      "share_of_shared_reference_gpu_hours_pct": 23.59,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2030,
+      "case": "high",
+      "primary_compute_task": "fine_tuning_rl",
+      "reference_device": "B200",
+      "shared_reference_gpu_hours": 8287272,
+      "share_of_shared_reference_gpu_hours_pct": 21.23,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2030,
+      "case": "high",
+      "primary_compute_task": "scientific_ai_hpc",
+      "reference_device": "H200",
+      "shared_reference_gpu_hours": 18646362,
+      "share_of_shared_reference_gpu_hours_pct": 47.77,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2030,
+      "case": "high",
+      "primary_compute_task": "inference",
+      "reference_device": "H200",
+      "shared_reference_gpu_hours": 2893918,
+      "share_of_shared_reference_gpu_hours_pct": 7.41,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2035,
+      "case": "low",
+      "primary_compute_task": "training",
+      "reference_device": "B200",
+      "shared_reference_gpu_hours": 4604040,
+      "share_of_shared_reference_gpu_hours_pct": 23.59,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2035,
+      "case": "low",
+      "primary_compute_task": "fine_tuning_rl",
+      "reference_device": "B200",
+      "shared_reference_gpu_hours": 4143636,
+      "share_of_shared_reference_gpu_hours_pct": 21.23,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2035,
+      "case": "low",
+      "primary_compute_task": "scientific_ai_hpc",
+      "reference_device": "H200",
+      "shared_reference_gpu_hours": 9323181,
+      "share_of_shared_reference_gpu_hours_pct": 47.77,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2035,
+      "case": "low",
+      "primary_compute_task": "inference",
+      "reference_device": "H200",
+      "shared_reference_gpu_hours": 1446960,
+      "share_of_shared_reference_gpu_hours_pct": 7.41,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2035,
+      "case": "base",
+      "primary_compute_task": "training",
+      "reference_device": "B200",
+      "shared_reference_gpu_hours": 9208080,
+      "share_of_shared_reference_gpu_hours_pct": 23.59,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2035,
+      "case": "base",
+      "primary_compute_task": "fine_tuning_rl",
+      "reference_device": "B200",
+      "shared_reference_gpu_hours": 8287272,
+      "share_of_shared_reference_gpu_hours_pct": 21.23,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2035,
+      "case": "base",
+      "primary_compute_task": "scientific_ai_hpc",
+      "reference_device": "H200",
+      "shared_reference_gpu_hours": 18646362,
+      "share_of_shared_reference_gpu_hours_pct": 47.77,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2035,
+      "case": "base",
+      "primary_compute_task": "inference",
+      "reference_device": "H200",
+      "shared_reference_gpu_hours": 2893918,
+      "share_of_shared_reference_gpu_hours_pct": 7.41,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2035,
+      "case": "high",
+      "primary_compute_task": "training",
+      "reference_device": "B200",
+      "shared_reference_gpu_hours": 18416160,
+      "share_of_shared_reference_gpu_hours_pct": 23.59,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2035,
+      "case": "high",
+      "primary_compute_task": "fine_tuning_rl",
+      "reference_device": "B200",
+      "shared_reference_gpu_hours": 16574544,
+      "share_of_shared_reference_gpu_hours_pct": 21.23,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2035,
+      "case": "high",
+      "primary_compute_task": "scientific_ai_hpc",
+      "reference_device": "H200",
+      "shared_reference_gpu_hours": 37292724,
+      "share_of_shared_reference_gpu_hours_pct": 47.77,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    },
+    {
+      "year": 2035,
+      "case": "high",
+      "primary_compute_task": "inference",
+      "reference_device": "H200",
+      "shared_reference_gpu_hours": 5787837,
+      "share_of_shared_reference_gpu_hours_pct": 7.41,
+      "status": "illustrative_behavioral_assumptions_not_observed_demand"
+    }
+  ],
   "technology_sensitivity_outputs": [
     {
       "year": 2027,
@@ -1488,6 +1815,7 @@
       "pue": 1.2
     },
     "facility_target_mw": 25,
+    "facility_target_definition": "total_facility_design_power_confirmed_by_user_2026_10_04",
     "accounting_rule": "Each modeled GPU-hour belongs to one mutually exclusive compute activity. Biomedical and robotics are nonadditive tags; coding and agents are an inference subtype with distinct usage allocation, not a second count of the same request.",
     "display_categories": [
       {

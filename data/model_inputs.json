@@ -43,6 +43,7 @@
   "cpu_only": {"schedulable_utilization": 0.60, "design_w_per_core": 25},
   "infrastructure": {"network_storage_power_fraction_of_compute": 0.20, "pue": 1.20},
   "facility_target_mw": 25,
+  "facility_target_definition": "total_facility_design_power_confirmed_by_user_2026_10_04",
   "accounting_rule": "Each modeled GPU-hour belongs to one mutually exclusive compute activity. Biomedical and robotics are nonadditive tags; coding and agents are an inference subtype with distinct usage allocation, not a second count of the same request.",
   "display_categories": [
     {"id": "training", "role": "primary_compute_task"},

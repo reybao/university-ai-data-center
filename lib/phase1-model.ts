@@ -26,5 +26,6 @@ export function calculatePhase1(values: Phase1Inputs) {
   const cpuPowerKw = cpuCores * inputs.cpu_only.design_w_per_core / 1000;
   const itMw = (gpuPowerKw + cpuPowerKw) * (1 + inputs.infrastructure.network_storage_power_fraction_of_compute) / 1000;
   const facilityMw = itMw * values.pue;
-  return { effectiveDemandUnits, b200Hours: classHours.B200, h200Hours: classHours.H200, cpuHours, b200Count: bNodes * 8, h200Count: hNodes * 8, cpuCores, itMw, facilityMw, headroomMw: inputs.facility_target_mw - facilityMw };
+  const itCapacityMw = inputs.facility_target_mw / values.pue;
+  return { effectiveDemandUnits, b200Hours: classHours.B200, h200Hours: classHours.H200, cpuHours, b200Count: bNodes * 8, h200Count: hNodes * 8, cpuCores, itMw, facilityMw, itCapacityMw, itHeadroomMw: itCapacityMw - itMw, headroomMw: inputs.facility_target_mw - facilityMw };
 }
