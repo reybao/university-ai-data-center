@@ -173,10 +173,10 @@
       "option": "cloud",
       "demand_case": "base",
       "capex_usd": "0.0",
-      "opex_usd": "2896867186.5",
+      "opex_usd": "3279587637.9672",
       "cloud_bridge_or_burst_usd": "0.0",
-      "total_tco_usd": "2896867186.5",
-      "cost_npv_usd": "1962650538.0379305",
+      "total_tco_usd": "3279587637.9672",
+      "cost_npv_usd": "2221166363.6865172",
       "b200_reference_gpu_hours": "129465604.8",
       "h200_reference_gpu_hours": "159398086.8",
       "cpu_core_hours": "4514261220.0",
@@ -201,10 +201,10 @@
       "option": "hybrid_dedicated",
       "demand_case": "base",
       "capex_usd": "0.0",
-      "opex_usd": "2340754609.9500003",
+      "opex_usd": "2503841793.32296",
       "cloud_bridge_or_burst_usd": "0.0",
-      "total_tco_usd": "2340754609.9500003",
-      "cost_npv_usd": "1616824306.114464",
+      "total_tco_usd": "2503841793.32296",
+      "cost_npv_usd": "1738588888.7470367",
       "b200_reference_gpu_hours": "129465604.8",
       "h200_reference_gpu_hours": "159398086.8",
       "cpu_core_hours": "4514261220.0",
@@ -216,9 +216,9 @@
       "demand_case": "base",
       "capex_usd": "1051432355.0",
       "opex_usd": "564840367.79488",
-      "cloud_bridge_or_burst_usd": "500336430.0",
-      "total_tco_usd": "2116609152.79488",
-      "cost_npv_usd": "1518309317.9120588",
+      "cloud_bridge_or_burst_usd": "569295069.904",
+      "total_tco_usd": "2185567792.69888",
+      "cost_npv_usd": "1581466224.9663396",
       "b200_reference_gpu_hours": "129465604.8",
       "h200_reference_gpu_hours": "159398086.8",
       "cpu_core_hours": "4514261220.0",
@@ -230,9 +230,9 @@
       "demand_case": "base",
       "capex_usd": "1240020085.0",
       "opex_usd": "381715323.24487996",
-      "cloud_bridge_or_burst_usd": "500336430.0",
-      "total_tco_usd": "2122071838.24488",
-      "cost_npv_usd": "1562792974.2536037",
+      "cloud_bridge_or_burst_usd": "569295069.904",
+      "total_tco_usd": "2191030478.14888",
+      "cost_npv_usd": "1625949881.3078845",
       "b200_reference_gpu_hours": "129465604.8",
       "h200_reference_gpu_hours": "159398086.8",
       "cpu_core_hours": "4514261220.0",
@@ -244,9 +244,9 @@
       "demand_case": "base",
       "capex_usd": "876199030.0",
       "opex_usd": "314821645.68216",
-      "cloud_bridge_or_burst_usd": "1183295656.95",
-      "total_tco_usd": "2374316332.63216",
-      "cost_npv_usd": "1697618013.3516185",
+      "cloud_bridge_or_burst_usd": "1346382840.3229601",
+      "total_tco_usd": "2537403516.0051203",
+      "cost_npv_usd": "1819382595.9841912",
       "b200_reference_gpu_hours": "129465604.8",
       "h200_reference_gpu_hours": "159398086.8",
       "cpu_core_hours": "4514261220.0",
@@ -258,8 +258,8 @@
     {
       "sensitivity": "low_demand",
       "option": "cloud",
-      "cost_npv_usd": "1145942722",
-      "total_tco_usd": "1653531158",
+      "cost_npv_usd": "1291896166",
+      "total_tco_usd": "1864889389",
       "min_core_fraction_served_after_open": "0.0"
     },
     {
@@ -272,36 +272,36 @@
     {
       "sensitivity": "low_demand",
       "option": "hybrid_dedicated",
-      "cost_npv_usd": "968476381",
-      "total_tco_usd": "1371097915",
+      "cost_npv_usd": "1041084887",
+      "total_tco_usd": "1465881566",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "low_demand",
       "option": "colo",
-      "cost_npv_usd": "886291655",
-      "total_tco_usd": "1201316306",
+      "cost_npv_usd": "927466616",
+      "total_tco_usd": "1246139422",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "low_demand",
       "option": "own",
-      "cost_npv_usd": "916488736",
-      "total_tco_usd": "1209654987",
+      "cost_npv_usd": "957663697",
+      "total_tco_usd": "1254478103",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "low_demand",
       "option": "hybrid",
-      "cost_npv_usd": "1000412512",
-      "total_tco_usd": "1362969909",
+      "cost_npv_usd": "1073021018",
+      "total_tco_usd": "1457753560",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "high_demand",
       "option": "cloud",
-      "cost_npv_usd": "3351679295",
-      "total_tco_usd": "5073330657",
+      "cost_npv_usd": "3801637374",
+      "total_tco_usd": "5756021192",
       "min_core_fraction_served_after_open": "0.0"
     },
     {
@@ -314,36 +314,36 @@
     {
       "sensitivity": "high_demand",
       "option": "hybrid_dedicated",
-      "cost_npv_usd": "2709073000",
-      "total_tco_usd": "4024401478",
+      "cost_npv_usd": "2910375176",
+      "total_tco_usd": "4301615210",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "high_demand",
       "option": "colo",
-      "cost_npv_usd": "2727576221",
-      "total_tco_usd": "3987232789",
+      "cost_npv_usd": "2911215653",
+      "total_tco_usd": "4249906871",
       "min_core_fraction_served_after_open": "0.539"
     },
     {
       "sensitivity": "high_demand",
       "option": "own",
-      "cost_npv_usd": "2757458639",
-      "total_tco_usd": "3947294426",
+      "cost_npv_usd": "2941098070",
+      "total_tco_usd": "4209968508",
       "min_core_fraction_served_after_open": "0.539"
     },
     {
       "sensitivity": "high_demand",
       "option": "hybrid",
-      "cost_npv_usd": "2875853832",
-      "total_tco_usd": "4143591882",
+      "cost_npv_usd": "3094455800",
+      "total_tco_usd": "4453876594",
       "min_core_fraction_served_after_open": "0.539"
     },
     {
       "sensitivity": "low_power_price",
       "option": "cloud",
-      "cost_npv_usd": "1962650538",
-      "total_tco_usd": "2896867186",
+      "cost_npv_usd": "2221166364",
+      "total_tco_usd": "3279587638",
       "min_core_fraction_served_after_open": "0.0"
     },
     {
@@ -356,36 +356,36 @@
     {
       "sensitivity": "low_power_price",
       "option": "hybrid_dedicated",
-      "cost_npv_usd": "1616824306",
-      "total_tco_usd": "2340754610",
+      "cost_npv_usd": "1738588889",
+      "total_tco_usd": "2503841793",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "low_power_price",
       "option": "colo",
-      "cost_npv_usd": "1509943665",
-      "total_tco_usd": "2103173224",
+      "cost_npv_usd": "1573100572",
+      "total_tco_usd": "2172131864",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "low_power_price",
       "option": "own",
-      "cost_npv_usd": "1554427321",
-      "total_tco_usd": "2108635909",
+      "cost_npv_usd": "1617584228",
+      "total_tco_usd": "2177594549",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "low_power_price",
       "option": "hybrid",
-      "cost_npv_usd": "1691759855",
-      "total_tco_usd": "2364908335",
+      "cost_npv_usd": "1813524438",
+      "total_tco_usd": "2527995519",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "high_power_price",
       "option": "cloud",
-      "cost_npv_usd": "1962650538",
-      "total_tco_usd": "2896867186",
+      "cost_npv_usd": "2221166364",
+      "total_tco_usd": "3279587638",
       "min_core_fraction_served_after_open": "0.0"
     },
     {
@@ -398,36 +398,36 @@
     {
       "sensitivity": "high_power_price",
       "option": "hybrid_dedicated",
-      "cost_npv_usd": "1616824306",
-      "total_tco_usd": "2340754610",
+      "cost_npv_usd": "1738588889",
+      "total_tco_usd": "2503841793",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "high_power_price",
       "option": "colo",
-      "cost_npv_usd": "1535040624",
-      "total_tco_usd": "2143481011",
+      "cost_npv_usd": "1598197531",
+      "total_tco_usd": "2212439651",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "high_power_price",
       "option": "own",
-      "cost_npv_usd": "1579524281",
-      "total_tco_usd": "2148943697",
+      "cost_npv_usd": "1642681188",
+      "total_tco_usd": "2217902337",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "high_power_price",
       "option": "hybrid",
-      "cost_npv_usd": "1709334329",
-      "total_tco_usd": "2393132327",
+      "cost_npv_usd": "1831098912",
+      "total_tco_usd": "2556219511",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "lower_hardware_capex",
       "option": "cloud",
-      "cost_npv_usd": "1962650538",
-      "total_tco_usd": "2896867186",
+      "cost_npv_usd": "2221166364",
+      "total_tco_usd": "3279587638",
       "min_core_fraction_served_after_open": "0.0"
     },
     {
@@ -440,36 +440,36 @@
     {
       "sensitivity": "lower_hardware_capex",
       "option": "hybrid_dedicated",
-      "cost_npv_usd": "1616824306",
-      "total_tco_usd": "2340754610",
+      "cost_npv_usd": "1738588889",
+      "total_tco_usd": "2503841793",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "lower_hardware_capex",
       "option": "colo",
-      "cost_npv_usd": "1276174121",
-      "total_tco_usd": "1746032794",
+      "cost_npv_usd": "1339331028",
+      "total_tco_usd": "1814991434",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "lower_hardware_capex",
       "option": "own",
-      "cost_npv_usd": "1320657778",
-      "total_tco_usd": "1751495480",
+      "cost_npv_usd": "1383814685",
+      "total_tco_usd": "1820454120",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "lower_hardware_capex",
       "option": "hybrid",
-      "cost_npv_usd": "1528107566",
-      "total_tco_usd": "2114938483",
+      "cost_npv_usd": "1649872148",
+      "total_tco_usd": "2278025666",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "higher_hardware_capex",
       "option": "cloud",
-      "cost_npv_usd": "1962650538",
-      "total_tco_usd": "2896867186",
+      "cost_npv_usd": "2221166364",
+      "total_tco_usd": "3279587638",
       "min_core_fraction_served_after_open": "0.0"
     },
     {
@@ -482,36 +482,36 @@
     {
       "sensitivity": "higher_hardware_capex",
       "option": "hybrid_dedicated",
-      "cost_npv_usd": "1616824306",
-      "total_tco_usd": "2340754610",
+      "cost_npv_usd": "1738588889",
+      "total_tco_usd": "2503841793",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "higher_hardware_capex",
       "option": "colo",
-      "cost_npv_usd": "1760444515",
-      "total_tco_usd": "2487185511",
+      "cost_npv_usd": "1823601422",
+      "total_tco_usd": "2556144151",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "higher_hardware_capex",
       "option": "own",
-      "cost_npv_usd": "1804928171",
-      "total_tco_usd": "2492648197",
+      "cost_npv_usd": "1868085078",
+      "total_tco_usd": "2561606837",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "higher_hardware_capex",
       "option": "hybrid",
-      "cost_npv_usd": "1867128461",
-      "total_tco_usd": "2633694182",
+      "cost_npv_usd": "1988893043",
+      "total_tco_usd": "2796781366",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "lower_cloud_prices",
       "option": "cloud",
-      "cost_npv_usd": "1306159779",
-      "total_tco_usd": "1924963671",
+      "cost_npv_usd": "1474195066",
+      "total_tco_usd": "2173731965",
       "min_core_fraction_served_after_open": "0.0"
     },
     {
@@ -524,36 +524,36 @@
     {
       "sensitivity": "lower_cloud_prices",
       "option": "hybrid_dedicated",
-      "cost_npv_usd": "1307607944",
-      "total_tco_usd": "1926601130",
+      "cost_npv_usd": "1386754922",
+      "total_tco_usd": "2032607799",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "lower_cloud_prices",
       "option": "colo",
-      "cost_npv_usd": "1357924840",
-      "total_tco_usd": "1941491402",
+      "cost_npv_usd": "1398976829",
+      "total_tco_usd": "1986314518",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "lower_cloud_prices",
       "option": "own",
-      "cost_npv_usd": "1402408496",
-      "total_tco_usd": "1946954088",
+      "cost_npv_usd": "1443460485",
+      "total_tco_usd": "1991777204",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "lower_cloud_prices",
       "option": "hybrid",
-      "cost_npv_usd": "1388401651",
-      "total_tco_usd": "1960162853",
+      "cost_npv_usd": "1467548629",
+      "total_tco_usd": "2066169522",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "higher_dedicated_rental",
       "option": "cloud",
-      "cost_npv_usd": "1962650538",
-      "total_tco_usd": "2896867186",
+      "cost_npv_usd": "2221166364",
+      "total_tco_usd": "3279587638",
       "min_core_fraction_served_after_open": "0.0"
     },
     {
@@ -566,36 +566,36 @@
     {
       "sensitivity": "higher_dedicated_rental",
       "option": "hybrid_dedicated",
-      "cost_npv_usd": "1805919492",
-      "total_tco_usd": "2644432296",
+      "cost_npv_usd": "1927684075",
+      "total_tco_usd": "2807519479",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "higher_dedicated_rental",
       "option": "colo",
-      "cost_npv_usd": "1518309318",
-      "total_tco_usd": "2116609153",
+      "cost_npv_usd": "1581466225",
+      "total_tco_usd": "2185567793",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "higher_dedicated_rental",
       "option": "own",
-      "cost_npv_usd": "1562792974",
-      "total_tco_usd": "2122071838",
+      "cost_npv_usd": "1625949881",
+      "total_tco_usd": "2191030478",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "higher_dedicated_rental",
       "option": "hybrid",
-      "cost_npv_usd": "1697618013",
-      "total_tco_usd": "2374316333",
+      "cost_npv_usd": "1819382596",
+      "total_tco_usd": "2537403516",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "higher_colo_rent",
       "option": "cloud",
-      "cost_npv_usd": "1962650538",
-      "total_tco_usd": "2896867186",
+      "cost_npv_usd": "2221166364",
+      "total_tco_usd": "3279587638",
       "min_core_fraction_served_after_open": "0.0"
     },
     {
@@ -608,36 +608,36 @@
     {
       "sensitivity": "higher_colo_rent",
       "option": "hybrid_dedicated",
-      "cost_npv_usd": "1616824306",
-      "total_tco_usd": "2340754610",
+      "cost_npv_usd": "1738588889",
+      "total_tco_usd": "2503841793",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "higher_colo_rent",
       "option": "colo",
-      "cost_npv_usd": "1577995770",
-      "total_tco_usd": "2212470520",
+      "cost_npv_usd": "1641152677",
+      "total_tco_usd": "2281429160",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "higher_colo_rent",
       "option": "own",
-      "cost_npv_usd": "1562792974",
-      "total_tco_usd": "2122071838",
+      "cost_npv_usd": "1625949881",
+      "total_tco_usd": "2191030478",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "higher_colo_rent",
       "option": "hybrid",
-      "cost_npv_usd": "1697618013",
-      "total_tco_usd": "2374316333",
+      "cost_npv_usd": "1819382596",
+      "total_tco_usd": "2537403516",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "core_delivery_delay_2_years",
       "option": "cloud",
-      "cost_npv_usd": "1962650538",
-      "total_tco_usd": "2896867186",
+      "cost_npv_usd": "2221166364",
+      "total_tco_usd": "3279587638",
       "min_core_fraction_served_after_open": "0.0"
     },
     {
@@ -650,36 +650,36 @@
     {
       "sensitivity": "core_delivery_delay_2_years",
       "option": "hybrid_dedicated",
-      "cost_npv_usd": "1713550487",
-      "total_tco_usd": "2467532526",
+      "cost_npv_usd": "1873988990",
+      "total_tco_usd": "2681304310",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "core_delivery_delay_2_years",
       "option": "colo",
-      "cost_npv_usd": "1765439544",
-      "total_tco_usd": "2542206413",
+      "cost_npv_usd": "1883844910",
+      "total_tco_usd": "2683571624",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "core_delivery_delay_2_years",
       "option": "own",
-      "cost_npv_usd": "1824927721",
-      "total_tco_usd": "2589538758",
+      "cost_npv_usd": "1943333087",
+      "total_tco_usd": "2730903969",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "core_delivery_delay_2_years",
       "option": "hybrid",
-      "cost_npv_usd": "1877406486",
-      "total_tco_usd": "2698184735",
+      "cost_npv_usd": "2037844989",
+      "total_tco_usd": "2911956519",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "lower_facility_capex",
       "option": "cloud",
-      "cost_npv_usd": "1962650538",
-      "total_tco_usd": "2896867186",
+      "cost_npv_usd": "2221166364",
+      "total_tco_usd": "3279587638",
       "min_core_fraction_served_after_open": "0.0"
     },
     {
@@ -692,36 +692,36 @@
     {
       "sensitivity": "lower_facility_capex",
       "option": "hybrid_dedicated",
-      "cost_npv_usd": "1616824306",
-      "total_tco_usd": "2340754610",
+      "cost_npv_usd": "1738588889",
+      "total_tco_usd": "2503841793",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "lower_facility_capex",
       "option": "colo",
-      "cost_npv_usd": "1518309318",
-      "total_tco_usd": "2116609153",
+      "cost_npv_usd": "1581466225",
+      "total_tco_usd": "2185567793",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "lower_facility_capex",
       "option": "own",
-      "cost_npv_usd": "1502408510",
-      "total_tco_usd": "2045326117",
+      "cost_npv_usd": "1565565417",
+      "total_tco_usd": "2114284757",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "lower_facility_capex",
       "option": "hybrid",
-      "cost_npv_usd": "1655355376",
-      "total_tco_usd": "2320617715",
+      "cost_npv_usd": "1777119959",
+      "total_tco_usd": "2483704898",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "higher_facility_capex",
       "option": "cloud",
-      "cost_npv_usd": "1962650538",
-      "total_tco_usd": "2896867186",
+      "cost_npv_usd": "2221166364",
+      "total_tco_usd": "3279587638",
       "min_core_fraction_served_after_open": "0.0"
     },
     {
@@ -734,36 +734,36 @@
     {
       "sensitivity": "higher_facility_capex",
       "option": "hybrid_dedicated",
-      "cost_npv_usd": "1616824306",
-      "total_tco_usd": "2340754610",
+      "cost_npv_usd": "1738588889",
+      "total_tco_usd": "2503841793",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "higher_facility_capex",
       "option": "colo",
-      "cost_npv_usd": "1518309318",
-      "total_tco_usd": "2116609153",
+      "cost_npv_usd": "1581466225",
+      "total_tco_usd": "2185567793",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "higher_facility_capex",
       "option": "own",
-      "cost_npv_usd": "1623177438",
-      "total_tco_usd": "2198817559",
+      "cost_npv_usd": "1686334345",
+      "total_tco_usd": "2267776199",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "higher_facility_capex",
       "option": "hybrid",
-      "cost_npv_usd": "1739880650",
-      "total_tco_usd": "2428014951",
+      "cost_npv_usd": "1861645233",
+      "total_tco_usd": "2591102134",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "refresh_3_years",
       "option": "cloud",
-      "cost_npv_usd": "1962650538",
-      "total_tco_usd": "2896867186",
+      "cost_npv_usd": "2221166364",
+      "total_tco_usd": "3279587638",
       "min_core_fraction_served_after_open": "0.0"
     },
     {
@@ -776,36 +776,36 @@
     {
       "sensitivity": "refresh_3_years",
       "option": "hybrid_dedicated",
-      "cost_npv_usd": "1616824306",
-      "total_tco_usd": "2340754610",
+      "cost_npv_usd": "1738588889",
+      "total_tco_usd": "2503841793",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "refresh_3_years",
       "option": "colo",
-      "cost_npv_usd": "1737641355",
-      "total_tco_usd": "2515184353",
+      "cost_npv_usd": "1800798262",
+      "total_tco_usd": "2584142993",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "refresh_3_years",
       "option": "own",
-      "cost_npv_usd": "1782125012",
-      "total_tco_usd": "2520647038",
+      "cost_npv_usd": "1845281919",
+      "total_tco_usd": "2589605678",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "refresh_3_years",
       "option": "hybrid",
-      "cost_npv_usd": "1851295325",
-      "total_tco_usd": "2653594733",
+      "cost_npv_usd": "1973059908",
+      "total_tco_usd": "2816681916",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "refresh_5_years",
       "option": "cloud",
-      "cost_npv_usd": "1962650538",
-      "total_tco_usd": "2896867186",
+      "cost_npv_usd": "2221166364",
+      "total_tco_usd": "3279587638",
       "min_core_fraction_served_after_open": "0.0"
     },
     {
@@ -818,36 +818,36 @@
     {
       "sensitivity": "refresh_5_years",
       "option": "hybrid_dedicated",
-      "cost_npv_usd": "1616824306",
-      "total_tco_usd": "2340754610",
+      "cost_npv_usd": "1738588889",
+      "total_tco_usd": "2503841793",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "refresh_5_years",
       "option": "colo",
-      "cost_npv_usd": "1482891544",
-      "total_tco_usd": "2080015393",
+      "cost_npv_usd": "1546048451",
+      "total_tco_usd": "2148974033",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "refresh_5_years",
       "option": "own",
-      "cost_npv_usd": "1527375200",
-      "total_tco_usd": "2085478078",
+      "cost_npv_usd": "1590532107",
+      "total_tco_usd": "2154436718",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "refresh_5_years",
       "option": "hybrid",
-      "cost_npv_usd": "1672974537",
-      "total_tco_usd": "2349036173",
+      "cost_npv_usd": "1794739119",
+      "total_tco_usd": "2512123356",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "gpu_schedulable_utilization_x0.70",
       "option": "cloud",
-      "cost_npv_usd": "1962650538",
-      "total_tco_usd": "2896867186",
+      "cost_npv_usd": "2221166364",
+      "total_tco_usd": "3279587638",
       "min_core_fraction_served_after_open": "0.0"
     },
     {
@@ -860,36 +860,36 @@
     {
       "sensitivity": "gpu_schedulable_utilization_x0.70",
       "option": "hybrid_dedicated",
-      "cost_npv_usd": "1857777016",
-      "total_tco_usd": "2727827474",
+      "cost_npv_usd": "1979541599",
+      "total_tco_usd": "2890914657",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "gpu_schedulable_utilization_x0.70",
       "option": "colo",
-      "cost_npv_usd": "1867167991",
-      "total_tco_usd": "2646937707",
+      "cost_npv_usd": "1939809255",
+      "total_tco_usd": "2733946811",
       "min_core_fraction_served_after_open": "0.828"
     },
     {
       "sensitivity": "gpu_schedulable_utilization_x0.70",
       "option": "own",
-      "cost_npv_usd": "1902816436",
-      "total_tco_usd": "2620772089",
+      "cost_npv_usd": "1975457701",
+      "total_tco_usd": "2707781194",
       "min_core_fraction_served_after_open": "0.828"
     },
     {
       "sensitivity": "gpu_schedulable_utilization_x0.70",
       "option": "hybrid",
-      "cost_npv_usd": "1966524962",
-      "total_tco_usd": "2775380186",
+      "cost_npv_usd": "2088289545",
+      "total_tco_usd": "2938467370",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "gpu_schedulable_utilization_x1.30",
       "option": "cloud",
-      "cost_npv_usd": "1962650538",
-      "total_tco_usd": "2896867186",
+      "cost_npv_usd": "2221166364",
+      "total_tco_usd": "3279587638",
       "min_core_fraction_served_after_open": "0.0"
     },
     {
@@ -902,36 +902,36 @@
     {
       "sensitivity": "gpu_schedulable_utilization_x1.30",
       "option": "hybrid_dedicated",
-      "cost_npv_usd": "1487122539",
-      "total_tco_usd": "2132522402",
+      "cost_npv_usd": "1608887121",
+      "total_tco_usd": "2295609585",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "gpu_schedulable_utilization_x1.30",
       "option": "colo",
-      "cost_npv_usd": "1315725331",
-      "total_tco_usd": "1804697923",
+      "cost_npv_usd": "1378882238",
+      "total_tco_usd": "1873656563",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "gpu_schedulable_utilization_x1.30",
       "option": "own",
-      "cost_npv_usd": "1356216644",
-      "total_tco_usd": "1814098902",
+      "cost_npv_usd": "1419373551",
+      "total_tco_usd": "1883057542",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "gpu_schedulable_utilization_x1.30",
       "option": "hybrid",
-      "cost_npv_usd": "1553084272",
-      "total_tco_usd": "2158960250",
+      "cost_npv_usd": "1674848855",
+      "total_tco_usd": "2322047433",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "low_usage_fixed_base_capacity",
       "option": "cloud",
-      "cost_npv_usd": "1145942722",
-      "total_tco_usd": "1653531158",
+      "cost_npv_usd": "1291896166",
+      "total_tco_usd": "1864889389",
       "min_core_fraction_served_after_open": "0.0"
     },
     {
@@ -944,71 +944,71 @@
     {
       "sensitivity": "low_usage_fixed_base_capacity",
       "option": "hybrid_dedicated",
-      "cost_npv_usd": "1260167389",
-      "total_tco_usd": "1845171376",
+      "cost_npv_usd": "1332775895",
+      "total_tco_usd": "1939955027",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "low_usage_fixed_base_capacity",
       "option": "colo",
-      "cost_npv_usd": "1358817072",
-      "total_tco_usd": "1941491402",
+      "cost_npv_usd": "1399992033",
+      "total_tco_usd": "1986314518",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "low_usage_fixed_base_capacity",
       "option": "own",
-      "cost_npv_usd": "1403300728",
-      "total_tco_usd": "1946954088",
+      "cost_npv_usd": "1444475689",
+      "total_tco_usd": "1991777204",
       "min_core_fraction_served_after_open": "1.0"
     },
     {
       "sensitivity": "low_usage_fixed_base_capacity",
       "option": "hybrid",
-      "cost_npv_usd": "1340961096",
-      "total_tco_usd": "1878733099",
+      "cost_npv_usd": "1413569602",
+      "total_tco_usd": "1973516749",
       "min_core_fraction_served_after_open": "0.7"
     },
     {
       "sensitivity": "high_usage_fixed_base_capacity",
       "option": "cloud",
-      "cost_npv_usd": "3351679295",
-      "total_tco_usd": "5073330657",
+      "cost_npv_usd": "3801637374",
+      "total_tco_usd": "5756021192",
       "min_core_fraction_served_after_open": "0.0"
     },
     {
       "sensitivity": "high_usage_fixed_base_capacity",
       "option": "dedicated",
-      "cost_npv_usd": "2701761797",
-      "total_tco_usd": "4109366746",
+      "cost_npv_usd": "2893204051",
+      "total_tco_usd": "4409336830",
       "min_core_fraction_served_after_open": "0.485"
     },
     {
       "sensitivity": "high_usage_fixed_base_capacity",
       "option": "hybrid_dedicated",
-      "cost_npv_usd": "3022146881",
-      "total_tco_usd": "4543306464",
+      "cost_npv_usd": "3335353717",
+      "total_tco_usd": "5006363731",
       "min_core_fraction_served_after_open": "0.339"
     },
     {
       "sensitivity": "high_usage_fixed_base_capacity",
       "option": "colo",
-      "cost_npv_usd": "2930614957",
-      "total_tco_usd": "4330341743",
+      "cost_npv_usd": "3185214118",
+      "total_tco_usd": "4699270467",
       "min_core_fraction_served_after_open": "0.485"
     },
     {
       "sensitivity": "high_usage_fixed_base_capacity",
       "option": "own",
-      "cost_npv_usd": "2975098614",
-      "total_tco_usd": "4335804429",
+      "cost_npv_usd": "3229697775",
+      "total_tco_usd": "4704733152",
       "min_core_fraction_served_after_open": "0.485"
     },
     {
       "sensitivity": "high_usage_fixed_base_capacity",
       "option": "hybrid",
-      "cost_npv_usd": "3102940588",
-      "total_tco_usd": "4576868187",
+      "cost_npv_usd": "3416147424",
+      "total_tco_usd": "5039925454",
       "min_core_fraction_served_after_open": "0.339"
     }
   ],
@@ -1016,7 +1016,7 @@
     {
       "gpu_class": "B200",
       "option": "cloud_published",
-      "usd_per_served_reference_gpu_hour": "12.355",
+      "usd_per_served_reference_gpu_hour": "14.208",
       "schedulable_utilization_assumed": "0.55",
       "utilization_break_even_vs_published_cloud": "",
       "scope": "direct_class_cost_excludes_fixed_staff_secure_enclave_grid_land_CPU_and_cloud_data_ops"
@@ -1026,7 +1026,7 @@
       "option": "dedicated_reserved_assumption",
       "usd_per_served_reference_gpu_hour": "6.818",
       "schedulable_utilization_assumed": "0.55",
-      "utilization_break_even_vs_published_cloud": "0.304",
+      "utilization_break_even_vs_published_cloud": "0.264",
       "scope": "direct_class_cost_excludes_fixed_staff_secure_enclave_grid_land_CPU_and_cloud_data_ops"
     },
     {
@@ -1034,7 +1034,7 @@
       "option": "colo_own_gpu_direct",
       "usd_per_served_reference_gpu_hour": "6.897",
       "schedulable_utilization_assumed": "0.55",
-      "utilization_break_even_vs_published_cloud": "0.307",
+      "utilization_break_even_vs_published_cloud": "0.267",
       "scope": "direct_class_cost_excludes_fixed_staff_secure_enclave_grid_land_CPU_and_cloud_data_ops"
     },
     {
@@ -1042,13 +1042,13 @@
       "option": "own_direct",
       "usd_per_served_reference_gpu_hour": "6.579",
       "schedulable_utilization_assumed": "0.55",
-      "utilization_break_even_vs_published_cloud": "0.293",
+      "utilization_break_even_vs_published_cloud": "0.255",
       "scope": "direct_class_cost_excludes_fixed_staff_secure_enclave_grid_land_CPU_and_cloud_data_ops"
     },
     {
       "gpu_class": "H200",
       "option": "cloud_published",
-      "usd_per_served_reference_gpu_hour": "5.97",
+      "usd_per_served_reference_gpu_hour": "6.866",
       "schedulable_utilization_assumed": "0.6",
       "utilization_break_even_vs_published_cloud": "",
       "scope": "direct_class_cost_excludes_fixed_staff_secure_enclave_grid_land_CPU_and_cloud_data_ops"
@@ -1058,7 +1058,7 @@
       "option": "dedicated_reserved_assumption",
       "usd_per_served_reference_gpu_hour": "4.333",
       "schedulable_utilization_assumed": "0.6",
-      "utilization_break_even_vs_published_cloud": "0.436",
+      "utilization_break_even_vs_published_cloud": "0.379",
       "scope": "direct_class_cost_excludes_fixed_staff_secure_enclave_grid_land_CPU_and_cloud_data_ops"
     },
     {
@@ -1066,7 +1066,7 @@
       "option": "colo_own_gpu_direct",
       "usd_per_served_reference_gpu_hour": "4.44",
       "schedulable_utilization_assumed": "0.6",
-      "utilization_break_even_vs_published_cloud": "0.446",
+      "utilization_break_even_vs_published_cloud": "0.388",
       "scope": "direct_class_cost_excludes_fixed_staff_secure_enclave_grid_land_CPU_and_cloud_data_ops"
     },
     {
@@ -1074,7 +1074,7 @@
       "option": "own_direct",
       "usd_per_served_reference_gpu_hour": "4.232",
       "schedulable_utilization_assumed": "0.6",
-      "utilization_break_even_vs_published_cloud": "0.425",
+      "utilization_break_even_vs_published_cloud": "0.37",
       "scope": "direct_class_cost_excludes_fixed_staff_secure_enclave_grid_land_CPU_and_cloud_data_ops"
     }
   ],
@@ -1086,7 +1086,7 @@
       "indicator": "Utility date conditional or upgrades required",
       "mitigation": "Compare two parcels and retain cloud/dedicated bridge",
       "decision_gate": "Written phased MW dates and liabilities before own-site approval",
-      "model_impact": "2030_to_2032_own_npv_usd_1.563bn_to_1.825bn"
+      "model_impact": "2030_to_2032_own_npv_usd_1.626bn_to_1.943bn"
     },
     {
       "risk_id": "GPU_REFRESH",
@@ -1095,7 +1095,7 @@
       "indicator": "Hardware availability or benchmark shifts",
       "mitigation": "Phased cohorts and 3_4_5_year_refresh_sensitivities",
       "decision_gate": "Representative task benchmark and delivery guarantee before procurement",
-      "model_impact": "3_year_own_npv_1.782bn_5_year_1.527bn"
+      "model_impact": "3_year_own_npv_1.845bn_5_year_1.591bn"
     },
     {
       "risk_id": "DEMAND_UTIL",
@@ -1104,7 +1104,7 @@
       "indicator": "Committed hours below reserved capacity",
       "mitigation": "Telemetry and cancellable bridge first",
       "decision_gate": "Member minimum commitments plus queue and utilization evidence",
-      "model_impact": "low_usage_fixed_base_capacity_own_npv_1.403bn_vs_cloud_1.146bn"
+      "model_impact": "low_usage_fixed_base_capacity_own_npv_1.444bn_vs_cloud_1.292bn"
     },
     {
       "risk_id": "GPU_TIER",
@@ -1363,7 +1363,7 @@
       "value_or_rule": "B200_3.75_H200_2.60_USD_per_reserved_GPU_hour",
       "type": "unquoted_model_assumption",
       "evidence_or_source": "step8/financial_inputs.json",
-      "why_it_matters": "Current cheapest assumed option; 24_percent_price_increase_flips_vs_own",
+      "why_it_matters": "Current cheapest assumed option; 29_percent_price_increase_flips_vs_own",
       "revisit_trigger": "Two binding vendor proposals"
     },
     {
@@ -1383,6 +1383,15 @@
       "evidence_or_source": "step10/csuite_recommendation.md",
       "why_it_matters": "Limits irreversible commitment under major uncertainty",
       "revisit_trigger": "All five gate conditions satisfied"
+    },
+    {
+      "id": "J21",
+      "topic": "cloud_price_proxy",
+      "value_or_rule": "AWS_announced_2026_10_07_B200_14.208_H200_6.866_per_GPU_hour_times_actual_reference_hours",
+      "type": "model_simplification",
+      "evidence_or_source": "AWS Capacity Blocks pricing; step8/underwriting.md",
+      "why_it_matters": "Omits reserved-block idle charges and fleet availability",
+      "revisit_trigger": "Comparable multi-year cloud quote and reservation plan"
     }
   ],
   "website_mapping": [
@@ -1433,12 +1442,12 @@
     "step5/eligibility_rules.csv": "2a347c82730e17d5869a7e5e7351df5b0fe5018ea32d75f4f99d55b730b7fd70",
     "step6/candidate_regions.csv": "d8430874691f846adcd28e8f87529f9e221a08c2c2bc9eebf2b55b4d578e4ecc",
     "step7/ownership_matrix.csv": "6faf6c54cd8421473ed8b41cb2780c21dfaa0355fa7f4487de8e9b559d9af77b",
-    "step8/option_summary.csv": "d656e3e83a43adf3bdc3354cad4eea6c071c2796e9687ff22fa79923333984d6",
-    "step8/sensitivity_outputs.csv": "d325d8f7392aa23686e9c6f4d1504b043a2b2404a1e97b8823200515291bc447",
-    "step8/gpu_unit_economics.csv": "240fad9dbd12fcfade3d4d56fbacdcdcd0bb364fb439bb664fcfe420887db657",
-    "step9/risk_register.csv": "592ecc8a3254115c2e8b6b48bfe5aefe4fcfebb882de51c2c8609f03e4949edc",
+    "step8/option_summary.csv": "e55468c894782a325ad7b7e60005ed8bd8bcada92452ab8e8efb0f376a47a634",
+    "step8/sensitivity_outputs.csv": "94330900ac0eaa697349f2519a9871c84e2ad8f714e215bf73648fb0c55f6b56",
+    "step8/gpu_unit_economics.csv": "cafba4950521b2fe0f02cdd4f7f358f52611fea6ef26b8ba94630dfdab004cb3",
+    "step9/risk_register.csv": "ecb2fed86555620e8e5d8b9fb64e5fc887d0fdd08167e67144a80990c9a137bf",
     "step9/timeline.csv": "f365a0cd510c2d56a62ebee9cbb471bd315cc204572df4568b4e08bbee2abd61",
-    "step10/key_judgments_assumptions.csv": "aac8c39ad161f2aa0fcd54c9e43273fbe34bbe87f7bfda25767b25011e5ece38",
+    "step10/key_judgments_assumptions.csv": "e5572d46d20e45b594e277f2f1f16bd4b49a28271332e59afe362d72350cbe0a",
     "step10/website_mapping.csv": "30687f5886ccf3b6dafd156baddd5c8031a8bcc10b3c0b8af6887a86de494dab"
   }
 }
