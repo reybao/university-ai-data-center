@@ -1,0 +1,53 @@
+{
+  "as_of": "2026-10-04",
+  "rows": [
+    {
+      "region_id": "TX_ERCOT",
+      "screening_area": "Texas within ERCOT service area",
+      "grid_envelope": "ERCOT",
+      "state_industrial_retail_cents_per_kwh": "6.12",
+      "price_year": "2024",
+      "price_status": "observed_state_average_not_site_quote",
+      "grid_status": "ERCOT 2026 preliminary large-load forecast is highly uncertain",
+      "site_25mw_status": "unknown",
+      "priority_evidence": "utility site-specific staged 25 MW service study; tariffs; fiber; water",
+      "decision_status": "inquiry_pool_unranked"
+    },
+    {
+      "region_id": "IA_MISO",
+      "screening_area": "Iowa within MISO service area",
+      "grid_envelope": "MISO",
+      "state_industrial_retail_cents_per_kwh": "6.80",
+      "price_year": "2024",
+      "price_status": "observed_state_average_not_site_quote",
+      "grid_status": "MISO identifies rapid large-load requests and integration challenges",
+      "site_25mw_status": "unknown",
+      "priority_evidence": "utility site-specific staged 25 MW service study; resource adequacy; fiber; water",
+      "decision_status": "inquiry_pool_unranked"
+    },
+    {
+      "region_id": "OH_AEP_PJM",
+      "screening_area": "Central Ohio within AEP Ohio service area",
+      "grid_envelope": "PJM",
+      "state_industrial_retail_cents_per_kwh": "7.10",
+      "price_year": "2024",
+      "price_status": "observed_state_average_not_site_quote",
+      "grid_status": "AEP Ohio has dedicated data-center study/tariff process",
+      "site_25mw_status": "unknown",
+      "priority_evidence": "25 MW threshold applicability; minimum bill/collateral; service date; fiber",
+      "decision_status": "inquiry_pool_unranked"
+    },
+    {
+      "region_id": "VA_DOM_PJM",
+      "screening_area": "Virginia within Dominion PJM service area",
+      "grid_envelope": "PJM",
+      "state_industrial_retail_cents_per_kwh": "8.99",
+      "price_year": "2024",
+      "price_status": "observed_state_average_not_site_quote",
+      "grid_status": "JLARC and PJM report strong data-center load growth",
+      "site_25mw_status": "unknown",
+      "priority_evidence": "utility site-specific staged 25 MW service study; permitting; fiber; water",
+      "decision_status": "inquiry_pool_unranked"
+    }
+  ]
+}

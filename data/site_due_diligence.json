@@ -1,0 +1,75 @@
+{
+  "as_of": "2026-10-04",
+  "rows": [
+    {
+      "gate_id": "PWR_01",
+      "dimension": "grid_connection",
+      "requested_evidence": "Utility letter for named parcel and point of interconnection with firm or conditional 25 MW facility input capacity",
+      "acceptance_test": "Named service point plus all conditions and dated capacity ramp",
+      "status": "not_requested"
+    },
+    {
+      "gate_id": "PWR_02",
+      "dimension": "time_to_power",
+      "requested_evidence": "Written energization schedule for initial phase and full 25 MW; upgrades and dependencies",
+      "acceptance_test": "Dates and critical path are explicit; meet project milestones",
+      "status": "not_requested"
+    },
+    {
+      "gate_id": "PWR_03",
+      "dimension": "rate_and_cost",
+      "requested_evidence": "Applicable tariff or proposal including energy demand transmission upgrade fees minimum take collateral and escalation",
+      "acceptance_test": "Comparable 10-year cash flows can be constructed",
+      "status": "not_requested"
+    },
+    {
+      "gate_id": "PWR_04",
+      "dimension": "reliability",
+      "requested_evidence": "Utility interruption history at proposed feeder; supply configuration; backup and curtailment terms",
+      "acceptance_test": "Reliability can be reconciled with workload SLA and engineering design",
+      "status": "not_requested"
+    },
+    {
+      "gate_id": "NET_01",
+      "dimension": "fiber",
+      "requested_evidence": "Two providers or physically diverse routes with capacity price construction date and campus latencies",
+      "acceptance_test": "Capacity and measured p95/p99 satisfy eligible services",
+      "status": "not_requested"
+    },
+    {
+      "gate_id": "WAT_01",
+      "dimension": "cooling_water",
+      "requested_evidence": "Cooling concept water supply and discharge letters and high-density rack thermal design",
+      "acceptance_test": "Cooling works at phased loads with accepted water and permit conditions",
+      "status": "not_requested"
+    },
+    {
+      "gate_id": "LAND_01",
+      "dimension": "land_permitting",
+      "requested_evidence": "Parcel control zoning building environmental air/noise permit pathway and schedule",
+      "acceptance_test": "No unmitigated legal or construction blocker",
+      "status": "not_requested"
+    },
+    {
+      "gate_id": "RISK_01",
+      "dimension": "hazards",
+      "requested_evidence": "Parcel-address FEMA flood map USGS seismic local severe weather and insurer assessment",
+      "acceptance_test": "Mitigations and cost can be engineered and priced",
+      "status": "not_requested"
+    },
+    {
+      "gate_id": "DATA_01",
+      "dimension": "data_governance",
+      "requested_evidence": "Dataset agreements institutional operator roles access controls audit and secure-enclave approval",
+      "acceptance_test": "Restricted workload only assigned when project-specific permission is documented",
+      "status": "not_requested"
+    },
+    {
+      "gate_id": "REG_01",
+      "dimension": "export_controls",
+      "requested_evidence": "Project-by-project controlled technology/source-code classification and access plan including remote users",
+      "acceptance_test": "Institutional export-control review documents any applicable restriction or exception",
+      "status": "not_requested"
+    }
+  ]
+}
