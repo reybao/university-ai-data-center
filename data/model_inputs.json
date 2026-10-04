@@ -1,6 +1,6 @@
 {
   "as_of": "2026-10-04",
-  "status": "illustrative_mixed_member_phase_1_not_decision_ready",
+  "status": "illustrative_de_duplicated_mixed_member_phase_2_not_decision_ready",
   "population_mit_2025": {
     "undergraduate_students": 4561,
     "graduate_students": 7255,
@@ -25,6 +25,16 @@
   "cpu_only": {"schedulable_utilization": 0.60, "design_w_per_core": 25},
   "infrastructure": {"network_storage_power_fraction_of_compute": 0.20, "pue": 1.20},
   "facility_target_mw": 25,
+  "accounting_rule": "Each modeled GPU-hour belongs to one mutually exclusive compute activity. Biomedical and robotics are nonadditive tags; coding and agents are an inference subtype with distinct usage allocation, not a second count of the same request.",
+  "display_categories": [
+    {"id": "training", "role": "primary_compute_task"},
+    {"id": "fine_tuning_rl", "role": "primary_compute_task"},
+    {"id": "scientific_ai_hpc", "role": "primary_compute_task"},
+    {"id": "biomedical_private_ai", "role": "domain_or_governance_tag", "quantification": "pending_project_telemetry"},
+    {"id": "student_faculty_inference", "role": "primary_compute_task"},
+    {"id": "coding_agents", "role": "inference_subtype", "quantification": "distinct_incremental_requests_assumed"},
+    {"id": "robotics", "role": "domain_tag", "quantification": "pending_project_telemetry", "location_rule": "closed_loop_control_local; training_simulation_offline_shared_candidate; online_inference_requires_latency_reliability_validation"}
+  ],
   "scenarios": [
     {"year": 2027, "case": "low", "demand_multiplier": 0.7},
     {"year": 2027, "case": "base", "demand_multiplier": 1.0},
@@ -37,15 +47,13 @@
     {"year": 2035, "case": "high", "demand_multiplier": 6.0}
   ],
   "workloads_per_mit_equivalent_2027": [
-    {"id": "training", "category": "training", "label": "Training", "device": "B200", "population": "research_pool", "active_fraction": 0.01, "hours_per_active_year": 8000, "local_fraction": 0},
-    {"id": "fine_tuning_rl", "category": "fine_tuning_rl", "label": "Fine-tuning / RL", "device": "B200", "population": "research_pool", "active_fraction": 0.08, "hours_per_active_year": 900, "local_fraction": 0},
-    {"id": "scientific_ai_hpc", "category": "scientific_ai_hpc", "label": "Scientific AI / HPC GPU", "device": "H200", "population": "research_pool", "active_fraction": 0.18, "hours_per_active_year": 900, "local_fraction": 0},
-    {"id": "biomedical_private_ai", "category": "biomedical_private_ai", "label": "Biomedical / private AI", "device": "H200", "population": "research_pool", "active_fraction": 0.04, "hours_per_active_year": 1200, "local_fraction": 0},
-    {"id": "student_faculty_inference_students", "category": "student_faculty_inference", "label": "Student inference", "device": "H200", "population": "all_students", "active_fraction": 0.70, "hours_per_active_year": 1.5, "local_fraction": 0},
-    {"id": "student_faculty_inference_employees", "category": "student_faculty_inference", "label": "Faculty / staff inference", "device": "H200", "population": "employees", "active_fraction": 0.50, "hours_per_active_year": 1.0, "local_fraction": 0},
-    {"id": "coding_agents_research", "category": "coding_agents", "label": "Research coding / agents", "device": "H200", "population": "research_pool", "active_fraction": 0.20, "hours_per_active_year": 100, "local_fraction": 0},
-    {"id": "coding_agents_students", "category": "coding_agents", "label": "Student coding / agents", "device": "H200", "population": "all_students", "active_fraction": 0.15, "hours_per_active_year": 20, "local_fraction": 0},
-    {"id": "robotics", "category": "robotics", "label": "Robotics", "device": "B200", "population": "research_pool", "active_fraction": 0.03, "hours_per_active_year": 1000, "local_fraction": 0.80}
+    {"id": "training", "category": "training", "primary_compute_task": "training", "label": "Training (all domains)", "device": "B200", "population": "research_pool", "active_fraction": 0.01, "hours_per_active_year": 8000, "local_fraction": 0},
+    {"id": "fine_tuning_rl", "category": "fine_tuning_rl", "primary_compute_task": "fine_tuning_rl", "label": "Fine-tuning / RL (all domains)", "device": "B200", "population": "research_pool", "active_fraction": 0.08, "hours_per_active_year": 900, "local_fraction": 0},
+    {"id": "scientific_ai_hpc", "category": "scientific_ai_hpc", "primary_compute_task": "scientific_ai_hpc", "label": "Scientific AI / HPC GPU (all domains)", "device": "H200", "population": "research_pool", "active_fraction": 0.18, "hours_per_active_year": 900, "local_fraction": 0},
+    {"id": "student_faculty_inference_students", "category": "student_faculty_inference", "primary_compute_task": "inference", "label": "Student general inference", "device": "H200", "population": "all_students", "active_fraction": 0.70, "hours_per_active_year": 1.5, "local_fraction": 0},
+    {"id": "student_faculty_inference_employees", "category": "student_faculty_inference", "primary_compute_task": "inference", "label": "Faculty / staff general inference", "device": "H200", "population": "employees", "active_fraction": 0.50, "hours_per_active_year": 1.0, "local_fraction": 0},
+    {"id": "coding_agents_research", "category": "coding_agents", "primary_compute_task": "inference", "label": "Research coding / agents (incremental inference)", "device": "H200", "population": "research_pool", "active_fraction": 0.20, "hours_per_active_year": 100, "local_fraction": 0},
+    {"id": "coding_agents_students", "category": "coding_agents", "primary_compute_task": "inference", "label": "Student coding / agents (incremental inference)", "device": "H200", "population": "all_students", "active_fraction": 0.15, "hours_per_active_year": 20, "local_fraction": 0}
   ],
   "cpu_workloads_per_mit_equivalent_2027": [
     {"id": "scientific_cpu_hpc", "population": "research_pool", "active_fraction": 0.25, "core_hours_per_active_year": 20000},
