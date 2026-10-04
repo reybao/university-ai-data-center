@@ -1,0 +1,1142 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-10-04",
+  "status": "illustrative_phase_1_not_decision_ready",
+  "unit_definitions": {
+    "gpu_hours": "Physical GPU device-hours within named hardware class; classes are not throughput-equivalent.",
+    "cpu_core_hours": "CPU-only HPC/data processing core-hours, excluding CPUs included in GPU nodes.",
+    "facility_design_mw": "Nameplate IT power times assumed PUE, not observed average draw."
+  },
+  "scenario_outputs": [
+    {
+      "year": 2027,
+      "case": "low",
+      "mit_equivalents": 5,
+      "demand_multiplier_vs_2027_base": 0.7,
+      "shared_B200_gpu_hours": 6061986,
+      "shared_H200_gpu_hours": 9021710,
+      "local_gpu_hours_excluded": 920808,
+      "cpu_core_hours": 203345100,
+      "B200_gpu_count": 1264,
+      "H200_gpu_count": 1720,
+      "cpu_only_cores": 38689,
+      "B200_hbm_tb": 227.5,
+      "H200_hbm_tb": 242.5,
+      "gpu_node_power_mw": 4.452,
+      "cpu_only_power_mw": 0.967,
+      "network_storage_power_mw": 1.084,
+      "it_design_mw": 6.504,
+      "facility_design_mw": 7.804,
+      "facility_target_mw": 25,
+      "headroom_mw": 17.196,
+      "target_utilization_pct": 31.2
+    },
+    {
+      "year": 2027,
+      "case": "base",
+      "mit_equivalents": 5,
+      "demand_multiplier_vs_2027_base": 1.0,
+      "shared_B200_gpu_hours": 8659980,
+      "shared_H200_gpu_hours": 12888156,
+      "local_gpu_hours_excluded": 1315440,
+      "cpu_core_hours": 290493000,
+      "B200_gpu_count": 1800,
+      "H200_gpu_count": 2456,
+      "cpu_only_cores": 55269,
+      "B200_hbm_tb": 324.0,
+      "H200_hbm_tb": 346.3,
+      "gpu_node_power_mw": 6.349,
+      "cpu_only_power_mw": 1.382,
+      "network_storage_power_mw": 1.546,
+      "it_design_mw": 9.277,
+      "facility_design_mw": 11.132,
+      "facility_target_mw": 25,
+      "headroom_mw": 13.868,
+      "target_utilization_pct": 44.5
+    },
+    {
+      "year": 2027,
+      "case": "high",
+      "mit_equivalents": 5,
+      "demand_multiplier_vs_2027_base": 1.5,
+      "shared_B200_gpu_hours": 12989970,
+      "shared_H200_gpu_hours": 19332235,
+      "local_gpu_hours_excluded": 1973160,
+      "cpu_core_hours": 435739500,
+      "B200_gpu_count": 2704,
+      "H200_gpu_count": 3680,
+      "cpu_only_cores": 82904,
+      "B200_hbm_tb": 486.7,
+      "H200_hbm_tb": 518.9,
+      "gpu_node_power_mw": 9.525,
+      "cpu_only_power_mw": 2.073,
+      "network_storage_power_mw": 2.32,
+      "it_design_mw": 13.918,
+      "facility_design_mw": 16.701,
+      "facility_target_mw": 25,
+      "headroom_mw": 8.299,
+      "target_utilization_pct": 66.8
+    },
+    {
+      "year": 2030,
+      "case": "low",
+      "mit_equivalents": 5,
+      "demand_multiplier_vs_2027_base": 1.2,
+      "shared_B200_gpu_hours": 10391976,
+      "shared_H200_gpu_hours": 15465788,
+      "local_gpu_hours_excluded": 1578528,
+      "cpu_core_hours": 348591600,
+      "B200_gpu_count": 2160,
+      "H200_gpu_count": 2944,
+      "cpu_only_cores": 66323,
+      "B200_hbm_tb": 388.8,
+      "H200_hbm_tb": 415.1,
+      "gpu_node_power_mw": 7.615,
+      "cpu_only_power_mw": 1.658,
+      "network_storage_power_mw": 1.855,
+      "it_design_mw": 11.127,
+      "facility_design_mw": 13.353,
+      "facility_target_mw": 25,
+      "headroom_mw": 11.647,
+      "target_utilization_pct": 53.4
+    },
+    {
+      "year": 2030,
+      "case": "base",
+      "mit_equivalents": 5,
+      "demand_multiplier_vs_2027_base": 2.0,
+      "shared_B200_gpu_hours": 17319960,
+      "shared_H200_gpu_hours": 25776313,
+      "local_gpu_hours_excluded": 2630880,
+      "cpu_core_hours": 580986000,
+      "B200_gpu_count": 3600,
+      "H200_gpu_count": 4912,
+      "cpu_only_cores": 110538,
+      "B200_hbm_tb": 648.0,
+      "H200_hbm_tb": 692.6,
+      "gpu_node_power_mw": 12.698,
+      "cpu_only_power_mw": 2.763,
+      "network_storage_power_mw": 3.092,
+      "it_design_mw": 18.553,
+      "facility_design_mw": 22.264,
+      "facility_target_mw": 25,
+      "headroom_mw": 2.736,
+      "target_utilization_pct": 89.1
+    },
+    {
+      "year": 2030,
+      "case": "high",
+      "mit_equivalents": 5,
+      "demand_multiplier_vs_2027_base": 3.0,
+      "shared_B200_gpu_hours": 25979940,
+      "shared_H200_gpu_hours": 38664470,
+      "local_gpu_hours_excluded": 3946320,
+      "cpu_core_hours": 871479000,
+      "B200_gpu_count": 5400,
+      "H200_gpu_count": 7360,
+      "cpu_only_cores": 165807,
+      "B200_hbm_tb": 972.0,
+      "H200_hbm_tb": 1037.8,
+      "gpu_node_power_mw": 19.037,
+      "cpu_only_power_mw": 4.145,
+      "network_storage_power_mw": 4.636,
+      "it_design_mw": 27.818,
+      "facility_design_mw": 33.382,
+      "facility_target_mw": 25,
+      "headroom_mw": -8.382,
+      "target_utilization_pct": 133.5
+    },
+    {
+      "year": 2035,
+      "case": "low",
+      "mit_equivalents": 5,
+      "demand_multiplier_vs_2027_base": 1.5,
+      "shared_B200_gpu_hours": 12989970,
+      "shared_H200_gpu_hours": 19332235,
+      "local_gpu_hours_excluded": 1973160,
+      "cpu_core_hours": 435739500,
+      "B200_gpu_count": 2704,
+      "H200_gpu_count": 3680,
+      "cpu_only_cores": 82904,
+      "B200_hbm_tb": 486.7,
+      "H200_hbm_tb": 518.9,
+      "gpu_node_power_mw": 9.525,
+      "cpu_only_power_mw": 2.073,
+      "network_storage_power_mw": 2.32,
+      "it_design_mw": 13.918,
+      "facility_design_mw": 16.701,
+      "facility_target_mw": 25,
+      "headroom_mw": 8.299,
+      "target_utilization_pct": 66.8
+    },
+    {
+      "year": 2035,
+      "case": "base",
+      "mit_equivalents": 5,
+      "demand_multiplier_vs_2027_base": 3.0,
+      "shared_B200_gpu_hours": 25979940,
+      "shared_H200_gpu_hours": 38664470,
+      "local_gpu_hours_excluded": 3946320,
+      "cpu_core_hours": 871479000,
+      "B200_gpu_count": 5400,
+      "H200_gpu_count": 7360,
+      "cpu_only_cores": 165807,
+      "B200_hbm_tb": 972.0,
+      "H200_hbm_tb": 1037.8,
+      "gpu_node_power_mw": 19.037,
+      "cpu_only_power_mw": 4.145,
+      "network_storage_power_mw": 4.636,
+      "it_design_mw": 27.818,
+      "facility_design_mw": 33.382,
+      "facility_target_mw": 25,
+      "headroom_mw": -8.382,
+      "target_utilization_pct": 133.5
+    },
+    {
+      "year": 2035,
+      "case": "high",
+      "mit_equivalents": 5,
+      "demand_multiplier_vs_2027_base": 6.0,
+      "shared_B200_gpu_hours": 51959880,
+      "shared_H200_gpu_hours": 77328939,
+      "local_gpu_hours_excluded": 7892640,
+      "cpu_core_hours": 1742958000,
+      "B200_gpu_count": 10792,
+      "H200_gpu_count": 14720,
+      "cpu_only_cores": 331614,
+      "B200_hbm_tb": 1942.6,
+      "H200_hbm_tb": 2075.5,
+      "gpu_node_power_mw": 38.059,
+      "cpu_only_power_mw": 8.29,
+      "network_storage_power_mw": 9.27,
+      "it_design_mw": 55.619,
+      "facility_design_mw": 66.743,
+      "facility_target_mw": 25,
+      "headroom_mw": -41.743,
+      "target_utilization_pct": 267.0
+    }
+  ],
+  "workload_outputs": [
+    {
+      "year": 2027,
+      "case": "low",
+      "workload_id": "training",
+      "category": "training",
+      "device": "B200",
+      "shared_gpu_hours": 3069360,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "low",
+      "workload_id": "fine_tuning_rl",
+      "category": "fine_tuning_rl",
+      "device": "B200",
+      "shared_gpu_hours": 2762424,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "low",
+      "workload_id": "scientific_ai_hpc",
+      "category": "scientific_ai_hpc",
+      "device": "H200",
+      "shared_gpu_hours": 6215454,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "low",
+      "workload_id": "biomedical_private_ai",
+      "category": "biomedical_private_ai",
+      "device": "H200",
+      "shared_gpu_hours": 1841616,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "low",
+      "workload_id": "student_faculty_inference_students",
+      "category": "student_faculty_inference",
+      "device": "H200",
+      "shared_gpu_hours": 43424,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "low",
+      "workload_id": "student_faculty_inference_employees",
+      "category": "student_faculty_inference",
+      "device": "H200",
+      "shared_gpu_hours": 29808,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "low",
+      "workload_id": "coding_agents_research",
+      "category": "coding_agents",
+      "device": "H200",
+      "shared_gpu_hours": 767340,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "low",
+      "workload_id": "coding_agents_students",
+      "category": "coding_agents",
+      "device": "H200",
+      "shared_gpu_hours": 124068,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "low",
+      "workload_id": "robotics",
+      "category": "robotics",
+      "device": "B200",
+      "shared_gpu_hours": 230202,
+      "local_gpu_hours": 920808
+    },
+    {
+      "year": 2027,
+      "case": "base",
+      "workload_id": "training",
+      "category": "training",
+      "device": "B200",
+      "shared_gpu_hours": 4384800,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "base",
+      "workload_id": "fine_tuning_rl",
+      "category": "fine_tuning_rl",
+      "device": "B200",
+      "shared_gpu_hours": 3946320,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "base",
+      "workload_id": "scientific_ai_hpc",
+      "category": "scientific_ai_hpc",
+      "device": "H200",
+      "shared_gpu_hours": 8879220,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "base",
+      "workload_id": "biomedical_private_ai",
+      "category": "biomedical_private_ai",
+      "device": "H200",
+      "shared_gpu_hours": 2630880,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "base",
+      "workload_id": "student_faculty_inference_students",
+      "category": "student_faculty_inference",
+      "device": "H200",
+      "shared_gpu_hours": 62034,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "base",
+      "workload_id": "student_faculty_inference_employees",
+      "category": "student_faculty_inference",
+      "device": "H200",
+      "shared_gpu_hours": 42582,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "base",
+      "workload_id": "coding_agents_research",
+      "category": "coding_agents",
+      "device": "H200",
+      "shared_gpu_hours": 1096200,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "base",
+      "workload_id": "coding_agents_students",
+      "category": "coding_agents",
+      "device": "H200",
+      "shared_gpu_hours": 177240,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "base",
+      "workload_id": "robotics",
+      "category": "robotics",
+      "device": "B200",
+      "shared_gpu_hours": 328860,
+      "local_gpu_hours": 1315440
+    },
+    {
+      "year": 2027,
+      "case": "high",
+      "workload_id": "training",
+      "category": "training",
+      "device": "B200",
+      "shared_gpu_hours": 6577200,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "high",
+      "workload_id": "fine_tuning_rl",
+      "category": "fine_tuning_rl",
+      "device": "B200",
+      "shared_gpu_hours": 5919480,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "high",
+      "workload_id": "scientific_ai_hpc",
+      "category": "scientific_ai_hpc",
+      "device": "H200",
+      "shared_gpu_hours": 13318830,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "high",
+      "workload_id": "biomedical_private_ai",
+      "category": "biomedical_private_ai",
+      "device": "H200",
+      "shared_gpu_hours": 3946320,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "high",
+      "workload_id": "student_faculty_inference_students",
+      "category": "student_faculty_inference",
+      "device": "H200",
+      "shared_gpu_hours": 93051,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "high",
+      "workload_id": "student_faculty_inference_employees",
+      "category": "student_faculty_inference",
+      "device": "H200",
+      "shared_gpu_hours": 63874,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "high",
+      "workload_id": "coding_agents_research",
+      "category": "coding_agents",
+      "device": "H200",
+      "shared_gpu_hours": 1644300,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "high",
+      "workload_id": "coding_agents_students",
+      "category": "coding_agents",
+      "device": "H200",
+      "shared_gpu_hours": 265860,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2027,
+      "case": "high",
+      "workload_id": "robotics",
+      "category": "robotics",
+      "device": "B200",
+      "shared_gpu_hours": 493290,
+      "local_gpu_hours": 1973160
+    },
+    {
+      "year": 2030,
+      "case": "low",
+      "workload_id": "training",
+      "category": "training",
+      "device": "B200",
+      "shared_gpu_hours": 5261760,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "low",
+      "workload_id": "fine_tuning_rl",
+      "category": "fine_tuning_rl",
+      "device": "B200",
+      "shared_gpu_hours": 4735584,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "low",
+      "workload_id": "scientific_ai_hpc",
+      "category": "scientific_ai_hpc",
+      "device": "H200",
+      "shared_gpu_hours": 10655064,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "low",
+      "workload_id": "biomedical_private_ai",
+      "category": "biomedical_private_ai",
+      "device": "H200",
+      "shared_gpu_hours": 3157056,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "low",
+      "workload_id": "student_faculty_inference_students",
+      "category": "student_faculty_inference",
+      "device": "H200",
+      "shared_gpu_hours": 74441,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "low",
+      "workload_id": "student_faculty_inference_employees",
+      "category": "student_faculty_inference",
+      "device": "H200",
+      "shared_gpu_hours": 51099,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "low",
+      "workload_id": "coding_agents_research",
+      "category": "coding_agents",
+      "device": "H200",
+      "shared_gpu_hours": 1315440,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "low",
+      "workload_id": "coding_agents_students",
+      "category": "coding_agents",
+      "device": "H200",
+      "shared_gpu_hours": 212688,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "low",
+      "workload_id": "robotics",
+      "category": "robotics",
+      "device": "B200",
+      "shared_gpu_hours": 394632,
+      "local_gpu_hours": 1578528
+    },
+    {
+      "year": 2030,
+      "case": "base",
+      "workload_id": "training",
+      "category": "training",
+      "device": "B200",
+      "shared_gpu_hours": 8769600,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "base",
+      "workload_id": "fine_tuning_rl",
+      "category": "fine_tuning_rl",
+      "device": "B200",
+      "shared_gpu_hours": 7892640,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "base",
+      "workload_id": "scientific_ai_hpc",
+      "category": "scientific_ai_hpc",
+      "device": "H200",
+      "shared_gpu_hours": 17758440,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "base",
+      "workload_id": "biomedical_private_ai",
+      "category": "biomedical_private_ai",
+      "device": "H200",
+      "shared_gpu_hours": 5261760,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "base",
+      "workload_id": "student_faculty_inference_students",
+      "category": "student_faculty_inference",
+      "device": "H200",
+      "shared_gpu_hours": 124068,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "base",
+      "workload_id": "student_faculty_inference_employees",
+      "category": "student_faculty_inference",
+      "device": "H200",
+      "shared_gpu_hours": 85165,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "base",
+      "workload_id": "coding_agents_research",
+      "category": "coding_agents",
+      "device": "H200",
+      "shared_gpu_hours": 2192400,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "base",
+      "workload_id": "coding_agents_students",
+      "category": "coding_agents",
+      "device": "H200",
+      "shared_gpu_hours": 354480,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "base",
+      "workload_id": "robotics",
+      "category": "robotics",
+      "device": "B200",
+      "shared_gpu_hours": 657720,
+      "local_gpu_hours": 2630880
+    },
+    {
+      "year": 2030,
+      "case": "high",
+      "workload_id": "training",
+      "category": "training",
+      "device": "B200",
+      "shared_gpu_hours": 13154400,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "high",
+      "workload_id": "fine_tuning_rl",
+      "category": "fine_tuning_rl",
+      "device": "B200",
+      "shared_gpu_hours": 11838960,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "high",
+      "workload_id": "scientific_ai_hpc",
+      "category": "scientific_ai_hpc",
+      "device": "H200",
+      "shared_gpu_hours": 26637660,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "high",
+      "workload_id": "biomedical_private_ai",
+      "category": "biomedical_private_ai",
+      "device": "H200",
+      "shared_gpu_hours": 7892640,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "high",
+      "workload_id": "student_faculty_inference_students",
+      "category": "student_faculty_inference",
+      "device": "H200",
+      "shared_gpu_hours": 186102,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "high",
+      "workload_id": "student_faculty_inference_employees",
+      "category": "student_faculty_inference",
+      "device": "H200",
+      "shared_gpu_hours": 127748,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "high",
+      "workload_id": "coding_agents_research",
+      "category": "coding_agents",
+      "device": "H200",
+      "shared_gpu_hours": 3288600,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "high",
+      "workload_id": "coding_agents_students",
+      "category": "coding_agents",
+      "device": "H200",
+      "shared_gpu_hours": 531720,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2030,
+      "case": "high",
+      "workload_id": "robotics",
+      "category": "robotics",
+      "device": "B200",
+      "shared_gpu_hours": 986580,
+      "local_gpu_hours": 3946320
+    },
+    {
+      "year": 2035,
+      "case": "low",
+      "workload_id": "training",
+      "category": "training",
+      "device": "B200",
+      "shared_gpu_hours": 6577200,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "low",
+      "workload_id": "fine_tuning_rl",
+      "category": "fine_tuning_rl",
+      "device": "B200",
+      "shared_gpu_hours": 5919480,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "low",
+      "workload_id": "scientific_ai_hpc",
+      "category": "scientific_ai_hpc",
+      "device": "H200",
+      "shared_gpu_hours": 13318830,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "low",
+      "workload_id": "biomedical_private_ai",
+      "category": "biomedical_private_ai",
+      "device": "H200",
+      "shared_gpu_hours": 3946320,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "low",
+      "workload_id": "student_faculty_inference_students",
+      "category": "student_faculty_inference",
+      "device": "H200",
+      "shared_gpu_hours": 93051,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "low",
+      "workload_id": "student_faculty_inference_employees",
+      "category": "student_faculty_inference",
+      "device": "H200",
+      "shared_gpu_hours": 63874,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "low",
+      "workload_id": "coding_agents_research",
+      "category": "coding_agents",
+      "device": "H200",
+      "shared_gpu_hours": 1644300,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "low",
+      "workload_id": "coding_agents_students",
+      "category": "coding_agents",
+      "device": "H200",
+      "shared_gpu_hours": 265860,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "low",
+      "workload_id": "robotics",
+      "category": "robotics",
+      "device": "B200",
+      "shared_gpu_hours": 493290,
+      "local_gpu_hours": 1973160
+    },
+    {
+      "year": 2035,
+      "case": "base",
+      "workload_id": "training",
+      "category": "training",
+      "device": "B200",
+      "shared_gpu_hours": 13154400,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "base",
+      "workload_id": "fine_tuning_rl",
+      "category": "fine_tuning_rl",
+      "device": "B200",
+      "shared_gpu_hours": 11838960,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "base",
+      "workload_id": "scientific_ai_hpc",
+      "category": "scientific_ai_hpc",
+      "device": "H200",
+      "shared_gpu_hours": 26637660,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "base",
+      "workload_id": "biomedical_private_ai",
+      "category": "biomedical_private_ai",
+      "device": "H200",
+      "shared_gpu_hours": 7892640,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "base",
+      "workload_id": "student_faculty_inference_students",
+      "category": "student_faculty_inference",
+      "device": "H200",
+      "shared_gpu_hours": 186102,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "base",
+      "workload_id": "student_faculty_inference_employees",
+      "category": "student_faculty_inference",
+      "device": "H200",
+      "shared_gpu_hours": 127748,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "base",
+      "workload_id": "coding_agents_research",
+      "category": "coding_agents",
+      "device": "H200",
+      "shared_gpu_hours": 3288600,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "base",
+      "workload_id": "coding_agents_students",
+      "category": "coding_agents",
+      "device": "H200",
+      "shared_gpu_hours": 531720,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "base",
+      "workload_id": "robotics",
+      "category": "robotics",
+      "device": "B200",
+      "shared_gpu_hours": 986580,
+      "local_gpu_hours": 3946320
+    },
+    {
+      "year": 2035,
+      "case": "high",
+      "workload_id": "training",
+      "category": "training",
+      "device": "B200",
+      "shared_gpu_hours": 26308800,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "high",
+      "workload_id": "fine_tuning_rl",
+      "category": "fine_tuning_rl",
+      "device": "B200",
+      "shared_gpu_hours": 23677920,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "high",
+      "workload_id": "scientific_ai_hpc",
+      "category": "scientific_ai_hpc",
+      "device": "H200",
+      "shared_gpu_hours": 53275320,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "high",
+      "workload_id": "biomedical_private_ai",
+      "category": "biomedical_private_ai",
+      "device": "H200",
+      "shared_gpu_hours": 15785280,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "high",
+      "workload_id": "student_faculty_inference_students",
+      "category": "student_faculty_inference",
+      "device": "H200",
+      "shared_gpu_hours": 372204,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "high",
+      "workload_id": "student_faculty_inference_employees",
+      "category": "student_faculty_inference",
+      "device": "H200",
+      "shared_gpu_hours": 255495,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "high",
+      "workload_id": "coding_agents_research",
+      "category": "coding_agents",
+      "device": "H200",
+      "shared_gpu_hours": 6577200,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "high",
+      "workload_id": "coding_agents_students",
+      "category": "coding_agents",
+      "device": "H200",
+      "shared_gpu_hours": 1063440,
+      "local_gpu_hours": 0
+    },
+    {
+      "year": 2035,
+      "case": "high",
+      "workload_id": "robotics",
+      "category": "robotics",
+      "device": "B200",
+      "shared_gpu_hours": 1973160,
+      "local_gpu_hours": 7892640
+    }
+  ],
+  "model_inputs": {
+    "as_of": "2026-10-04",
+    "status": "illustrative_phase_1_not_decision_ready",
+    "population_mit_2025": {
+      "undergraduate_students": 4561,
+      "graduate_students": 7255,
+      "doctoral_students": 4146,
+      "faculty": 1087,
+      "research_staff": 4315,
+      "postdoctoral_scholars": 1414,
+      "employees_including_lincoln_lab": 17033
+    },
+    "consortium_mit_equivalents": 5,
+    "hardware_reference": {
+      "B200": {
+        "gpus_per_node": 8,
+        "node_max_kw": 14.3,
+        "hbm_gb_per_gpu": 180,
+        "schedulable_utilization": 0.55
+      },
+      "H200": {
+        "gpus_per_node": 8,
+        "node_max_kw": 10.2,
+        "hbm_gb_per_gpu": 141,
+        "schedulable_utilization": 0.6
+      }
+    },
+    "cpu_only": {
+      "schedulable_utilization": 0.6,
+      "design_w_per_core": 25
+    },
+    "infrastructure": {
+      "network_storage_power_fraction_of_compute": 0.2,
+      "pue": 1.2
+    },
+    "facility_target_mw": 25,
+    "scenarios": [
+      {
+        "year": 2027,
+        "case": "low",
+        "demand_multiplier": 0.7
+      },
+      {
+        "year": 2027,
+        "case": "base",
+        "demand_multiplier": 1.0
+      },
+      {
+        "year": 2027,
+        "case": "high",
+        "demand_multiplier": 1.5
+      },
+      {
+        "year": 2030,
+        "case": "low",
+        "demand_multiplier": 1.2
+      },
+      {
+        "year": 2030,
+        "case": "base",
+        "demand_multiplier": 2.0
+      },
+      {
+        "year": 2030,
+        "case": "high",
+        "demand_multiplier": 3.0
+      },
+      {
+        "year": 2035,
+        "case": "low",
+        "demand_multiplier": 1.5
+      },
+      {
+        "year": 2035,
+        "case": "base",
+        "demand_multiplier": 3.0
+      },
+      {
+        "year": 2035,
+        "case": "high",
+        "demand_multiplier": 6.0
+      }
+    ],
+    "workloads_per_mit_equivalent_2027": [
+      {
+        "id": "training",
+        "category": "training",
+        "label": "Training",
+        "device": "B200",
+        "population": "research_pool",
+        "active_fraction": 0.01,
+        "hours_per_active_year": 8000,
+        "local_fraction": 0
+      },
+      {
+        "id": "fine_tuning_rl",
+        "category": "fine_tuning_rl",
+        "label": "Fine-tuning / RL",
+        "device": "B200",
+        "population": "research_pool",
+        "active_fraction": 0.08,
+        "hours_per_active_year": 900,
+        "local_fraction": 0
+      },
+      {
+        "id": "scientific_ai_hpc",
+        "category": "scientific_ai_hpc",
+        "label": "Scientific AI / HPC GPU",
+        "device": "H200",
+        "population": "research_pool",
+        "active_fraction": 0.18,
+        "hours_per_active_year": 900,
+        "local_fraction": 0
+      },
+      {
+        "id": "biomedical_private_ai",
+        "category": "biomedical_private_ai",
+        "label": "Biomedical / private AI",
+        "device": "H200",
+        "population": "research_pool",
+        "active_fraction": 0.04,
+        "hours_per_active_year": 1200,
+        "local_fraction": 0
+      },
+      {
+        "id": "student_faculty_inference_students",
+        "category": "student_faculty_inference",
+        "label": "Student inference",
+        "device": "H200",
+        "population": "all_students",
+        "active_fraction": 0.7,
+        "hours_per_active_year": 1.5,
+        "local_fraction": 0
+      },
+      {
+        "id": "student_faculty_inference_employees",
+        "category": "student_faculty_inference",
+        "label": "Faculty / staff inference",
+        "device": "H200",
+        "population": "employees",
+        "active_fraction": 0.5,
+        "hours_per_active_year": 1.0,
+        "local_fraction": 0
+      },
+      {
+        "id": "coding_agents_research",
+        "category": "coding_agents",
+        "label": "Research coding / agents",
+        "device": "H200",
+        "population": "research_pool",
+        "active_fraction": 0.2,
+        "hours_per_active_year": 100,
+        "local_fraction": 0
+      },
+      {
+        "id": "coding_agents_students",
+        "category": "coding_agents",
+        "label": "Student coding / agents",
+        "device": "H200",
+        "population": "all_students",
+        "active_fraction": 0.15,
+        "hours_per_active_year": 20,
+        "local_fraction": 0
+      },
+      {
+        "id": "robotics",
+        "category": "robotics",
+        "label": "Robotics",
+        "device": "B200",
+        "population": "research_pool",
+        "active_fraction": 0.03,
+        "hours_per_active_year": 1000,
+        "local_fraction": 0.8
+      }
+    ],
+    "cpu_workloads_per_mit_equivalent_2027": [
+      {
+        "id": "scientific_cpu_hpc",
+        "population": "research_pool",
+        "active_fraction": 0.25,
+        "core_hours_per_active_year": 20000
+      },
+      {
+        "id": "data_preprocessing",
+        "population": "research_pool",
+        "active_fraction": 0.1,
+        "core_hours_per_active_year": 3000
+      }
+    ]
+  },
+  "source_file": "research-source-of-truth/source_ledger.csv",
+  "assumptions_file": "research-source-of-truth/model_inputs.json"
+}
