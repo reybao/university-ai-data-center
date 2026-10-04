@@ -10,7 +10,7 @@
       "gpu_freshness_gate": "Benchmark time-to-train on eligible tiers",
       "reliability_gate": "Checkpoint and resume; quantify interruption cost",
       "utilization_gate": "Peak concurrent nodes and queue tolerance",
-      "geographic_eligibility_status": "pending_project_policy"
+      "geographic_eligibility_status": "us_shared_candidate_unless_restricted"
     },
     {
       "display_category": "fine_tuning_rl",
@@ -21,7 +21,7 @@
       "gpu_freshness_gate": "Small and large jobs may qualify for different tiers",
       "reliability_gate": "Resume and failed-run cost",
       "utilization_gate": "Burst experiments and queue tolerance",
-      "geographic_eligibility_status": "pending_project_policy"
+      "geographic_eligibility_status": "us_shared_candidate_unless_restricted"
     },
     {
       "display_category": "scientific_ai_hpc",
@@ -32,7 +32,7 @@
       "gpu_freshness_gate": "FP64 HBM bandwidth software compatibility",
       "reliability_gate": "Long-job checkpoint and recovery",
       "utilization_gate": "CPU and GPU queue utilization and parallel efficiency",
-      "geographic_eligibility_status": "pending_project_policy"
+      "geographic_eligibility_status": "us_shared_candidate_unless_restricted_or_tightly_coupled"
     },
     {
       "display_category": "student_faculty_inference",
@@ -43,7 +43,7 @@
       "gpu_freshness_gate": "Cost throughput and latency on eligible tiers",
       "reliability_gate": "Availability failover and degraded service",
       "utilization_gate": "Hourly tokens and peak concurrent sessions",
-      "geographic_eligibility_status": "pending_project_policy"
+      "geographic_eligibility_status": "us_shared_candidate_if_latency_passes"
     },
     {
       "display_category": "coding_agents",
@@ -54,18 +54,18 @@
       "gpu_freshness_gate": "Multi-turn throughput and KV-cache benchmark",
       "reliability_gate": "Session and tool failure recovery",
       "utilization_gate": "Distinct request chains and concurrency; no double count",
-      "geographic_eligibility_status": "pending_project_policy"
+      "geographic_eligibility_status": "us_shared_candidate_if_policy_and_latency_pass"
     },
     {
       "display_category": "biomedical_private_ai",
       "accounting_role": "nonadditive_tag",
-      "security_gate": "Dataset-specific consent agreement and approved environment; no blanket rule",
+      "security_gate": "Restricted human or clinical datasets stay campus-local by user planning choice; ordinary biomedical data are reviewed by project",
       "latency_gate": "Inherited from primary compute task",
-      "data_gravity_gate": "Dataset use and transfer agreement plus size",
+      "data_gravity_gate": "Restricted data excluded from shared-site transfer pending project review",
       "gpu_freshness_gate": "Inherited from primary compute task",
       "reliability_gate": "Audit backup and recovery per agreement",
       "utilization_gate": "No independent GPU-hours",
-      "geographic_eligibility_status": "pending_dataset_review"
+      "geographic_eligibility_status": "campus_local_if_restricted_otherwise_us_shared_candidate"
     },
     {
       "display_category": "robotics",
@@ -76,7 +76,7 @@
       "gpu_freshness_gate": "Training tier and local edge device separately",
       "reliability_gate": "Safe failure mode for physical control",
       "utilization_gate": "Local control peaks separate from shared training jobs",
-      "geographic_eligibility_status": "pending_project_review"
+      "geographic_eligibility_status": "campus_local_control_us_shared_candidate_batch"
     }
   ]
 }

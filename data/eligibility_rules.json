@@ -1,0 +1,37 @@
+{
+  "as_of": "2026-10-04",
+  "rows": [
+    {
+      "rule_id": "LOCAL_RESTRICTED",
+      "workload_component": "Controlled human genomic hospital clinical or otherwise restricted dataset jobs",
+      "planning_location": "campus_local",
+      "why": "User-selected conservative planning rule",
+      "validation_needed": "Identify covered datasets agreements and member local secure capacity",
+      "status": "planning_assumption_not_legal_requirement"
+    },
+    {
+      "rule_id": "LOCAL_CLOSED_LOOP",
+      "workload_component": "Robot or instrument closed-loop control",
+      "planning_location": "campus_local",
+      "why": "Real-time control and safe operation during network failure",
+      "validation_needed": "Measure project control cycle jitter and fail-safe design",
+      "status": "planning_assumption_needs_project_test"
+    },
+    {
+      "rule_id": "US_SHARED_BATCH",
+      "workload_component": "Permitted training fine-tuning scientific HPC simulation and offline replay",
+      "planning_location": "us_shared_candidate",
+      "why": "User-selected simple US shared-facility envelope",
+      "validation_needed": "Project permission data transfer time completion target and equipment fit",
+      "status": "pending_project_validation"
+    },
+    {
+      "rule_id": "US_SHARED_INTERACTIVE",
+      "workload_component": "Permitted general inference coding agents and noncritical planning",
+      "planning_location": "us_shared_candidate",
+      "why": "US shared site can be tested without adding cross-border scenarios",
+      "validation_needed": "Self-hosting decision p95/p99 latency availability and request volumes",
+      "status": "pending_service_validation"
+    }
+  ]
+}
