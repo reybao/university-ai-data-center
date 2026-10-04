@@ -22,6 +22,24 @@
     "B200": {"gpus_per_node": 8, "node_max_kw": 14.3, "hbm_gb_per_gpu": 180, "schedulable_utilization": 0.55},
     "H200": {"gpus_per_node": 8, "node_max_kw": 10.2, "hbm_gb_per_gpu": 141, "schedulable_utilization": 0.60}
   },
+  "technology_sensitivities": [
+    {"id": "fixed_reference", "label": "No performance uplift", "factors_by_year": {
+      "2027": {"throughput_per_gpu": 1.0, "node_max_power": 1.0},
+      "2030": {"throughput_per_gpu": 1.0, "node_max_power": 1.0},
+      "2035": {"throughput_per_gpu": 1.0, "node_max_power": 1.0}
+    }},
+    {"id": "illustrative_moderate", "label": "Illustrative moderate efficiency gain", "factors_by_year": {
+      "2027": {"throughput_per_gpu": 1.0, "node_max_power": 1.0},
+      "2030": {"throughput_per_gpu": 1.5, "node_max_power": 1.15},
+      "2035": {"throughput_per_gpu": 2.0, "node_max_power": 1.30}
+    }},
+    {"id": "illustrative_strong", "label": "Illustrative strong efficiency gain", "factors_by_year": {
+      "2027": {"throughput_per_gpu": 1.0, "node_max_power": 1.0},
+      "2030": {"throughput_per_gpu": 2.0, "node_max_power": 1.30},
+      "2035": {"throughput_per_gpu": 4.0, "node_max_power": 1.60}
+    }}
+  ],
+  "refresh_cycle_years_for_future_tco_sensitivity": [3, 4, 5],
   "cpu_only": {"schedulable_utilization": 0.60, "design_w_per_core": 25},
   "infrastructure": {"network_storage_power_fraction_of_compute": 0.20, "pue": 1.20},
   "facility_target_mw": 25,
