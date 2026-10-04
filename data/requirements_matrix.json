@@ -1,0 +1,82 @@
+{
+  "as_of": "2026-10-04",
+  "rows": [
+    {
+      "display_category": "training",
+      "accounting_role": "primary_task",
+      "security_gate": "Project data license IP and access controls",
+      "latency_gate": "Internal multi-node communication and checkpoint time; interactive latency usually secondary",
+      "data_gravity_gate": "Dataset and checkpoint volumes plus transfer windows",
+      "gpu_freshness_gate": "Benchmark time-to-train on eligible tiers",
+      "reliability_gate": "Checkpoint and resume; quantify interruption cost",
+      "utilization_gate": "Peak concurrent nodes and queue tolerance",
+      "geographic_eligibility_status": "pending_project_policy"
+    },
+    {
+      "display_category": "fine_tuning_rl",
+      "accounting_role": "primary_task",
+      "security_gate": "Model and feedback data rights plus access controls",
+      "latency_gate": "Separate rollout serving and update coordination",
+      "data_gravity_gate": "Repeated weights trajectories and checkpoints",
+      "gpu_freshness_gate": "Small and large jobs may qualify for different tiers",
+      "reliability_gate": "Resume and failed-run cost",
+      "utilization_gate": "Burst experiments and queue tolerance",
+      "geographic_eligibility_status": "pending_project_policy"
+    },
+    {
+      "display_category": "scientific_ai_hpc",
+      "accounting_role": "primary_task",
+      "security_gate": "Data license award terms and project confidentiality",
+      "latency_gate": "Batch queue versus instrument-coupled cases",
+      "data_gravity_gate": "Instrument input simulation output and working storage",
+      "gpu_freshness_gate": "FP64 HBM bandwidth software compatibility",
+      "reliability_gate": "Long-job checkpoint and recovery",
+      "utilization_gate": "CPU and GPU queue utilization and parallel efficiency",
+      "geographic_eligibility_status": "pending_project_policy"
+    },
+    {
+      "display_category": "student_faculty_inference",
+      "accounting_role": "primary_task",
+      "security_gate": "Prompt content data policy and self-hosted versus SaaS boundary",
+      "latency_gate": "Application-defined p95/p99 response target",
+      "data_gravity_gate": "Model weights retrieval datasets and user proximity",
+      "gpu_freshness_gate": "Cost throughput and latency on eligible tiers",
+      "reliability_gate": "Availability failover and degraded service",
+      "utilization_gate": "Hourly tokens and peak concurrent sessions",
+      "geographic_eligibility_status": "pending_project_policy"
+    },
+    {
+      "display_category": "coding_agents",
+      "accounting_role": "inference_subtype",
+      "security_gate": "Repository source and tool-access permissions",
+      "latency_gate": "Interactive steps versus background chains",
+      "data_gravity_gate": "Long-context retrieval indexes and tool logs",
+      "gpu_freshness_gate": "Multi-turn throughput and KV-cache benchmark",
+      "reliability_gate": "Session and tool failure recovery",
+      "utilization_gate": "Distinct request chains and concurrency; no double count",
+      "geographic_eligibility_status": "pending_project_policy"
+    },
+    {
+      "display_category": "biomedical_private_ai",
+      "accounting_role": "nonadditive_tag",
+      "security_gate": "Dataset-specific consent agreement and approved environment; no blanket rule",
+      "latency_gate": "Inherited from primary compute task",
+      "data_gravity_gate": "Dataset use and transfer agreement plus size",
+      "gpu_freshness_gate": "Inherited from primary compute task",
+      "reliability_gate": "Audit backup and recovery per agreement",
+      "utilization_gate": "No independent GPU-hours",
+      "geographic_eligibility_status": "pending_dataset_review"
+    },
+    {
+      "display_category": "robotics",
+      "accounting_role": "nonadditive_tag",
+      "security_gate": "Sensor video site and IP rights by project",
+      "latency_gate": "Closed-loop control local; online remote needs measured latency jitter and fail-safe",
+      "data_gravity_gate": "Training videos and simulation data transfer",
+      "gpu_freshness_gate": "Training tier and local edge device separately",
+      "reliability_gate": "Safe failure mode for physical control",
+      "utilization_gate": "Local control peaks separate from shared training jobs",
+      "geographic_eligibility_status": "pending_project_review"
+    }
+  ]
+}
