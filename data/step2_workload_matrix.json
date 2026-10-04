@@ -1,0 +1,76 @@
+{
+  "as_of": "2026-10-04",
+  "status": "public_evidence_classification_only",
+  "rows": [
+    {
+      "display_category": "training",
+      "working_definition": "Foundation-model pretraining or large continuation training",
+      "may_overlap_other_categories": "false",
+      "public_evidence_level": "project example only",
+      "public_quantitative_example": "One MIT-linked Boltz-2 project used 128 H100 resources for about one month",
+      "site_demand_total_available": "false",
+      "required_demand_driver": "Project count \u00d7 runs per project \u00d7 GPU count \u00d7 actual runtime \u00d7 utilization",
+      "source_ids": "MIT_ORCD_JUN25;MIT_ORCD_NOV25"
+    },
+    {
+      "display_category": "fine_tuning_rl",
+      "working_definition": "Model adaptation fine-tuning reward training and RL rollouts",
+      "may_overlap_other_categories": "false",
+      "public_evidence_level": "single paper example",
+      "public_quantitative_example": "One MIT paper reports approximately 24 hours on four GPUs for a fine-tuning experiment",
+      "site_demand_total_available": "false",
+      "required_demand_driver": "Project count \u00d7 experiments \u00d7 GPU count \u00d7 runtime by model size",
+      "source_ids": "MIT_CS_FT_EXAMPLE;MIT_ORCD_JUN25"
+    },
+    {
+      "display_category": "scientific_ai_hpc",
+      "working_definition": "Scientific CPU-only HPC GPU simulation and AI-assisted scientific modeling",
+      "may_overlap_other_categories": "true",
+      "public_evidence_level": "software and project examples",
+      "public_quantitative_example": "MIT documents FP64/high-memory selection and scientific projects; no annual hours by type",
+      "site_demand_total_available": "false",
+      "required_demand_driver": "CPU-core-hours and GPU-hours by precision application and I/O pattern",
+      "source_ids": "MIT_ORCD_GPU_GUIDE;MIT_ORCD_NOV25"
+    },
+    {
+      "display_category": "biomedical_private_ai",
+      "working_definition": "Biomedical projects and any project with restricted data",
+      "may_overlap_other_categories": "true",
+      "public_evidence_level": "software and project examples",
+      "public_quantitative_example": "MIT AlphaFold3 recipe requests one GPU and 16 CPU tasks; not a demand estimate",
+      "site_demand_total_available": "false",
+      "required_demand_driver": "Project task types plus data governance and measured jobs",
+      "source_ids": "MIT_ORCD_AF3;MIT_ORCD_CRYOSPARC;MIT_ORCD_NOV25"
+    },
+    {
+      "display_category": "student_faculty_inference",
+      "working_definition": "Interactive teaching research and administrative model service",
+      "may_overlap_other_categories": "true",
+      "public_evidence_level": "voluntary user survey only",
+      "public_quantitative_example": "MIT WCC survey had 678 complete voluntary responses; no token or GPU data",
+      "site_demand_total_available": "false",
+      "required_demand_driver": "Self-hosted token volume model concurrent sessions and latency SLA",
+      "source_ids": "MIT_CHAT_SURVEY;MIT_ORCD_NOV25"
+    },
+    {
+      "display_category": "coding_agents",
+      "working_definition": "Coding completion and agentic tool loops",
+      "may_overlap_other_categories": "true",
+      "public_evidence_level": "use-case evidence only",
+      "public_quantitative_example": "No institution-wide self-hosted token or GPU series located",
+      "site_demand_total_available": "false",
+      "required_demand_driver": "SaaS versus self-hosted split then tokens and peak concurrency",
+      "source_ids": "MIT_ORCD_NOV25"
+    },
+    {
+      "display_category": "robotics",
+      "working_definition": "Robot-model training simulation offline replay and online control",
+      "may_overlap_other_categories": "true",
+      "public_evidence_level": "research and project examples",
+      "public_quantitative_example": "MIT documents a robot foundation-model project and latency-sensitive VLA research",
+      "site_demand_total_available": "false",
+      "required_demand_driver": "Separate training GPU-hours simulation CPU/GPU-hours and control latency",
+      "source_ids": "MIT_ORCD_NOV25;MIT_ROBOTICS_VLASH;MIT_OPENVLA"
+    }
+  ]
+}
