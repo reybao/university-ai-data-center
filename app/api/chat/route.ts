@@ -26,7 +26,7 @@ function verifiedCitations(reply: string, citationMap: Map<string, Citation>): C
 function publicAnswer(reply: string, citations: Citation[]): { reply: string; citations: Citation[] } {
   const citationNumbers = new Map(citations.map((citation, index) => [citation.id, index + 1]));
   return {
-    reply: reply.replace(/\[([ICAS]:[a-z0-9_]+)\]/g, (_match, id: string) => citationNumbers.has(id) ? `[${citationNumbers.get(id)}]` : ""),
+    reply: reply.replace(/\[([ICAS]:[a-z0-9_]+)\]/g, (_match, id: string) => citationNumbers.has(id) ? `[${citationNumbers.get(id)}]` : "").replace(/\]\[/g, "] ["),
     citations: citations.map((citation, index) => ({ ...citation, id: String(index + 1) })),
   };
 }
@@ -235,8 +235,8 @@ export async function POST(request: Request) {
     const asksForCoreRecommendation = intents.includes("recommendation") ||
       (intents.includes("strategy") && /(?:为什么|为何|why|reason|recommend|建议|推荐).{0,16}(?:混合|分阶段|hybrid)|(?:混合|分阶段|hybrid).{0,16}(?:建议|推荐|recommend)/i.test(message));
     const costClaim = claims.find(row => row.id === "model_cost")?.statement ?? "";
-    const costFigures = [...costClaim.matchAll(/\$([0-9.]+)bn/g)].map(match => Number(match[1]));
-    const stagedNpv = costFigures[0], cloudNpv = costFigures[2];
+    const stagedNpv = Number(costClaim.match(/staged[^$]*\$([0-9.]+)bn/i)?.[1]);
+    const cloudNpv = Number(costClaim.match(/all-cloud[^$]*\$([0-9.]+)bn/i)?.[1]);
     const costOrdering = Number.isFinite(stagedNpv) && Number.isFinite(cloudNpv)
       ? stagedNpv > cloudNpv ? "all-cloud public anchor is lower than staged hybrid" : stagedNpv < cloudNpv ? "staged hybrid is lower than all-cloud public anchor" : "staged hybrid and all-cloud public anchor are equal"
       : "the model does not establish a validated price ordering";
