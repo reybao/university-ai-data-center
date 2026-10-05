@@ -59,3 +59,11 @@
 .chat-message .chat-citations{width:100%;margin-top:8px;padding:0;border:0}
 .chat-citations summary{cursor:pointer;color:#45657b;font-size:12px;font-weight:700;list-style-position:inside}
 .chat-citations summary:focus-visible{outline:2px solid #7399b5;outline-offset:3px}
+.assistant-form{flex-wrap:wrap;align-items:flex-end}
+.assistant-form textarea{min-width:0}
+.assistant-form .voice-button{background:#eaf1f5;color:#173a62;border:1px solid #cad8e1}
+.assistant-form .voice-button--recording{background:#a74738;color:#fff;border-color:#a74738}
+.assistant-form .voice-button:focus-visible{outline:2px solid #7399b5;outline-offset:2px}
+.voice-disclosure{flex-basis:100%;color:#718594;font-size:12px;line-height:1.3}
+.voice-feedback{margin:0;padding:0 15px;color:#31516d;font-size:12px}
+.voice-feedback--error{color:#a74738}

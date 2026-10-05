@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Bot, ChevronRight, CircleHelp, Database, Download, Menu, Send, X } from "lucide-react";
+import { ArrowUpRight, Bot, ChevronRight, CircleHelp, Database, Download, Menu, Mic, Send, Square, X } from "lucide-react";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -273,38 +273,189 @@ function renderChatText(value: string) {
     : part);
 }
 
+const voiceFormats = ["audio/webm;codecs=opus", "audio/webm", "audio/mp4;codecs=mp4a.40.2", "audio/mp4"];
+
 function ResearchAssistant({ section }: { section: string }) {
   type Citation = { id: string; title: string; url: string | null; evidenceType: string; reportingPeriod: string | null; retrievedAt: string | null };
-  type ChatMessage = { role: "user" | "assistant"; content: string; citations?: Citation[]; isError?: boolean };
+  type ChatMessage = { role: "user" | "assistant"; content: string; citations?: Citation[]; isError?: boolean; isPending?: boolean };
   const [prompt, setPrompt] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [needsRegistration, setNeedsRegistration] = useState(false);
   const [needsSignIn, setNeedsSignIn] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [voiceFormat, setVoiceFormat] = useState("");
+  const [voiceStatus, setVoiceStatus] = useState<"idle" | "requesting" | "recording" | "transcribing">("idle");
+  const [voiceError, setVoiceError] = useState("");
   const threadRef = useRef<HTMLDivElement>(null);
+  const recorderRef = useRef<MediaRecorder | null>(null);
+  const mediaStreamRef = useRef<MediaStream | null>(null);
+  const voiceTimerRef = useRef<number | null>(null);
+  const discardVoiceRef = useRef(false);
+  const sheetOpenRef = useRef(false);
+  useEffect(() => {
+    if (typeof navigator.mediaDevices?.getUserMedia === "function" && typeof MediaRecorder !== "undefined")
+      setVoiceFormat(voiceFormats.find(format => MediaRecorder.isTypeSupported(format)) || "");
+    return () => {
+      discardVoiceRef.current = true;
+      sheetOpenRef.current = false;
+      if (voiceTimerRef.current) window.clearTimeout(voiceTimerRef.current);
+      if (recorderRef.current?.state === "recording") recorderRef.current.stop();
+      mediaStreamRef.current?.getTracks().forEach(track => track.stop());
+    };
+  }, []);
   useEffect(() => { if (threadRef.current) threadRef.current.scrollTop = threadRef.current.scrollHeight; }, [messages, busy]);
+
   async function register() {
     try {
-      const r=await fetch("/api/auth/register",{method:"POST"});
-      const d=await r.json() as {error?:string};
-      if(!r.ok)throw new Error(d.error || "Registration is unavailable.");
-      setNeedsRegistration(false);setMessages(previous=>[...previous,{role:"assistant",content:"Registration complete. Please send your question again.",isError:true}]);
-    } catch(error) { setMessages(previous=>[...previous,{role:"assistant",content:error instanceof Error ? error.message : "Registration is unavailable.",isError:true}]); }
+      const r = await fetch("/api/auth/register", { method: "POST" });
+      const d = await r.json() as { error?: string };
+      if (!r.ok) throw new Error(d.error || "Registration is unavailable.");
+      setNeedsRegistration(false);
+      setMessages(previous => [...previous, { role: "assistant", content: "Registration complete. Please send your question again.", isError: true }]);
+    } catch (error) {
+      setMessages(previous => [...previous, { role: "assistant", content: error instanceof Error ? error.message : "Registration is unavailable.", isError: true }]);
+    }
   }
-  async function submit(e: React.FormEvent) {
-    e.preventDefault(); if (!prompt.trim() || busy) return;
-    const question=prompt.trim();
-    const history=messages.filter(item=>!item.isError).slice(-6).map(item=>({role:item.role,content:item.content.slice(0,1500)}));
-    setMessages(previous=>[...previous,{role:"user",content:question}]);
-    setPrompt("");setBusy(true);setNeedsRegistration(false);setNeedsSignIn(false);
+
+  async function transcribeVoice(chunks: BlobPart[], mimeType: string) {
     try {
-      const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:question,history,context:{section}})});
-      const d=await r.json() as {reply?:string;error?:string;citations?:Citation[]};
-      setMessages(previous=>[...previous,{role:"assistant",content:d.reply || d.error || "Chat is not available yet.",citations:d.citations || [],isError:!r.ok}]);
-      setNeedsRegistration(r.status===403);setNeedsSignIn(r.status===401);
-    } catch { setMessages(previous=>[...previous,{role:"assistant",content:"Chat is not available yet.",isError:true}]); } finally { setBusy(false); }
+      const audio = new Blob(chunks, { type: mimeType });
+      if (audio.size < 1000) throw new Error("No speech was captured. Please try again.");
+      const form = new FormData();
+      form.append("audio", audio, mimeType.startsWith("audio/mp4") ? "question.mp4" : "question.webm");
+      const response = await fetch("/api/transcribe", { method: "POST", body: form });
+      const data = await response.json() as { text?: string; error?: string };
+      setNeedsRegistration(response.status === 403);
+      setNeedsSignIn(response.status === 401);
+      if (!response.ok || !data.text) throw new Error(data.error || "Speech could not be transcribed.");
+      setPrompt(previous => previous.trim() ? `${previous.trim()} ${data.text}` : data.text!);
+      setVoiceError("");
+    } catch (error) {
+      setVoiceError(error instanceof Error ? error.message : "Speech could not be transcribed.");
+    } finally { setVoiceStatus("idle"); }
   }
-  return <Sheet><SheetTrigger className="assistant-trigger"><Bot size={18}/><span>AI Research Assistant</span></SheetTrigger><SheetContent className="assistant-sheet"><SheetHeader><SheetTitle>AI Research Assistant</SheetTitle><SheetDescription>Short answers grounded in saved research evidence.</SheetDescription></SheetHeader><div className="assistant-body" ref={threadRef} role="log" aria-label="Research assistant conversation" aria-live="polite"><div className="assistant-intro"><CircleHelp size={22}/><strong>Ask a research question</strong><p>Sign in and register to ask. Answers cite available evidence. Limit: 20 questions per hour.</p></div><div className="chat-thread">{messages.map((item,index)=><div key={index} className={`chat-message chat-message--${item.role}${item.isError?" chat-message--error":""}`}><span className="chat-message-label">{item.role==="user"?"You":"AI Research Assistant"}</span><div className="chat-bubble">{renderChatText(item.content)}</div>{Boolean(item.citations?.length)&&<details className="chat-citations"><summary>Evidence references ({item.citations!.length})</summary>{item.citations!.map(citation=><div key={citation.id}><span>[{citation.id}] · {citation.evidenceType} · {citation.reportingPeriod || "period TBD"} · retrieved {citation.retrievedAt || "TBD"}</span>{citation.url?<a href={citation.url} target="_blank" rel="noreferrer">{citation.title} ↗</a>:<em>{citation.title} · D1 planning assumption</em>}</div>)}</details>}</div>)}{busy&&<div className="chat-message chat-message--assistant"><span className="chat-message-label">AI Research Assistant</span><div className="chat-bubble">Thinking…</div></div>}</div>{needsRegistration&&<button className="chat-register" onClick={register}>Register account</button>}{needsSignIn&&<a className="chat-register" href={`/signin-with-chatgpt?return_to=${encodeURIComponent(path(section))}`} target="_top">Sign in with ChatGPT</a>}</div><form className="assistant-form" onSubmit={submit}><label htmlFor="chat-prompt" className="sr-only">Ask a research question</label><textarea id="chat-prompt" value={prompt} onChange={e=>setPrompt(e.target.value)} placeholder="Ask about the decision framework…" /><button disabled={busy || !prompt.trim()} aria-label="Send question"><Send size={17}/></button></form></SheetContent></Sheet>;
+
+  async function toggleVoice() {
+    if (voiceStatus === "recording") {
+      recorderRef.current?.stop();
+      setVoiceStatus("transcribing");
+      return;
+    }
+    if (!voiceFormat || voiceStatus !== "idle") return;
+    setVoiceError("");
+    setVoiceStatus("requesting");
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      if (!sheetOpenRef.current) { stream.getTracks().forEach(track => track.stop()); setVoiceStatus("idle"); return; }
+      mediaStreamRef.current = stream;
+      const recorder = new MediaRecorder(stream, { mimeType: voiceFormat, audioBitsPerSecond: 64000 });
+      const chunks: BlobPart[] = [];
+      discardVoiceRef.current = false;
+      recorderRef.current = recorder;
+      recorder.ondataavailable = event => { if (event.data.size) chunks.push(event.data); };
+      recorder.onstop = () => {
+        if (voiceTimerRef.current) window.clearTimeout(voiceTimerRef.current);
+        stream.getTracks().forEach(track => track.stop());
+        mediaStreamRef.current = null;
+        recorderRef.current = null;
+        if (discardVoiceRef.current) { setVoiceStatus("idle"); return; }
+        void transcribeVoice(chunks, recorder.mimeType || voiceFormat);
+      };
+      recorder.start();
+      setVoiceStatus("recording");
+      voiceTimerRef.current = window.setTimeout(() => {
+        if (recorder.state === "recording") { recorder.stop(); setVoiceStatus("transcribing"); }
+      }, 45000);
+    } catch {
+      mediaStreamRef.current?.getTracks().forEach(track => track.stop());
+      mediaStreamRef.current = null;
+      setVoiceStatus("idle");
+      setVoiceError("Microphone access failed. Check your browser permission and try again.");
+    }
+  }
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!prompt.trim() || busy || voiceStatus !== "idle") return;
+    const question = prompt.trim();
+    const history = messages.filter(item => !item.isError && !item.isPending).slice(-6).map(item => ({ role: item.role, content: item.content.slice(0, 1500) }));
+    setMessages(previous => [...previous, { role: "user", content: question }, { role: "assistant", content: "", isPending: true }]);
+    setPrompt(""); setBusy(true); setNeedsRegistration(false); setNeedsSignIn(false);
+    const updateAnswer = (change: Partial<ChatMessage>) => setMessages(previous => previous.map((item, index) => index === previous.length - 1 ? { ...item, ...change } : item));
+    try {
+      const response = await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: question, history, context: { section }, stream: true }) });
+      if (!response.ok) {
+        const data = await response.json() as { error?: string };
+        setNeedsRegistration(response.status === 403); setNeedsSignIn(response.status === 401);
+        throw new Error(data.error || "Chat is not available yet.");
+      }
+      if (!response.body) throw new Error("The AI response could not be read.");
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+      let answer = "";
+      let finished = false;
+      const processLine = (line: string) => {
+        if (!line.trim()) return;
+        const event = JSON.parse(line) as { type?: string; text?: string; citations?: Citation[]; error?: string };
+        if (event.type === "delta" && event.text) {
+          answer += event.text;
+          updateAnswer({ content: answer });
+        } else if (event.type === "done") {
+          finished = true;
+          updateAnswer({ content: answer, citations: event.citations || [], isPending: false });
+        } else if (event.type === "error") throw new Error(event.error || "The AI response was interrupted.");
+      };
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        let boundary: number;
+        while ((boundary = buffer.indexOf("\n")) !== -1) {
+          processLine(buffer.slice(0, boundary));
+          buffer = buffer.slice(boundary + 1);
+        }
+      }
+      if (buffer.trim()) processLine(buffer);
+      if (!finished) throw new Error("The AI response was interrupted. Try again.");
+    } catch (error) {
+      updateAnswer({ content: error instanceof Error ? error.message : "Chat is not available yet.", citations: [], isError: true, isPending: false });
+    } finally { setBusy(false); }
+  }
+
+  const stopOnClose = (open: boolean) => {
+    sheetOpenRef.current = open;
+    if (!open && recorderRef.current?.state === "recording") {
+      discardVoiceRef.current = true;
+      recorderRef.current.stop();
+    }
+  };
+
+  return <Sheet onOpenChange={stopOnClose}>
+    <SheetTrigger className="assistant-trigger"><Bot size={18}/><span>AI Research Assistant</span></SheetTrigger>
+    <SheetContent className="assistant-sheet">
+      <SheetHeader><SheetTitle>AI Research Assistant</SheetTitle><SheetDescription>Short answers grounded in saved research evidence.</SheetDescription></SheetHeader>
+      <div className="assistant-body" ref={threadRef} role="log" aria-label="Research assistant conversation" aria-live="polite" aria-busy={busy}>
+        <div className="assistant-intro"><CircleHelp size={22}/><strong>Ask a research question</strong><p>Sign in and register to ask. Answers cite available evidence. Limit: 20 questions per hour.</p></div>
+        <div className="chat-thread">{messages.map((item, index) => <div key={index} className={`chat-message chat-message--${item.role}${item.isError ? " chat-message--error" : ""}`}>
+          <span className="chat-message-label">{item.role === "user" ? "You" : `AI Research Assistant${item.isPending ? " · writing…" : ""}`}</span>
+          <div className="chat-bubble">{renderChatText(item.content || "Reading evidence…")}</div>
+          {Boolean(item.citations?.length) && <details className="chat-citations"><summary>Evidence references ({item.citations!.length})</summary>{item.citations!.map(citation => <div key={citation.id}><span>[{citation.id}] · {citation.evidenceType} · {citation.reportingPeriod || "period TBD"} · retrieved {citation.retrievedAt || "TBD"}</span>{citation.url ? <a href={citation.url} target="_blank" rel="noreferrer">{citation.title} ↗</a> : <em>{citation.title} · D1 planning assumption</em>}</div>)}</details>}
+        </div>)}</div>
+        {needsRegistration && <button className="chat-register" onClick={register}>Register account</button>}
+        {needsSignIn && <a className="chat-register" href={`/signin-with-chatgpt?return_to=${encodeURIComponent(path(section))}`} target="_top">Sign in with ChatGPT</a>}
+      </div>
+      {voiceError && <p className="voice-feedback voice-feedback--error" role="alert">{voiceError}</p>}
+      {voiceStatus !== "idle" && <p className="voice-feedback" role="status">{voiceStatus === "requesting" ? "Waiting for microphone permission…" : voiceStatus === "recording" ? "Recording… tap the square to finish (45 seconds max)." : "Transcribing your question…"}</p>}
+      <form className="assistant-form" onSubmit={submit}>
+        <label htmlFor="chat-prompt" className="sr-only">Ask a research question</label>
+        <textarea id="chat-prompt" value={prompt} onChange={e => setPrompt(e.target.value)} placeholder="Ask or dictate a question…" />
+        <button type="button" className={`voice-button${voiceStatus === "recording" ? " voice-button--recording" : ""}`} disabled={!voiceFormat || busy || voiceStatus === "requesting" || voiceStatus === "transcribing"} onClick={toggleVoice} aria-label={voiceStatus === "recording" ? "Stop recording" : "Start voice input"} aria-describedby="voice-disclosure" title={voiceFormat ? "Record a question; transcription appears before sending" : "Voice input is not supported by this browser"}>{voiceStatus === "recording" ? <Square size={16}/> : <Mic size={18}/>}</button>
+        <button type="submit" disabled={busy || !prompt.trim() || voiceStatus !== "idle"} aria-label="Send question"><Send size={17}/></button>
+        <small id="voice-disclosure" className="voice-disclosure">Voice audio is sent to OpenAI for transcription. Review the text before sending.</small>
+      </form>
+    </SheetContent>
+  </Sheet>;
 }
 
 export function SiteView({ section }: { section: string }) {
