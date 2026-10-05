@@ -24,7 +24,7 @@ Registered users can click **Refresh from NESO API** on the Countries page. The 
 
 ## AI Research Assistant: final configuration step
 
-The chat route is ready but intentionally has no key. When ready, set `OPENAI_API_KEY` as a **secret** in this Site's production runtime settings; do not place it in source code, D1, or `.openai/hosting.json`. Redeploy a saved Site version after changing runtime settings so the new environment revision takes effect. `OPENAI_MODEL` is optional; the route currently defaults to `gpt-6-astra` and can be overridden through a runtime environment variable. A signed-in visitor must register before chatting; the route limits each registered user to 20 questions per hour. User-owned saved scenario inputs are included only when a valid scenario ID is supplied.
+The chat route is ready but intentionally has no key. When ready, set `OPENAI_API_KEY` as a **secret** in this Site's production runtime settings; do not place it in source code, D1, or `.openai/hosting.json`. Redeploy a saved Site version after changing runtime settings so the new environment revision takes effect. `OPENAI_MODEL` is optional; the route currently defaults to the Responses-compatible `gpt-5.4-mini` and can be overridden through a runtime environment variable. A signed-in visitor must register before chatting; the route limits each registered user to 20 questions per hour. User-owned saved scenario inputs are included only when a valid scenario ID is supplied.
 
 ## Local checks
 

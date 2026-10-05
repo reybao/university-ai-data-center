@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     const registered = await db.prepare("SELECT id FROM users WHERE id=?").bind(user.userId).first();
     if (!registered) return Response.json({ error: "Register your account before using the research assistant." }, { status: 403 });
     const apiKey = env.OPENAI_API_KEY;
-    const model = env.OPENAI_MODEL || "gpt-6-astra";
+    const model = env.OPENAI_MODEL || "gpt-5.4-mini";
     if (!apiKey) return Response.json({ error: "AI Research Assistant is awaiting secure server configuration." }, { status: 503 });
     await ensureEvidenceSeeded(db);
     const windowStart = new Date(); windowStart.setUTCMinutes(0, 0, 0);
