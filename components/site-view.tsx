@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Bot, ChevronRight, CircleHelp, Database, Download, Menu, Send, X } from "lucide-react";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -275,31 +275,36 @@ function renderChatText(value: string) {
 
 function ResearchAssistant({ section }: { section: string }) {
   type Citation = { id: string; title: string; url: string | null; evidenceType: string; reportingPeriod: string | null; retrievedAt: string | null };
+  type ChatMessage = { role: "user" | "assistant"; content: string; citations?: Citation[]; isError?: boolean };
   const [prompt, setPrompt] = useState("");
-  const [response, setResponse] = useState("");
-  const [citations, setCitations] = useState<Citation[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [needsRegistration, setNeedsRegistration] = useState(false);
   const [needsSignIn, setNeedsSignIn] = useState(false);
   const [busy, setBusy] = useState(false);
+  const threadRef = useRef<HTMLDivElement>(null);
+  useEffect(() => { if (threadRef.current) threadRef.current.scrollTop = threadRef.current.scrollHeight; }, [messages, busy]);
   async function register() {
     try {
       const r=await fetch("/api/auth/register",{method:"POST"});
       const d=await r.json() as {error?:string};
       if(!r.ok)throw new Error(d.error || "Registration is unavailable.");
-      setNeedsRegistration(false);setResponse("Registration complete. Ask your question again.");
-    } catch(error) { setResponse(error instanceof Error ? error.message : "Registration is unavailable."); }
+      setNeedsRegistration(false);setMessages(previous=>[...previous,{role:"assistant",content:"Registration complete. Please send your question again.",isError:true}]);
+    } catch(error) { setMessages(previous=>[...previous,{role:"assistant",content:error instanceof Error ? error.message : "Registration is unavailable.",isError:true}]); }
   }
   async function submit(e: React.FormEvent) {
-    e.preventDefault(); if (!prompt.trim()) return;
-    setBusy(true); setResponse(""); setCitations([]); setNeedsRegistration(false); setNeedsSignIn(false);
+    e.preventDefault(); if (!prompt.trim() || busy) return;
+    const question=prompt.trim();
+    const history=messages.filter(item=>!item.isError).slice(-6).map(item=>({role:item.role,content:item.content.slice(0,1500)}));
+    setMessages(previous=>[...previous,{role:"user",content:question}]);
+    setPrompt("");setBusy(true);setNeedsRegistration(false);setNeedsSignIn(false);
     try {
-      const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:prompt,context:{section}})});
+      const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:question,history,context:{section}})});
       const d=await r.json() as {reply?:string;error?:string;citations?:Citation[]};
-      setResponse(d.reply || d.error || "Chat is not available yet.");
-      setCitations(d.citations || []); setNeedsRegistration(r.status===403); setNeedsSignIn(r.status===401);
-    } catch { setResponse("Chat is not available yet."); } finally { setBusy(false); }
+      setMessages(previous=>[...previous,{role:"assistant",content:d.reply || d.error || "Chat is not available yet.",citations:d.citations || [],isError:!r.ok}]);
+      setNeedsRegistration(r.status===403);setNeedsSignIn(r.status===401);
+    } catch { setMessages(previous=>[...previous,{role:"assistant",content:"Chat is not available yet.",isError:true}]); } finally { setBusy(false); }
   }
-  return <Sheet><SheetTrigger className="assistant-trigger"><Bot size={18}/><span>AI Research Assistant</span></SheetTrigger><SheetContent className="assistant-sheet"><SheetHeader><SheetTitle>AI Research Assistant</SheetTitle><SheetDescription>Answers use the saved research evidence. Each cited record links to its source.</SheetDescription></SheetHeader><div className="assistant-body"><div className="assistant-intro"><CircleHelp size={22}/><strong>Evidence-led questions</strong><p>Sign in and register to ask. Facts, estimates, calculations, assumptions and unknowns are kept distinct. Limit: 20 questions per hour.</p></div>{response&&<div className="chat-response" role="status">{renderChatText(response)}</div>}{needsRegistration&&<button className="chat-register" onClick={register}>Register account</button>}{needsSignIn&&<a className="chat-register" href={`/signin-with-chatgpt?return_to=${encodeURIComponent(path(section))}`} target="_top">Sign in with ChatGPT</a>}{citations.length>0&&<div className="chat-citations"><strong>Evidence references</strong>{citations.map(item=><div key={item.id}><span>[{item.id}] · {item.evidenceType} · {item.reportingPeriod || "period TBD"} · retrieved {item.retrievedAt || "TBD"}</span>{item.url?<a href={item.url} target="_blank" rel="noreferrer">{item.title} ↗</a>:<em>{item.title} · D1 planning assumption</em>}</div>)}</div>}</div><form className="assistant-form" onSubmit={submit}><label htmlFor="chat-prompt" className="sr-only">Ask a research question</label><textarea id="chat-prompt" value={prompt} onChange={e=>setPrompt(e.target.value)} placeholder="Ask about the decision framework…" /><button disabled={busy || !prompt.trim()} aria-label="Send question"><Send size={17}/></button></form></SheetContent></Sheet>;
+  return <Sheet><SheetTrigger className="assistant-trigger"><Bot size={18}/><span>AI Research Assistant</span></SheetTrigger><SheetContent className="assistant-sheet"><SheetHeader><SheetTitle>AI Research Assistant</SheetTitle><SheetDescription>Short answers grounded in saved research evidence.</SheetDescription></SheetHeader><div className="assistant-body" ref={threadRef} role="log" aria-label="Research assistant conversation" aria-live="polite"><div className="assistant-intro"><CircleHelp size={22}/><strong>Ask a research question</strong><p>Sign in and register to ask. Answers cite available evidence. Limit: 20 questions per hour.</p></div><div className="chat-thread">{messages.map((item,index)=><div key={index} className={`chat-message chat-message--${item.role}${item.isError?" chat-message--error":""}`}><span className="chat-message-label">{item.role==="user"?"You":"AI Research Assistant"}</span><div className="chat-bubble">{renderChatText(item.content)}</div>{Boolean(item.citations?.length)&&<details className="chat-citations"><summary>Evidence references ({item.citations!.length})</summary>{item.citations!.map(citation=><div key={citation.id}><span>[{citation.id}] · {citation.evidenceType} · {citation.reportingPeriod || "period TBD"} · retrieved {citation.retrievedAt || "TBD"}</span>{citation.url?<a href={citation.url} target="_blank" rel="noreferrer">{citation.title} ↗</a>:<em>{citation.title} · D1 planning assumption</em>}</div>)}</details>}</div>)}{busy&&<div className="chat-message chat-message--assistant"><span className="chat-message-label">AI Research Assistant</span><div className="chat-bubble">Thinking…</div></div>}</div>{needsRegistration&&<button className="chat-register" onClick={register}>Register account</button>}{needsSignIn&&<a className="chat-register" href={`/signin-with-chatgpt?return_to=${encodeURIComponent(path(section))}`} target="_top">Sign in with ChatGPT</a>}</div><form className="assistant-form" onSubmit={submit}><label htmlFor="chat-prompt" className="sr-only">Ask a research question</label><textarea id="chat-prompt" value={prompt} onChange={e=>setPrompt(e.target.value)} placeholder="Ask about the decision framework…" /><button disabled={busy || !prompt.trim()} aria-label="Send question"><Send size={17}/></button></form></SheetContent></Sheet>;
 }
 
 export function SiteView({ section }: { section: string }) {
