@@ -1,7 +1,7 @@
 import { env } from "cloudflare:workers";
 import { getChatGPTUser } from "@/app/chatgpt-auth";
 
-export const inputKeys = ["memberAnchor", "memberResearchA", "memberResearchB", "memberMixedA", "memberMixedB", "demandMultiplier", "b200Utilization", "h200Utilization", "pue", "technologyCase"] as const;
+export const inputKeys = ["memberAnchor", "memberResearchA", "memberResearchB", "memberMixedA", "memberMixedB", "demandMultiplier", "b200Utilization", "h200Utilization", "l40sUtilization", "pue", "tierMix"] as const;
 
 export async function authenticatedStore() {
   const user = await getChatGPTUser();

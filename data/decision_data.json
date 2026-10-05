@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "as_of": "2026-10-04",
-  "status": "conditional_research_no_site_or_capital_approval",
-  "research_recommendation": "Start flexible compute and site due diligence; do not approve full 25 MW construction before member, workload, utility, security, and quote gates.",
+  "status": "25mw_expandable_planning_supported_phased_capital_commitment_no_site_approval",
+  "research_recommendation": "Use 25 MW total facility input as an expandable planning envelope; investigate a roughly 10-14 MW 2030 first phase and favor a controlled colo core plus eligible cloud burst, with public-price cloud as an alternative. Do not commit full 25 MW construction or fleet at once.",
   "facility_target": {
     "value": 25,
     "unit": "MW total facility design input",
@@ -1251,11 +1251,11 @@
     },
     {
       "id": "J06",
-      "topic": "gpu_tier",
-      "value_or_rule": "all_current_reference_gpu_hours_on_B200_or_H200",
-      "type": "unvalidated_model_assumption",
+      "topic": "gpu_tier_legacy_reference",
+      "value_or_rule": "all_original_reference_gpu_hours_on_B200_or_H200",
+      "type": "legacy_unvalidated_model_assumption",
       "evidence_or_source": "step2/gpu_tier_audit.md",
-      "why_it_matters": "May overstate high-end cards and MW",
+      "why_it_matters": "Retained as high-end stress comparator; preferred planning mix is J22",
       "revisit_trigger": "Representative midrange H200 B200 benchmark and actual card-hours"
     },
     {
@@ -1359,12 +1359,12 @@
     },
     {
       "id": "J18",
-      "topic": "dedicated_prices",
+      "topic": "dedicated_prices_legacy_reference",
       "value_or_rule": "B200_3.75_H200_2.60_USD_per_reserved_GPU_hour",
-      "type": "unquoted_model_assumption",
+      "type": "legacy_unquoted_model_assumption",
       "evidence_or_source": "step8/financial_inputs.json",
-      "why_it_matters": "Current cheapest assumed option; 29_percent_price_increase_flips_vs_own",
-      "revisit_trigger": "Two binding vendor proposals"
+      "why_it_matters": "Applies only to the old all-high-end AWS price comparison; use J24 for preferred planning case",
+      "revisit_trigger": "Comparable supplier price ranges"
     },
     {
       "id": "J19",
@@ -1378,28 +1378,73 @@
     {
       "id": "J20",
       "topic": "investment_gate",
-      "value_or_rule": "no_25MW_build_approval_now",
+      "value_or_rule": "support_expandable_25MW_planning_and_10_to_14MW_first_phase_no_full_build_now",
       "type": "research_recommendation",
-      "evidence_or_source": "step10/csuite_recommendation.md",
-      "why_it_matters": "Limits irreversible commitment under major uncertainty",
-      "revisit_trigger": "All five gate conditions satisfied"
+      "evidence_or_source": "planning-revision/decision_update.md",
+      "why_it_matters": "Allows scoped progress with no full-capacity capital lock-in",
+      "revisit_trigger": "Site and member evidence for first-phase commitment"
     },
     {
       "id": "J21",
-      "topic": "cloud_price_proxy",
+      "topic": "cloud_price_proxy_legacy_reference",
       "value_or_rule": "AWS_announced_2026_10_07_B200_14.208_H200_6.866_per_GPU_hour_times_actual_reference_hours",
-      "type": "model_simplification",
+      "type": "legacy_model_simplification",
       "evidence_or_source": "AWS Capacity Blocks pricing; step8/underwriting.md",
-      "why_it_matters": "Omits reserved-block idle charges and fleet availability",
+      "why_it_matters": "Higher-price stress reference; preferred planning cloud is J25",
       "revisit_trigger": "Comparable multi-year cloud quote and reservation plan"
+    },
+    {
+      "id": "J22",
+      "topic": "preferred_gpu_tier_mix",
+      "value_or_rule": "high_end_63.3pct_of_original_reference_work_mid_tier_36.7pct",
+      "type": "planning_model_assumption",
+      "evidence_or_source": "MIT GPU guidance and July 2025 job counts; planning-revision/planning_inputs.json",
+      "why_it_matters": "Changes hardware composition and economics while retaining same work",
+      "revisit_trigger": "Task-level performance and GPU-hour data"
+    },
+    {
+      "id": "J23",
+      "topic": "preferred_facility_mw",
+      "value_or_rule": "2030_base_13.20_2035_base_19.80_2035_high_39.57",
+      "type": "model_output",
+      "evidence_or_source": "planning-revision/architecture_cases.csv",
+      "why_it_matters": "Supports 25MW expandable envelope and phased first deployment",
+      "revisit_trigger": "Member demand and task benchmark changes"
+    },
+    {
+      "id": "J24",
+      "topic": "dedicated_prices_preferred",
+      "value_or_rule": "B200_6.65_H200_3.45_L40S_0.90_USD_per_reserved_GPU_hour",
+      "type": "unquoted_publicly_anchored_assumption",
+      "evidence_or_source": "Lambda B200 cluster; Runpod H200 multi-node and L40S Secure; planning-revision/planning_inputs.json",
+      "why_it_matters": "Reserved rate plus utilization makes dedicated option quote-sensitive",
+      "revisit_trigger": "Comparable provider offer"
+    },
+    {
+      "id": "J25",
+      "topic": "cloud_price_preferred",
+      "value_or_rule": "B200_8.87_H200_4.31_L40S_1.09_USD_per_used_GPU_hour",
+      "type": "public_cross_product_price_proxy",
+      "evidence_or_source": "Lambda B200 cluster; Runpod H200 multi-node and L40S Secure; planning-revision/source_ledger.csv",
+      "why_it_matters": "Places lower public price bound and changes ownership ranking",
+      "revisit_trigger": "Unified provider security network and capacity terms"
+    },
+    {
+      "id": "J26",
+      "topic": "preferred_delivery",
+      "value_or_rule": "controlled_colo_core_70pct_plus_eligible_cloud_burst_with_25MW_expandable_envelope",
+      "type": "research_recommendation",
+      "evidence_or_source": "planning-revision/decision_update.md",
+      "why_it_matters": "Near-cloud modeled cost with control for approved restricted data",
+      "revisit_trigger": "First-phase supplier and utility conditions"
     }
   ],
   "website_mapping": [
     {
       "page": "Overview",
-      "primary_files": "step10/csuite_recommendation.md;research-source-of-truth/decision_data.json",
-      "approved_display": "25 MW facility-input definition; conditional recommendation; 2030 base 14.05 MW",
-      "mandatory_caveat": "Investment and site not approved"
+      "primary_files": "planning-revision/decision_update.md;step10/csuite_recommendation.md;research-source-of-truth/decision_data.json",
+      "approved_display": "25 MW expandable envelope supported; 10-14 MW first-phase inquiry; 2030 planning base 13.20 MW",
+      "mandatory_caveat": "Full build and parcel not approved; numbers are model assumptions"
     },
     {
       "page": "Demand",
@@ -1409,9 +1454,9 @@
     },
     {
       "page": "Architecture",
-      "primary_files": "research-source-of-truth/website_data.json;step3/architecture_bridge.md;step2/gpu_tier_audit.md",
-      "approved_display": "GPU CPU HBM nodes IT/facility MW and refresh sensitivities",
-      "mandatory_caveat": "All hours reference B200/H200 tiers not verified purchases"
+      "primary_files": "planning-revision/architecture_cases.csv;research-source-of-truth/website_data.json;step3/architecture_bridge.md",
+      "approved_display": "Three-tier B200 H200 L40S planning cases plus legacy all-high-end reference and refresh sensitivities",
+      "mandatory_caveat": "Tier shares and throughput conversion are assumptions; L40S memory is GDDR6 not HBM"
     },
     {
       "page": "Location",
@@ -1421,23 +1466,1544 @@
     },
     {
       "page": "Economics",
-      "primary_files": "step8/option_summary.csv;step8/sensitivity_outputs.csv;step8/underwriting.md",
-      "approved_display": "Illustrative 10-year TCO/NPV and quote-sensitive ownership comparison",
-      "mandatory_caveat": "All CAPEX and dedicated rental are unquoted assumptions"
+      "primary_files": "planning-revision/option_summary.csv;planning-revision/sensitivity_outputs.csv;planning-revision/decision_update.md;step8/underwriting.md",
+      "approved_display": "Preferred seven-option 10-year TCO/NPV; legacy high-end AWS comparison separate",
+      "mandatory_caveat": "Cross-product public cloud price proxy and dedicated discount are not unified quotes"
     },
     {
       "page": "Risk & Delivery",
-      "primary_files": "step9/risk_register.csv;step9/timeline.csv;step9/risk_and_timeline.md",
-      "approved_display": "Power delay GPU utilization security permitting and conditional 2030 target",
-      "mandatory_caveat": "No guaranteed energization date"
+      "primary_files": "planning-revision/risk_register.csv;step9/timeline.csv;planning-revision/decision_update.md",
+      "approved_display": "Current three-tier price comparability power delay GPU utilization security permitting and conditional 2030 target",
+      "mandatory_caveat": "No guaranteed energization date; model impacts exclude penalties"
     },
     {
       "page": "Scenario Lab",
-      "primary_files": "research-source-of-truth/website_data.json;step8/financial_inputs.json;step8/sensitivity_outputs.csv",
-      "approved_display": "Demand PUE utilization refresh power cloud and rental what-if",
+      "primary_files": "research-source-of-truth/website_data.json;planning-revision/planning_inputs.json;planning-revision/sensitivity_outputs.csv",
+      "approved_display": "Tier mix demand PUE utilization refresh power cloud and rental what-if",
       "mandatory_caveat": "Changed values are scenarios; no engineered or vendor commitment"
     }
   ],
+  "planning_revision": {
+    "status": "preferred_current_case_over_legacy_all_high_end_reference",
+    "decision_document": "planning-revision/decision_update.md",
+    "input_file": "planning-revision/planning_inputs.json",
+    "architecture_cases": [
+      {
+        "mix": "mid_tier_heavy",
+        "year": "2027",
+        "case": "low",
+        "high_end_share_of_original_reference_work": "0.4811",
+        "high_end_share_of_physical_gpu_hours": "0.3639",
+        "b200_gpu_hours": "1697356",
+        "h200_gpu_hours": "3022935",
+        "l40s_gpu_hours": "8252265",
+        "cpu_core_hours": "142341570",
+        "b200_gpu_count": "360",
+        "h200_gpu_count": "576",
+        "l40s_gpu_count": "1572",
+        "cpu_only_cores": "27082",
+        "gpu_rack_lower_bound": "67",
+        "it_design_mw": "3.786",
+        "facility_design_mw": "4.544",
+        "headroom_to_25mw": "20.456",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "mid_tier_heavy",
+        "year": "2027",
+        "case": "base",
+        "high_end_share_of_original_reference_work": "0.4811",
+        "high_end_share_of_physical_gpu_hours": "0.3639",
+        "b200_gpu_hours": "2424794",
+        "h200_gpu_hours": "4318479",
+        "l40s_gpu_hours": "11788950",
+        "cpu_core_hours": "203345100",
+        "b200_gpu_count": "504",
+        "h200_gpu_count": "824",
+        "l40s_gpu_count": "2244",
+        "cpu_only_cores": "38689",
+        "gpu_rack_lower_bound": "94",
+        "it_design_mw": "5.387",
+        "facility_design_mw": "6.465",
+        "headroom_to_25mw": "18.535",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "mid_tier_heavy",
+        "year": "2027",
+        "case": "high",
+        "high_end_share_of_original_reference_work": "0.4811",
+        "high_end_share_of_physical_gpu_hours": "0.3639",
+        "b200_gpu_hours": "3637192",
+        "h200_gpu_hours": "6477719",
+        "l40s_gpu_hours": "17683426",
+        "cpu_core_hours": "305017650",
+        "b200_gpu_count": "760",
+        "h200_gpu_count": "1240",
+        "l40s_gpu_count": "3368",
+        "cpu_only_cores": "58033",
+        "gpu_rack_lower_bound": "140",
+        "it_design_mw": "8.098",
+        "facility_design_mw": "9.717",
+        "headroom_to_25mw": "15.283",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "mid_tier_heavy",
+        "year": "2030",
+        "case": "low",
+        "high_end_share_of_original_reference_work": "0.4811",
+        "high_end_share_of_physical_gpu_hours": "0.3639",
+        "b200_gpu_hours": "2909753",
+        "h200_gpu_hours": "5182175",
+        "l40s_gpu_hours": "14146741",
+        "cpu_core_hours": "244014120",
+        "b200_gpu_count": "608",
+        "h200_gpu_count": "992",
+        "l40s_gpu_count": "2692",
+        "cpu_only_cores": "46426",
+        "gpu_rack_lower_bound": "112",
+        "it_design_mw": "6.476",
+        "facility_design_mw": "7.771",
+        "headroom_to_25mw": "17.229",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "mid_tier_heavy",
+        "year": "2030",
+        "case": "base",
+        "high_end_share_of_original_reference_work": "0.4811",
+        "high_end_share_of_physical_gpu_hours": "0.3639",
+        "b200_gpu_hours": "4849589",
+        "h200_gpu_hours": "8636958",
+        "l40s_gpu_hours": "23577901",
+        "cpu_core_hours": "406690200",
+        "b200_gpu_count": "1008",
+        "h200_gpu_count": "1648",
+        "l40s_gpu_count": "4488",
+        "cpu_only_cores": "77377",
+        "gpu_rack_lower_bound": "187",
+        "it_design_mw": "10.775",
+        "facility_design_mw": "12.93",
+        "headroom_to_25mw": "12.07",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "mid_tier_heavy",
+        "year": "2030",
+        "case": "high",
+        "high_end_share_of_original_reference_work": "0.4811",
+        "high_end_share_of_physical_gpu_hours": "0.3639",
+        "b200_gpu_hours": "7274383",
+        "h200_gpu_hours": "12955437",
+        "l40s_gpu_hours": "35366851",
+        "cpu_core_hours": "610035300",
+        "b200_gpu_count": "1512",
+        "h200_gpu_count": "2472",
+        "l40s_gpu_count": "6732",
+        "cpu_only_cores": "116065",
+        "gpu_rack_lower_bound": "279",
+        "it_design_mw": "16.162",
+        "facility_design_mw": "19.395",
+        "headroom_to_25mw": "5.605",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "mid_tier_heavy",
+        "year": "2035",
+        "case": "low",
+        "high_end_share_of_original_reference_work": "0.4811",
+        "high_end_share_of_physical_gpu_hours": "0.3639",
+        "b200_gpu_hours": "3637192",
+        "h200_gpu_hours": "6477719",
+        "l40s_gpu_hours": "17683426",
+        "cpu_core_hours": "305017650",
+        "b200_gpu_count": "760",
+        "h200_gpu_count": "1240",
+        "l40s_gpu_count": "3368",
+        "cpu_only_cores": "58033",
+        "gpu_rack_lower_bound": "140",
+        "it_design_mw": "8.098",
+        "facility_design_mw": "9.717",
+        "headroom_to_25mw": "15.283",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "mid_tier_heavy",
+        "year": "2035",
+        "case": "base",
+        "high_end_share_of_original_reference_work": "0.4811",
+        "high_end_share_of_physical_gpu_hours": "0.3639",
+        "b200_gpu_hours": "7274383",
+        "h200_gpu_hours": "12955437",
+        "l40s_gpu_hours": "35366851",
+        "cpu_core_hours": "610035300",
+        "b200_gpu_count": "1512",
+        "h200_gpu_count": "2472",
+        "l40s_gpu_count": "6732",
+        "cpu_only_cores": "116065",
+        "gpu_rack_lower_bound": "279",
+        "it_design_mw": "16.162",
+        "facility_design_mw": "19.395",
+        "headroom_to_25mw": "5.605",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "mid_tier_heavy",
+        "year": "2035",
+        "case": "high",
+        "high_end_share_of_original_reference_work": "0.4811",
+        "high_end_share_of_physical_gpu_hours": "0.3639",
+        "b200_gpu_hours": "14548766",
+        "h200_gpu_hours": "25910875",
+        "l40s_gpu_hours": "70733703",
+        "cpu_core_hours": "1220070600",
+        "b200_gpu_count": "3024",
+        "h200_gpu_count": "4936",
+        "l40s_gpu_count": "13460",
+        "cpu_only_cores": "232130",
+        "gpu_rack_lower_bound": "556",
+        "it_design_mw": "32.309",
+        "facility_design_mw": "38.771",
+        "headroom_to_25mw": "-13.771",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "planning_base",
+        "year": "2027",
+        "case": "low",
+        "high_end_share_of_original_reference_work": "0.6334",
+        "high_end_share_of_physical_gpu_hours": "0.515",
+        "b200_gpu_hours": "2202266",
+        "h200_gpu_hours": "3898930",
+        "l40s_gpu_hours": "5745827",
+        "cpu_core_hours": "142341570",
+        "b200_gpu_count": "464",
+        "h200_gpu_count": "744",
+        "l40s_gpu_count": "1096",
+        "cpu_only_cores": "27082",
+        "gpu_rack_lower_bound": "62",
+        "it_design_mw": "3.867",
+        "facility_design_mw": "4.64",
+        "headroom_to_25mw": "20.36",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "planning_base",
+        "year": "2027",
+        "case": "base",
+        "high_end_share_of_original_reference_work": "0.6334",
+        "high_end_share_of_physical_gpu_hours": "0.515",
+        "b200_gpu_hours": "3146094",
+        "h200_gpu_hours": "5569900",
+        "l40s_gpu_hours": "8208324",
+        "cpu_core_hours": "203345100",
+        "b200_gpu_count": "656",
+        "h200_gpu_count": "1064",
+        "l40s_gpu_count": "1564",
+        "cpu_only_cores": "38689",
+        "gpu_rack_lower_bound": "88",
+        "it_design_mw": "5.509",
+        "facility_design_mw": "6.611",
+        "headroom_to_25mw": "18.389",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "planning_base",
+        "year": "2027",
+        "case": "high",
+        "high_end_share_of_original_reference_work": "0.6334",
+        "high_end_share_of_physical_gpu_hours": "0.515",
+        "b200_gpu_hours": "4719141",
+        "h200_gpu_hours": "8354850",
+        "l40s_gpu_hours": "12312486",
+        "cpu_core_hours": "305017650",
+        "b200_gpu_count": "984",
+        "h200_gpu_count": "1592",
+        "l40s_gpu_count": "2344",
+        "cpu_only_cores": "58033",
+        "gpu_rack_lower_bound": "130",
+        "it_design_mw": "8.256",
+        "facility_design_mw": "9.908",
+        "headroom_to_25mw": "15.092",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "planning_base",
+        "year": "2030",
+        "case": "low",
+        "high_end_share_of_original_reference_work": "0.6334",
+        "high_end_share_of_physical_gpu_hours": "0.515",
+        "b200_gpu_hours": "3775313",
+        "h200_gpu_hours": "6683880",
+        "l40s_gpu_hours": "9849989",
+        "cpu_core_hours": "244014120",
+        "b200_gpu_count": "784",
+        "h200_gpu_count": "1272",
+        "l40s_gpu_count": "1876",
+        "cpu_only_cores": "46426",
+        "gpu_rack_lower_bound": "104",
+        "it_design_mw": "6.596",
+        "facility_design_mw": "7.916",
+        "headroom_to_25mw": "17.084",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "planning_base",
+        "year": "2030",
+        "case": "base",
+        "high_end_share_of_original_reference_work": "0.6334",
+        "high_end_share_of_physical_gpu_hours": "0.515",
+        "b200_gpu_hours": "6292188",
+        "h200_gpu_hours": "11139800",
+        "l40s_gpu_hours": "16416648",
+        "cpu_core_hours": "406690200",
+        "b200_gpu_count": "1312",
+        "h200_gpu_count": "2120",
+        "l40s_gpu_count": "3124",
+        "cpu_only_cores": "77377",
+        "gpu_rack_lower_bound": "173",
+        "it_design_mw": "11.003",
+        "facility_design_mw": "13.204",
+        "headroom_to_25mw": "11.796",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "planning_base",
+        "year": "2030",
+        "case": "high",
+        "high_end_share_of_original_reference_work": "0.6334",
+        "high_end_share_of_physical_gpu_hours": "0.515",
+        "b200_gpu_hours": "9438282",
+        "h200_gpu_hours": "16709701",
+        "l40s_gpu_hours": "24624972",
+        "cpu_core_hours": "610035300",
+        "b200_gpu_count": "1960",
+        "h200_gpu_count": "3184",
+        "l40s_gpu_count": "4688",
+        "cpu_only_cores": "116065",
+        "gpu_rack_lower_bound": "260",
+        "it_design_mw": "16.496",
+        "facility_design_mw": "19.795",
+        "headroom_to_25mw": "5.205",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "planning_base",
+        "year": "2035",
+        "case": "low",
+        "high_end_share_of_original_reference_work": "0.6334",
+        "high_end_share_of_physical_gpu_hours": "0.515",
+        "b200_gpu_hours": "4719141",
+        "h200_gpu_hours": "8354850",
+        "l40s_gpu_hours": "12312486",
+        "cpu_core_hours": "305017650",
+        "b200_gpu_count": "984",
+        "h200_gpu_count": "1592",
+        "l40s_gpu_count": "2344",
+        "cpu_only_cores": "58033",
+        "gpu_rack_lower_bound": "130",
+        "it_design_mw": "8.256",
+        "facility_design_mw": "9.908",
+        "headroom_to_25mw": "15.092",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "planning_base",
+        "year": "2035",
+        "case": "base",
+        "high_end_share_of_original_reference_work": "0.6334",
+        "high_end_share_of_physical_gpu_hours": "0.515",
+        "b200_gpu_hours": "9438282",
+        "h200_gpu_hours": "16709701",
+        "l40s_gpu_hours": "24624972",
+        "cpu_core_hours": "610035300",
+        "b200_gpu_count": "1960",
+        "h200_gpu_count": "3184",
+        "l40s_gpu_count": "4688",
+        "cpu_only_cores": "116065",
+        "gpu_rack_lower_bound": "260",
+        "it_design_mw": "16.496",
+        "facility_design_mw": "19.795",
+        "headroom_to_25mw": "5.205",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "planning_base",
+        "year": "2035",
+        "case": "high",
+        "high_end_share_of_original_reference_work": "0.6334",
+        "high_end_share_of_physical_gpu_hours": "0.515",
+        "b200_gpu_hours": "18876564",
+        "h200_gpu_hours": "33419401",
+        "l40s_gpu_hours": "49249944",
+        "cpu_core_hours": "1220070600",
+        "b200_gpu_count": "3920",
+        "h200_gpu_count": "6360",
+        "l40s_gpu_count": "9372",
+        "cpu_only_cores": "232130",
+        "gpu_rack_lower_bound": "517",
+        "it_design_mw": "32.976",
+        "facility_design_mw": "39.571",
+        "headroom_to_25mw": "-14.571",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "high_end_heavy",
+        "year": "2027",
+        "case": "low",
+        "high_end_share_of_original_reference_work": "0.7894",
+        "high_end_share_of_physical_gpu_hours": "0.7005",
+        "b200_gpu_hours": "2900545",
+        "h200_gpu_hours": "4557307",
+        "l40s_gpu_hours": "3188745",
+        "cpu_core_hours": "142341570",
+        "b200_gpu_count": "608",
+        "h200_gpu_count": "872",
+        "l40s_gpu_count": "608",
+        "cpu_only_cores": "27082",
+        "gpu_rack_lower_bound": "57",
+        "it_design_mw": "3.962",
+        "facility_design_mw": "4.754",
+        "headroom_to_25mw": "20.246",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "high_end_heavy",
+        "year": "2027",
+        "case": "base",
+        "high_end_share_of_original_reference_work": "0.7894",
+        "high_end_share_of_physical_gpu_hours": "0.7005",
+        "b200_gpu_hours": "4143636",
+        "h200_gpu_hours": "6510438",
+        "l40s_gpu_hours": "4555350",
+        "cpu_core_hours": "203345100",
+        "b200_gpu_count": "864",
+        "h200_gpu_count": "1240",
+        "l40s_gpu_count": "868",
+        "cpu_only_cores": "38689",
+        "gpu_rack_lower_bound": "80",
+        "it_design_mw": "5.64",
+        "facility_design_mw": "6.768",
+        "headroom_to_25mw": "18.232",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "high_end_heavy",
+        "year": "2027",
+        "case": "high",
+        "high_end_share_of_original_reference_work": "0.7894",
+        "high_end_share_of_physical_gpu_hours": "0.7005",
+        "b200_gpu_hours": "6215454",
+        "h200_gpu_hours": "9765657",
+        "l40s_gpu_hours": "6833024",
+        "cpu_core_hours": "305017650",
+        "b200_gpu_count": "1296",
+        "h200_gpu_count": "1864",
+        "l40s_gpu_count": "1304",
+        "cpu_only_cores": "58033",
+        "gpu_rack_lower_bound": "121",
+        "it_design_mw": "8.468",
+        "facility_design_mw": "10.162",
+        "headroom_to_25mw": "14.838",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "high_end_heavy",
+        "year": "2030",
+        "case": "low",
+        "high_end_share_of_original_reference_work": "0.7894",
+        "high_end_share_of_physical_gpu_hours": "0.7005",
+        "b200_gpu_hours": "4972363",
+        "h200_gpu_hours": "7812526",
+        "l40s_gpu_hours": "5466419",
+        "cpu_core_hours": "244014120",
+        "b200_gpu_count": "1040",
+        "h200_gpu_count": "1488",
+        "l40s_gpu_count": "1044",
+        "cpu_only_cores": "46426",
+        "gpu_rack_lower_bound": "98",
+        "it_design_mw": "6.777",
+        "facility_design_mw": "8.133",
+        "headroom_to_25mw": "16.867",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "high_end_heavy",
+        "year": "2030",
+        "case": "base",
+        "high_end_share_of_original_reference_work": "0.7894",
+        "high_end_share_of_physical_gpu_hours": "0.7005",
+        "b200_gpu_hours": "8287272",
+        "h200_gpu_hours": "13020876",
+        "l40s_gpu_hours": "9110699",
+        "cpu_core_hours": "406690200",
+        "b200_gpu_count": "1728",
+        "h200_gpu_count": "2480",
+        "l40s_gpu_count": "1736",
+        "cpu_only_cores": "77377",
+        "gpu_rack_lower_bound": "160",
+        "it_design_mw": "11.281",
+        "facility_design_mw": "13.537",
+        "headroom_to_25mw": "11.463",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "high_end_heavy",
+        "year": "2030",
+        "case": "high",
+        "high_end_share_of_original_reference_work": "0.7894",
+        "high_end_share_of_physical_gpu_hours": "0.7005",
+        "b200_gpu_hours": "12430908",
+        "h200_gpu_hours": "19531315",
+        "l40s_gpu_hours": "13666049",
+        "cpu_core_hours": "610035300",
+        "b200_gpu_count": "2584",
+        "h200_gpu_count": "3720",
+        "l40s_gpu_count": "2604",
+        "cpu_only_cores": "116065",
+        "gpu_rack_lower_bound": "240",
+        "it_design_mw": "16.904",
+        "facility_design_mw": "20.284",
+        "headroom_to_25mw": "4.716",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "high_end_heavy",
+        "year": "2035",
+        "case": "low",
+        "high_end_share_of_original_reference_work": "0.7894",
+        "high_end_share_of_physical_gpu_hours": "0.7005",
+        "b200_gpu_hours": "6215454",
+        "h200_gpu_hours": "9765657",
+        "l40s_gpu_hours": "6833024",
+        "cpu_core_hours": "305017650",
+        "b200_gpu_count": "1296",
+        "h200_gpu_count": "1864",
+        "l40s_gpu_count": "1304",
+        "cpu_only_cores": "58033",
+        "gpu_rack_lower_bound": "121",
+        "it_design_mw": "8.468",
+        "facility_design_mw": "10.162",
+        "headroom_to_25mw": "14.838",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "high_end_heavy",
+        "year": "2035",
+        "case": "base",
+        "high_end_share_of_original_reference_work": "0.7894",
+        "high_end_share_of_physical_gpu_hours": "0.7005",
+        "b200_gpu_hours": "12430908",
+        "h200_gpu_hours": "19531315",
+        "l40s_gpu_hours": "13666049",
+        "cpu_core_hours": "610035300",
+        "b200_gpu_count": "2584",
+        "h200_gpu_count": "3720",
+        "l40s_gpu_count": "2604",
+        "cpu_only_cores": "116065",
+        "gpu_rack_lower_bound": "240",
+        "it_design_mw": "16.904",
+        "facility_design_mw": "20.284",
+        "headroom_to_25mw": "4.716",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      },
+      {
+        "mix": "high_end_heavy",
+        "year": "2035",
+        "case": "high",
+        "high_end_share_of_original_reference_work": "0.7894",
+        "high_end_share_of_physical_gpu_hours": "0.7005",
+        "b200_gpu_hours": "24861816",
+        "h200_gpu_hours": "39062629",
+        "l40s_gpu_hours": "27332097",
+        "cpu_core_hours": "1220070600",
+        "b200_gpu_count": "5168",
+        "h200_gpu_count": "7440",
+        "l40s_gpu_count": "5204",
+        "cpu_only_cores": "232130",
+        "gpu_rack_lower_bound": "479",
+        "it_design_mw": "33.804",
+        "facility_design_mw": "40.565",
+        "headroom_to_25mw": "-15.565",
+        "status": "planning_assumption_not_measured_demand_or_benchmark"
+      }
+    ],
+    "financial_options": [
+      {
+        "option": "cloud",
+        "mix": "planning_base",
+        "demand_case": "base",
+        "capex_usd": "0.0",
+        "opex_usd": "1696787231.91804",
+        "cloud_bridge_or_spill_usd": "0.0",
+        "tco_usd": "1696787231.91804",
+        "cost_npv_usd": "1152033652.753287",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "option": "dedicated",
+        "mix": "planning_base",
+        "demand_case": "base",
+        "capex_usd": "0.0",
+        "opex_usd": "2140176012.0",
+        "cloud_bridge_or_spill_usd": "0.0",
+        "tco_usd": "2140176012.0",
+        "cost_npv_usd": "1451684798.9297197",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "option": "hybrid_dedicated",
+        "mix": "planning_base",
+        "demand_case": "base",
+        "capex_usd": "0.0",
+        "opex_usd": "2044698378.575412",
+        "cloud_bridge_or_spill_usd": "0.0",
+        "tco_usd": "2044698378.575412",
+        "cost_npv_usd": "1389125397.6094592",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "option": "colo",
+        "mix": "planning_base",
+        "demand_case": "base",
+        "capex_usd": "882370055.0",
+        "opex_usd": "512001742.82207996",
+        "cloud_bridge_or_spill_usd": "284105807.5528",
+        "tco_usd": "1678477605.37488",
+        "cost_npv_usd": "1175782687.5578008",
+        "max_site_facility_design_mw": "21.119723999999994"
+      },
+      {
+        "option": "own",
+        "mix": "planning_base",
+        "demand_case": "base",
+        "capex_usd": "1060767985.0",
+        "opex_usd": "340323546.27208",
+        "cloud_bridge_or_spill_usd": "284105807.5528",
+        "tco_usd": "1685197338.82488",
+        "cost_npv_usd": "1218949576.7137363",
+        "max_site_facility_design_mw": "21.119723999999994"
+      },
+      {
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "base",
+        "capex_usd": "620501450.0",
+        "opex_usd": "404024355.25792",
+        "cloud_bridge_or_spill_usd": "671910234.862372",
+        "tco_usd": "1696436040.1202922",
+        "cost_npv_usd": "1177008483.4891696",
+        "max_site_facility_design_mw": "14.778503999999996"
+      },
+      {
+        "option": "hybrid_own",
+        "mix": "planning_base",
+        "demand_case": "base",
+        "capex_usd": "751340230.0",
+        "opex_usd": "285886626.80792",
+        "cloud_bridge_or_spill_usd": "671910234.862372",
+        "tco_usd": "1709137091.670292",
+        "cost_npv_usd": "1214074281.2486577",
+        "max_site_facility_design_mw": "14.778503999999996"
+      }
+    ],
+    "sensitivities": [
+      {
+        "variation": "mid_tier_heavy",
+        "option": "cloud",
+        "cost_npv_usd": "1033739792",
+        "tco_usd": "1521658766",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "mid_tier_heavy",
+        "option": "dedicated",
+        "cost_npv_usd": "1293125594",
+        "tco_usd": "1905716364",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "mid_tier_heavy",
+        "option": "hybrid_dedicated",
+        "cost_npv_usd": "1242698568",
+        "tco_usd": "1828141103",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "mid_tier_heavy",
+        "option": "colo",
+        "cost_npv_usd": "1092186110",
+        "tco_usd": "1563056801",
+        "max_site_facility_design_mw": "20.686"
+      },
+      {
+        "variation": "mid_tier_heavy",
+        "option": "own",
+        "cost_npv_usd": "1134936715",
+        "tco_usd": "1570182343",
+        "max_site_facility_design_mw": "20.686"
+      },
+      {
+        "variation": "mid_tier_heavy",
+        "option": "hybrid_colo",
+        "cost_npv_usd": "1083006193",
+        "tco_usd": "1563071432",
+        "max_site_facility_design_mw": "14.484"
+      },
+      {
+        "variation": "mid_tier_heavy",
+        "option": "hybrid_own",
+        "cost_npv_usd": "1119812231",
+        "tco_usd": "1576110963",
+        "max_site_facility_design_mw": "14.484"
+      },
+      {
+        "variation": "high_end_heavy",
+        "option": "cloud",
+        "cost_npv_usd": "1285795350",
+        "tco_usd": "1894815098",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "high_end_heavy",
+        "option": "dedicated",
+        "cost_npv_usd": "1632513546",
+        "tco_usd": "2407846572",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "high_end_heavy",
+        "option": "hybrid_dedicated",
+        "cost_npv_usd": "1554802031",
+        "tco_usd": "2290007954",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "high_end_heavy",
+        "option": "colo",
+        "cost_npv_usd": "1268852589",
+        "tco_usd": "1806920507",
+        "max_site_facility_design_mw": "21.645"
+      },
+      {
+        "variation": "high_end_heavy",
+        "option": "own",
+        "cost_npv_usd": "1312521504",
+        "tco_usd": "1813138831",
+        "max_site_facility_design_mw": "21.645"
+      },
+      {
+        "variation": "high_end_heavy",
+        "option": "hybrid_colo",
+        "cost_npv_usd": "1281725649",
+        "tco_usd": "1844825907",
+        "max_site_facility_design_mw": "15.139"
+      },
+      {
+        "variation": "high_end_heavy",
+        "option": "hybrid_own",
+        "cost_npv_usd": "1319139935",
+        "tco_usd": "1857191548",
+        "max_site_facility_design_mw": "15.139"
+      },
+      {
+        "variation": "dedicated_rate_plus_25pct",
+        "option": "cloud",
+        "cost_npv_usd": "1152033653",
+        "tco_usd": "1696787232",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "dedicated_rate_plus_25pct",
+        "option": "dedicated",
+        "cost_npv_usd": "1792865335",
+        "tco_usd": "2645220015",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "dedicated_rate_plus_25pct",
+        "option": "hybrid_dedicated",
+        "cost_npv_usd": "1628263559",
+        "tco_usd": "2398613931",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "dedicated_rate_plus_25pct",
+        "option": "colo",
+        "cost_npv_usd": "1175782688",
+        "tco_usd": "1678477605",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "dedicated_rate_plus_25pct",
+        "option": "own",
+        "cost_npv_usd": "1218949577",
+        "tco_usd": "1685197339",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "dedicated_rate_plus_25pct",
+        "option": "hybrid_colo",
+        "cost_npv_usd": "1177008483",
+        "tco_usd": "1696436040",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "dedicated_rate_plus_25pct",
+        "option": "hybrid_own",
+        "cost_npv_usd": "1214074281",
+        "tco_usd": "1709137092",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "dedicated_rate_minus_25pct",
+        "option": "cloud",
+        "cost_npv_usd": "1152033653",
+        "tco_usd": "1696787232",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "dedicated_rate_minus_25pct",
+        "option": "dedicated",
+        "cost_npv_usd": "1110504263",
+        "tco_usd": "1635132009",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "dedicated_rate_minus_25pct",
+        "option": "hybrid_dedicated",
+        "cost_npv_usd": "1149987236",
+        "tco_usd": "1690782826",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "dedicated_rate_minus_25pct",
+        "option": "colo",
+        "cost_npv_usd": "1175782688",
+        "tco_usd": "1678477605",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "dedicated_rate_minus_25pct",
+        "option": "own",
+        "cost_npv_usd": "1218949577",
+        "tco_usd": "1685197339",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "dedicated_rate_minus_25pct",
+        "option": "hybrid_colo",
+        "cost_npv_usd": "1177008483",
+        "tco_usd": "1696436040",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "dedicated_rate_minus_25pct",
+        "option": "hybrid_own",
+        "cost_npv_usd": "1214074281",
+        "tco_usd": "1709137092",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "cloud_price_plus_50pct",
+        "option": "cloud",
+        "cost_npv_usd": "1608338056",
+        "tco_usd": "2372324317",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "cloud_price_plus_50pct",
+        "option": "dedicated",
+        "cost_npv_usd": "1451684799",
+        "tco_usd": "2140176012",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "cloud_price_plus_50pct",
+        "option": "hybrid_dedicated",
+        "cost_npv_usd": "1526016719",
+        "tco_usd": "2247359504",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "cloud_price_plus_50pct",
+        "option": "colo",
+        "cost_npv_usd": "1287260485",
+        "tco_usd": "1800195999",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "cloud_price_plus_50pct",
+        "option": "own",
+        "cost_npv_usd": "1330427374",
+        "tco_usd": "1806915733",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "cloud_price_plus_50pct",
+        "option": "hybrid_colo",
+        "cost_npv_usd": "1391934263",
+        "tco_usd": "1984300041",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "cloud_price_plus_50pct",
+        "option": "hybrid_own",
+        "cost_npv_usd": "1429000060",
+        "tco_usd": "1997001093",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "cloud_price_minus_20pct",
+        "option": "cloud",
+        "cost_npv_usd": "969511891",
+        "tco_usd": "1426572398",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "cloud_price_minus_20pct",
+        "option": "dedicated",
+        "cost_npv_usd": "1451684799",
+        "tco_usd": "2140176012",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "cloud_price_minus_20pct",
+        "option": "hybrid_dedicated",
+        "cost_npv_usd": "1334368869",
+        "tco_usd": "1963633928",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "cloud_price_minus_20pct",
+        "option": "colo",
+        "cost_npv_usd": "1131191569",
+        "tco_usd": "1629790248",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "cloud_price_minus_20pct",
+        "option": "own",
+        "cost_npv_usd": "1174358458",
+        "tco_usd": "1636509981",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "cloud_price_minus_20pct",
+        "option": "hybrid_colo",
+        "cost_npv_usd": "1091038172",
+        "tco_usd": "1581290440",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "cloud_price_minus_20pct",
+        "option": "hybrid_own",
+        "cost_npv_usd": "1128103970",
+        "tco_usd": "1593991491",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "power_price_0.06",
+        "option": "cloud",
+        "cost_npv_usd": "1152033653",
+        "tco_usd": "1696787232",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "power_price_0.06",
+        "option": "dedicated",
+        "cost_npv_usd": "1451684799",
+        "tco_usd": "2140176012",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "power_price_0.06",
+        "option": "hybrid_dedicated",
+        "cost_npv_usd": "1389125398",
+        "tco_usd": "2044698379",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "power_price_0.06",
+        "option": "colo",
+        "cost_npv_usd": "1167920554",
+        "tco_usd": "1665850612",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "power_price_0.06",
+        "option": "own",
+        "cost_npv_usd": "1211087443",
+        "tco_usd": "1672570346",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "power_price_0.06",
+        "option": "hybrid_colo",
+        "cost_npv_usd": "1171501955",
+        "tco_usd": "1687592694",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "power_price_0.06",
+        "option": "hybrid_own",
+        "cost_npv_usd": "1208567753",
+        "tco_usd": "1700293745",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "power_price_0.12",
+        "option": "cloud",
+        "cost_npv_usd": "1152033653",
+        "tco_usd": "1696787232",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "power_price_0.12",
+        "option": "dedicated",
+        "cost_npv_usd": "1451684799",
+        "tco_usd": "2140176012",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "power_price_0.12",
+        "option": "hybrid_dedicated",
+        "cost_npv_usd": "1389125398",
+        "tco_usd": "2044698379",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "power_price_0.12",
+        "option": "colo",
+        "cost_npv_usd": "1191506955",
+        "tco_usd": "1703731591",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "power_price_0.12",
+        "option": "own",
+        "cost_npv_usd": "1234673844",
+        "tco_usd": "1710451325",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "power_price_0.12",
+        "option": "hybrid_colo",
+        "cost_npv_usd": "1188021540",
+        "tco_usd": "1714122733",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "power_price_0.12",
+        "option": "hybrid_own",
+        "cost_npv_usd": "1225087337",
+        "tco_usd": "1726823785",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "facility_capex_7m_per_it_mw",
+        "option": "cloud",
+        "cost_npv_usd": "1152033653",
+        "tco_usd": "1696787232",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "facility_capex_7m_per_it_mw",
+        "option": "dedicated",
+        "cost_npv_usd": "1451684799",
+        "tco_usd": "2140176012",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "facility_capex_7m_per_it_mw",
+        "option": "hybrid_dedicated",
+        "cost_npv_usd": "1389125398",
+        "tco_usd": "2044698379",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "facility_capex_7m_per_it_mw",
+        "option": "colo",
+        "cost_npv_usd": "1175782688",
+        "tco_usd": "1678477605",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "facility_capex_7m_per_it_mw",
+        "option": "own",
+        "cost_npv_usd": "1162208225",
+        "tco_usd": "1613087662",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "facility_capex_7m_per_it_mw",
+        "option": "hybrid_colo",
+        "cost_npv_usd": "1177008483",
+        "tco_usd": "1696436040",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "facility_capex_7m_per_it_mw",
+        "option": "hybrid_own",
+        "cost_npv_usd": "1174353851",
+        "tco_usd": "1658672079",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "facility_capex_14m_per_it_mw",
+        "option": "cloud",
+        "cost_npv_usd": "1152033653",
+        "tco_usd": "1696787232",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "facility_capex_14m_per_it_mw",
+        "option": "dedicated",
+        "cost_npv_usd": "1451684799",
+        "tco_usd": "2140176012",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "facility_capex_14m_per_it_mw",
+        "option": "hybrid_dedicated",
+        "cost_npv_usd": "1389125398",
+        "tco_usd": "2044698379",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "facility_capex_14m_per_it_mw",
+        "option": "colo",
+        "cost_npv_usd": "1175782688",
+        "tco_usd": "1678477605",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "facility_capex_14m_per_it_mw",
+        "option": "own",
+        "cost_npv_usd": "1275690928",
+        "tco_usd": "1757307016",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "facility_capex_14m_per_it_mw",
+        "option": "hybrid_colo",
+        "cost_npv_usd": "1177008483",
+        "tco_usd": "1696436040",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "facility_capex_14m_per_it_mw",
+        "option": "hybrid_own",
+        "cost_npv_usd": "1253794712",
+        "tco_usd": "1759602105",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "facility_online_2032",
+        "option": "cloud",
+        "cost_npv_usd": "1152033653",
+        "tco_usd": "1696787232",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "facility_online_2032",
+        "option": "dedicated",
+        "cost_npv_usd": "1451684799",
+        "tco_usd": "2140176012",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "facility_online_2032",
+        "option": "hybrid_dedicated",
+        "cost_npv_usd": "1389125398",
+        "tco_usd": "2044698379",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "facility_online_2032",
+        "option": "colo",
+        "cost_npv_usd": "1271300536",
+        "tco_usd": "1889179939",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "facility_online_2032",
+        "option": "own",
+        "cost_npv_usd": "1328324105",
+        "tco_usd": "1935143668",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "facility_online_2032",
+        "option": "hybrid_colo",
+        "cost_npv_usd": "1241479972",
+        "tco_usd": "1841191239",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "facility_online_2032",
+        "option": "hybrid_own",
+        "cost_npv_usd": "1287000875",
+        "tco_usd": "1880777375",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "gpu_refresh_3_years",
+        "option": "cloud",
+        "cost_npv_usd": "1152033653",
+        "tco_usd": "1696787232",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "gpu_refresh_3_years",
+        "option": "dedicated",
+        "cost_npv_usd": "1451684799",
+        "tco_usd": "2140176012",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "gpu_refresh_3_years",
+        "option": "hybrid_dedicated",
+        "cost_npv_usd": "1389125398",
+        "tco_usd": "2044698379",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "gpu_refresh_3_years",
+        "option": "colo",
+        "cost_npv_usd": "1359490433",
+        "tco_usd": "2012420805",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "gpu_refresh_3_years",
+        "option": "own",
+        "cost_npv_usd": "1402657322",
+        "tco_usd": "2019140539",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "gpu_refresh_3_years",
+        "option": "hybrid_colo",
+        "cost_npv_usd": "1305570010",
+        "tco_usd": "1930078440",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "gpu_refresh_3_years",
+        "option": "hybrid_own",
+        "cost_npv_usd": "1342635808",
+        "tco_usd": "1942779492",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "gpu_refresh_5_years",
+        "option": "cloud",
+        "cost_npv_usd": "1152033653",
+        "tco_usd": "1696787232",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "gpu_refresh_5_years",
+        "option": "dedicated",
+        "cost_npv_usd": "1451684799",
+        "tco_usd": "2140176012",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "gpu_refresh_5_years",
+        "option": "hybrid_dedicated",
+        "cost_npv_usd": "1389125398",
+        "tco_usd": "2044698379",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "gpu_refresh_5_years",
+        "option": "colo",
+        "cost_npv_usd": "1146503674",
+        "tco_usd": "1648555845",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "gpu_refresh_5_years",
+        "option": "own",
+        "cost_npv_usd": "1189670563",
+        "tco_usd": "1655275579",
+        "max_site_facility_design_mw": "21.12"
+      },
+      {
+        "variation": "gpu_refresh_5_years",
+        "option": "hybrid_colo",
+        "cost_npv_usd": "1156155120",
+        "tco_usd": "1674767880",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "gpu_refresh_5_years",
+        "option": "hybrid_own",
+        "cost_npv_usd": "1193220918",
+        "tco_usd": "1687468932",
+        "max_site_facility_design_mw": "14.779"
+      },
+      {
+        "variation": "utilization_25pct_lower",
+        "option": "cloud",
+        "cost_npv_usd": "1152033653",
+        "tco_usd": "1696787232",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "utilization_25pct_lower",
+        "option": "dedicated",
+        "cost_npv_usd": "1863761359",
+        "tco_usd": "2750190876",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "utilization_25pct_lower",
+        "option": "hybrid_dedicated",
+        "cost_npv_usd": "1676961125",
+        "tco_usd": "2471019547",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "utilization_25pct_lower",
+        "option": "colo",
+        "cost_npv_usd": "1404340228",
+        "tco_usd": "2023117348",
+        "max_site_facility_design_mw": "25.0"
+      },
+      {
+        "variation": "utilization_25pct_lower",
+        "option": "own",
+        "cost_npv_usd": "1446889701",
+        "tco_usd": "2014475107",
+        "max_site_facility_design_mw": "25.0"
+      },
+      {
+        "variation": "utilization_25pct_lower",
+        "option": "hybrid_colo",
+        "cost_npv_usd": "1348071427",
+        "tco_usd": "1959870797",
+        "max_site_facility_design_mw": "18.666"
+      },
+      {
+        "variation": "utilization_25pct_lower",
+        "option": "hybrid_own",
+        "cost_npv_usd": "1388865458",
+        "tco_usd": "1968870972",
+        "max_site_facility_design_mw": "18.666"
+      }
+    ],
+    "source_ledger": [
+      {
+        "source_id": "MIT_GPU_JUL25",
+        "organization": "MIT ORCD",
+        "source_date": "2025-07-31",
+        "url": "https://orcd.mit.edu/news/orcd-newsletter-july-2025",
+        "public_fact_used": "16810 L40S jobs out of 30779 specified-GPU jobs in July 2025; about 54.6 percent of job counts",
+        "planning_inference_or_limit": "Job count is not GPU-hours or consortium mix; supports existence of material mid-tier demand only"
+      },
+      {
+        "source_id": "MIT_GPU_RULE",
+        "organization": "MIT ORCD",
+        "source_date": "2025-11-19",
+        "url": "https://orcd-docs.mit.edu/running-jobs/requesting-resources/",
+        "public_fact_used": "L40S is default for most ML jobs; H200 reserved for larger memory or FP64",
+        "planning_inference_or_limit": "Task-level eligibility guide not a universal share"
+      },
+      {
+        "source_id": "NVIDIA_L40S",
+        "organization": "NVIDIA",
+        "source_date": "accessed 2026-10-04",
+        "url": "https://www.nvidia.com/en-us/data-center/l40s/",
+        "public_fact_used": "L40S class has 48 GB GDDR6 memory and 350 W GPU power",
+        "planning_inference_or_limit": "350 W is card power not complete 4-GPU server design power"
+      },
+      {
+        "source_id": "SUPERMICRO_L40S_POWER",
+        "organization": "Supermicro",
+        "source_date": "2025-03-07",
+        "url": "https://www.supermicro.com/en/support/faqs/faq.php?faq=42412",
+        "public_fact_used": "Four L40S 350 W cards plus CPUs and basic parts total about 2.21 kW in a worked example",
+        "planning_inference_or_limit": "2.8 kW per 4-GPU node is an added planning allowance not a measured nameplate"
+      },
+      {
+        "source_id": "NVIDIA_DGX_B200",
+        "organization": "NVIDIA",
+        "source_date": "accessed 2026-10-04",
+        "url": "https://docs.nvidia.com/dgx/dgxb200-user-guide/introduction-to-dgxb200.html",
+        "public_fact_used": "DGX B200 8-GPU reference has 10U chassis and 14.3 kW maximum system power",
+        "planning_inference_or_limit": "Reference chassis for preliminary rack count and design power not vendor bid"
+      },
+      {
+        "source_id": "NVIDIA_DGX_H200",
+        "organization": "NVIDIA",
+        "source_date": "accessed 2026-10-04",
+        "url": "https://docs.nvidia.com/dgx/dgxh100-user-guide/introduction-to-dgxh100.html",
+        "public_fact_used": "DGX H200 8-GPU reference has 8U chassis and 10.2 kW maximum system power",
+        "planning_inference_or_limit": "Reference chassis for preliminary rack count and design power not vendor bid"
+      },
+      {
+        "source_id": "SUPERMICRO_L40S_RACK",
+        "organization": "Supermicro",
+        "source_date": "2024-07",
+        "url": "https://www.supermicro.com/datasheet/datasheet_SuperCluster_Omniverse_L40S.pdf",
+        "public_fact_used": "Four-U PCIe GPU systems can house L40S cards",
+        "planning_inference_or_limit": "Planning assumes four L40S per 4U node; rack calculation excludes network power and maintenance space"
+      },
+      {
+        "source_id": "LAMBDA_CLUSTER_B200",
+        "organization": "Lambda",
+        "source_date": "accessed 2026-10-04",
+        "url": "https://lambda.ai/pricing",
+        "public_fact_used": "Public 256-plus networked B200 cluster listing $8.87 per GPU-hour for 2 weeks to 1 year",
+        "planning_inference_or_limit": "Not a multi-year quote or capacity guarantee for this project"
+      },
+      {
+        "source_id": "RUNPOD_GPU_PRICES",
+        "organization": "Runpod",
+        "source_date": "2026-09-25 page update; rates verified 2026-08-10",
+        "url": "https://www.runpod.io/articles/guides/ai-server-cost",
+        "public_fact_used": "H200 multi-node cluster listed $4.31 per GPU-hour; L40S Secure Cloud $1.09 per GPU-hour",
+        "planning_inference_or_limit": "Two different Runpod products and no project-specific security or scale guarantee"
+      },
+      {
+        "source_id": "AWS_CAPACITY_BLOCKS",
+        "organization": "AWS",
+        "source_date": "announced before 2026-10-07",
+        "url": "https://aws.amazon.com/ec2/capacityblocks/pricing/",
+        "public_fact_used": "AWS announced 2026-10-07 B200 $14.208 and H200 p5e $6.866 per accelerator-hour Capacity Blocks",
+        "planning_inference_or_limit": "Higher-price reference; reservations and idle blocks differ from metered cloud proxy"
+      },
+      {
+        "source_id": "TURNER_COST_INDEX",
+        "organization": "Turner and Townsend",
+        "source_date": "2025-11-05",
+        "url": "https://www.turnerandtownsend.com/en-us/news/ai-data-center-rush-raises-alarm-over-construction-supply-chain/",
+        "public_fact_used": "US AI facilities show 7-10 percent construction premium; Silicon Valley benchmark $13.3 per watt; power availability was prominent delivery obstacle",
+        "planning_inference_or_limit": "No project or Iowa/Texas parcel quote; $10.5m per IT MW assumption is within a broad plausible range"
+      },
+      {
+        "source_id": "EIA_STATE_PRICE_2024",
+        "organization": "EIA",
+        "source_date": "2024 data published 2025",
+        "url": "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_4.pdf",
+        "public_fact_used": "Industrial average 2024 TX 6.12 IA 6.80 OH 7.10 VA 8.99 cents per kWh",
+        "planning_inference_or_limit": "A state average is not a 25 MW tariff or a 2030 forecast; model uses 8 cents with 6-12 cent sensitivity"
+      },
+      {
+        "source_id": "NERC_LTRA_2025",
+        "organization": "NERC",
+        "source_date": "2026-01",
+        "url": "https://www.nerc.com/globalassets/our-work/assessments/nerc_ltra_2025.pdf",
+        "public_fact_used": "Regional large-load growth and resource adequacy concerns",
+        "planning_inference_or_limit": "No evidence a particular parcel can deliver 25 MW by 2030"
+      }
+    ],
+    "risk_register": [
+      {
+        "risk_id": "PRICE_COMPARABILITY",
+        "risk": "public_GPU_list_prices_not_equivalent",
+        "level": "high",
+        "indicator": "Quoted network security capacity or storage terms differ from catalog examples",
+        "mitigation": "Compare task-completion cost with consistent SLA and geography",
+        "decision_gate": "Same-workload provider price and service range before first-phase commitment",
+        "planning_model_impact": "Cloud catalog proxy NPV 1.152bn; +5pct price approximately matches hybrid colo"
+      },
+      {
+        "risk_id": "GPU_TIER",
+        "risk": "high_end_share_or_throughput_wrong",
+        "level": "high",
+        "indicator": "Task HBM FP64 or benchmark differs from tier assumption",
+        "mitigation": "Use mid/base/high tier mixes and representative task trials",
+        "decision_gate": "Accept tier split before bulk fleet purchase",
+        "planning_model_impact": "2030 base facility 12.93_to_13.54_MW across tier mixes"
+      },
+      {
+        "risk_id": "GPU_REFRESH",
+        "risk": "GPU_generation_and_refresh_cycle",
+        "level": "high",
+        "indicator": "Replacement needed in three years or future task throughput differs",
+        "mitigation": "Purchase in cohorts and benchmark each generation",
+        "decision_gate": "Refresh and repurpose policy before bulk fleet purchase",
+        "planning_model_impact": "Three_year_hybrid_colo_NPV_1.306bn_vs_four_year_1.177bn_vs_five_year_1.156bn"
+      },
+      {
+        "risk_id": "UTILIZATION",
+        "risk": "core_capacity_idle",
+        "level": "high",
+        "indicator": "Schedulable GPU use lower than 55_to_60pct assumptions",
+        "mitigation": "70pct core option and eligible cloud burst",
+        "decision_gate": "Member minimum commitment before long reservation",
+        "planning_model_impact": "25pct_lower_utilization hybrid_colo_NPV_1.348bn_vs_cloud_1.152bn"
+      },
+      {
+        "risk_id": "POWER_DELAY",
+        "risk": "first_phase_power_late",
+        "level": "high",
+        "indicator": "Utility requires substation or transmission upgrade",
+        "mitigation": "Parallel Texas Iowa site inquiry and cloud bridge",
+        "decision_gate": "Written first-phase and 25MW expansion path",
+        "planning_model_impact": "2030_to_2032_hybrid_colo_NPV_1.177bn_to_1.241bn"
+      },
+      {
+        "risk_id": "DEDICATED_PRICE",
+        "risk": "reserved_GPU_rate_wrong",
+        "level": "high",
+        "indicator": "Contract discount below or above 18_to_25pct assumption",
+        "mitigation": "Keep cloud and controlled colo bids live",
+        "decision_gate": "Comparable reservation billing and refresh terms",
+        "planning_model_impact": "Dedicated_base_NPV_1.452bn_minus25pct_NPV_1.111bn"
+      },
+      {
+        "risk_id": "BUILD_COST",
+        "risk": "facility_and_grid_capex",
+        "level": "medium_high",
+        "indicator": "Site quote outside 7m_to_14m_per_IT_MW range or fixed connection costs",
+        "mitigation": "Use engineering estimate and site-specific upgrade study",
+        "decision_gate": "Scope and upgrade costs before land lock-in",
+        "planning_model_impact": "Own_NPV_1.162bn_to_1.276bn_across_facility_capex_range"
+      },
+      {
+        "risk_id": "POWER_PRICE",
+        "risk": "tariff_and_minimum_take",
+        "level": "medium_high",
+        "indicator": "25MW contract demand or energy rate exceeds assumed 8cents_per_kWh",
+        "mitigation": "Model full fixed variable and exit costs",
+        "decision_gate": "Utility tariff and load shape before capacity commitment",
+        "planning_model_impact": "Own_NPV_1.211bn_to_1.235bn_across_6_to_12_cent_energy_only_range"
+      },
+      {
+        "risk_id": "DATA_PERMISSION",
+        "risk": "restricted_data_not_approved",
+        "level": "high",
+        "indicator": "Dataset terms prohibit transfer or shared enclave",
+        "mitigation": "Origin-institution fallback and reviewed US secure environment",
+        "decision_gate": "Data-owner institutional and security approvals",
+        "planning_model_impact": "Site-eligible share unquantified"
+      },
+      {
+        "risk_id": "PERMIT_COOLING",
+        "risk": "construction_water_or_liquid_cooling_delay",
+        "level": "medium_high",
+        "indicator": "Zoning water or cooling design unresolved",
+        "mitigation": "Phased design and independent engineering",
+        "decision_gate": "Permits and cooling basis before construction order",
+        "planning_model_impact": "Schedule and capex unquantified"
+      },
+      {
+        "risk_id": "FIBER_RELIABILITY",
+        "risk": "connectivity_or_hazard_gap",
+        "level": "medium_high",
+        "indicator": "Single route insufficient latency or climate exposure",
+        "mitigation": "Two diverse routes and parcel hazard review",
+        "decision_gate": "Named carriers and engineering review",
+        "planning_model_impact": "Site eligibility unquantified"
+      }
+    ]
+  },
   "source_checksums": {
     "step5/eligibility_rules.csv": "2a347c82730e17d5869a7e5e7351df5b0fe5018ea32d75f4f99d55b730b7fd70",
     "step6/candidate_regions.csv": "d8430874691f846adcd28e8f87529f9e221a08c2c2bc9eebf2b55b4d578e4ecc",
@@ -1447,7 +3013,12 @@
     "step8/gpu_unit_economics.csv": "cafba4950521b2fe0f02cdd4f7f358f52611fea6ef26b8ba94630dfdab004cb3",
     "step9/risk_register.csv": "ecb2fed86555620e8e5d8b9fb64e5fc887d0fdd08167e67144a80990c9a137bf",
     "step9/timeline.csv": "f365a0cd510c2d56a62ebee9cbb471bd315cc204572df4568b4e08bbee2abd61",
-    "step10/key_judgments_assumptions.csv": "e5572d46d20e45b594e277f2f1f16bd4b49a28271332e59afe362d72350cbe0a",
-    "step10/website_mapping.csv": "30687f5886ccf3b6dafd156baddd5c8031a8bcc10b3c0b8af6887a86de494dab"
+    "step10/key_judgments_assumptions.csv": "b9cd1789a4c19d59dfb581437f0abae7b444bdaf9484b1081475c2a7a943b314",
+    "step10/website_mapping.csv": "922dc167faba1d798036e0f0b7c8f05114f6460523ece35a176785073e59fd81",
+    "planning-revision/architecture_cases.csv": "b3cb4eac02a2b6937660d7a517735b760024debb2cfacb83f4fd1f787bd1d94c",
+    "planning-revision/option_summary.csv": "bc5dfb5f3cef8f3af9ceb0ae6c8342cbb0ef3e8e4c4dc14eb35450ad5cc76644",
+    "planning-revision/sensitivity_outputs.csv": "54dbc2af5feb66c384e7b05a30cb61538d6d9f8f3b2cd6dfd37a4025b85cb505",
+    "planning-revision/source_ledger.csv": "f2483cf4a2cdecc474f667043da7699e75ca15e12b4ea9b5cad4df69d766c621",
+    "planning-revision/risk_register.csv": "324b6973445bea7f71f2902f133775bbd211da40496c2043d8cac199bb89267e"
   }
 }
