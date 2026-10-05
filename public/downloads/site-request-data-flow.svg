@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 610" role="img" aria-labelledby="title desc">
+  <title id="title">University Consortium website request and evidence flow</title>
+  <desc id="desc">The question path passes from a registered browser user through Sites authorization and D1 evidence retrieval to the OpenAI Responses API, then through a citation check back to the browser. A separate authorized refresh path validates NESO API data before updating D1 and retains the last valid value on failure.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#3b789c"/></marker>
+    <style>
+      text{font-family:Inter,Arial,sans-serif;fill:#123149} .label{font-size:16px;font-weight:700;letter-spacing:2px;fill:#47718c}.title{font-size:24px;font-weight:750}.body{font-size:17px;fill:#456377}.small{font-size:15px;fill:#52718a}.num{font-size:15px;font-weight:800;fill:#fff}.line{stroke:#3b789c;stroke-width:3;fill:none;marker-end:url(#arrow)} .dash{stroke:#73a4bd;stroke-width:2.5;stroke-dasharray:7 6;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1400" height="610" rx="22" fill="#f5f9fc"/>
+  <path d="M42 363H1358" stroke="#d5e3ec" stroke-width="2"/>
+  <text x="56" y="54" class="label">01 / REGISTERED QUESTION</text>
+  <text x="56" y="401" class="label">02 / AUTHORIZED DATA REFRESH</text>
+
+  <rect x="56" y="104" width="250" height="174" rx="15" fill="#fff" stroke="#c3d8e5" stroke-width="2"/>
+  <circle cx="83" cy="132" r="14" fill="#1d5f85"/><text x="78" y="138" class="num">1</text>
+  <text x="78" y="177" class="title">Browser</text>
+  <text x="78" y="211" class="body">Sign in with ChatGPT</text>
+  <text x="78" y="238" class="body">Ask a question</text>
+
+  <rect x="383" y="104" width="260" height="174" rx="15" fill="#e7f2f8" stroke="#83b3cb" stroke-width="2"/>
+  <circle cx="410" cy="132" r="14" fill="#1d5f85"/><text x="405" y="138" class="num">2</text>
+  <text x="405" y="177" class="title">Sites backend</text>
+  <text x="405" y="211" class="body">Check registration + rate</text>
+  <text x="405" y="238" class="body">Select relevant records</text>
+
+  <rect x="720" y="104" width="240" height="174" rx="15" fill="#fff" stroke="#c3d8e5" stroke-width="2"/>
+  <circle cx="747" cy="132" r="14" fill="#1d5f85"/><text x="742" y="138" class="num">3</text>
+  <text x="742" y="177" class="title">Cloudflare D1</text>
+  <text x="742" y="211" class="body">Claims + sources</text>
+  <text x="742" y="238" class="body">Assumptions + metrics</text>
+
+  <rect x="1038" y="104" width="306" height="174" rx="15" fill="#e6f6f2" stroke="#80bdaf" stroke-width="2"/>
+  <circle cx="1065" cy="132" r="14" fill="#1d5f85"/><text x="1060" y="138" class="num">4</text>
+  <text x="1060" y="177" class="title">OpenAI Responses API</text>
+  <text x="1060" y="211" class="body">Question + scoped evidence</text>
+  <text x="1060" y="238" class="body">Key stays on the server</text>
+
+  <path d="M306 181H375" class="line"/><text x="313" y="163" class="small">POST /api/chat</text>
+  <path d="M643 181H712" class="line"/><text x="658" y="163" class="small">read</text>
+  <path d="M840 278V296H515V286" class="dash"/><text x="661" y="290" class="small">scoped records</text>
+  <path d="M530 104V77H1191V96" class="line"/><text x="843" y="70" class="small">backend call + context</text>
+  <path d="M1191 278V332H515V286" class="dash"/>
+  <text x="742" y="324" class="small">Answer → backend citation check</text>
+  <path d="M383 258H314" class="line"/>
+
+  <rect x="56" y="442" width="250" height="112" rx="15" fill="#fff" stroke="#c3d8e5" stroke-width="2"/>
+  <text x="78" y="480" class="title">Editor</text><text x="78" y="512" class="body">Requests a refresh</text>
+  <rect x="383" y="442" width="260" height="112" rx="15" fill="#e7f2f8" stroke="#83b3cb" stroke-width="2"/>
+  <text x="405" y="480" class="title">Sites backend</text><text x="405" y="512" class="body">Checks admin role</text>
+  <rect x="720" y="442" width="240" height="112" rx="15" fill="#fff" stroke="#c3d8e5" stroke-width="2"/>
+  <text x="742" y="480" class="title">NESO API</text><text x="742" y="512" class="body">Current grid indicator</text>
+  <rect x="1038" y="442" width="306" height="112" rx="15" fill="#fff" stroke="#c3d8e5" stroke-width="2"/>
+  <text x="1060" y="480" class="title">Validate → D1</text><text x="1060" y="512" class="body">Retain last good value on failure</text>
+  <path d="M306 498H375" class="line"/><path d="M643 498H712" class="line"/><path d="M960 498H1030" class="line"/>
+  <text x="56" y="590" class="small">Public pages are readable without sign-in; /api/chat and research updates enforce access on the server.</text>
+</svg>

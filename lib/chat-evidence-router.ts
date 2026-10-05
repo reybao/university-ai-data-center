@@ -1,4 +1,5 @@
 export type ResearchIntent =
+  | "data_inventory"
   | "recommendation"
   | "framework"
   | "demand"
@@ -31,6 +32,7 @@ const sectionIntent: Record<string, ResearchIntent> = {
 };
 
 const rules: Array<[ResearchIntent, RegExp]> = [
+  ["data_inventory", /(?:使用|用了|依据|依赖|包含|罗列|列出|哪些|所有).{0,12}(?:数据|资料|指标|来源|数据框架)|(?:数据|资料|指标|来源|数据框架).{0,12}(?:使用|用了|依据|依赖|包含|罗列|列出|哪些|所有)|\b(?:what|which|list|all)\b.{0,35}\b(?:data|datasets|inputs|sources|metrics)\b|\b(?:data|datasets|inputs|sources|metrics)\b.{0,35}\b(?:used|underlying|included)\b/i],
   ["recommendation", /\b(?:final|overall|investment|committee|ic)\s+(?:recommendation|decision|verdict|conclusion)\b|\bwhat\s+should\s+(?:the\s+)?(?:committee|ic|we)\s+(?:approve|do)\b|最终建议|总体建议|投资建议|最终结论|建议是什么|应该批准|是否批准/i],
   ["framework", /\b(decision|analysis|research)\s+(logic|framework|tree|process|steps?)\b|\bhow\s+(?:should|do|would)\s+(?:we|you)\s+(?:analyse|analyze|decide)\b|决策逻辑|分析逻辑|分析框架|决策框架|分析步骤|研究逻辑|如何分析|如何决策/i],
   ["countries", /\b(?:compare|comparison|rank|ranking)\b.{0,40}\b(?:countries|country|us|usa|united states|china|uk|united kingdom)\b|国家比较|国家对比|美国.{0,12}中国|中国.{0,12}英国/i],
@@ -50,8 +52,29 @@ export function classifyResearchIntent(message: string, section: string): Resear
   return sectionIntent[section] || "framework";
 }
 
+export function classifyResearchIntents(message: string, section: string): ResearchIntent[] {
+  const matched = rules.filter(([, pattern]) => pattern.test(message)).map(([intent]) => intent);
+  // A compound question needs evidence for each part, not a single page-default label.
+  return matched.length ? [...new Set(matched)].slice(0, 3) : [sectionIntent[section] || "framework"];
+}
+
+export function evidenceScopeForIntents(intents: ResearchIntent[]): EvidenceScope {
+  const scopes = intents.map(evidenceScopeForIntent);
+  return {
+    indicators: [...new Set(scopes.flatMap(scope => scope.indicators))],
+    claims: [...new Set(scopes.flatMap(scope => scope.claims))],
+    assumptions: [...new Set(scopes.flatMap(scope => scope.assumptions))],
+  };
+}
+
 export function evidenceScopeForIntent(intent: ResearchIntent): EvidenceScope {
   switch (intent) {
+    case "data_inventory":
+      return {
+        indicators: ["us_dc_2024", "us_mix", "us_carbon", "us_cooling", "cn_dc_2024", "cn_mix", "cn_carbon", "cn_cooling", "uk_dc_2024", "uk_dc_count", "uk_mix", "uk_carbon", "uk_cooling", "us_tx_price", "gb_live_carbon"],
+        claims: ["model_demand", "model_power", "model_staging", "model_cost", "model_stress", "carbon_basis", "cooling_gate"],
+        assumptions: ["member_units", "pue", "first_module", "later_module", "envelope", "colo_share", "discount_rate", "research_region"],
+      };
     case "recommendation":
       return {
         indicators: [],
@@ -60,9 +83,9 @@ export function evidenceScopeForIntent(intent: ResearchIntent): EvidenceScope {
       };
     case "framework":
       return {
-        indicators: [],
-        claims: ["analysis_framework"],
-        assumptions: [],
+        indicators: ["us_dc_2024", "cn_dc_2024", "uk_dc_2024", "us_tx_price"],
+        claims: ["analysis_framework", "decision_recommendation", "model_demand", "model_power", "model_staging", "model_cost", "model_stress", "research_location"],
+        assumptions: ["member_units", "pue", "first_module", "later_module", "envelope", "discount_rate"],
       };
     case "demand":
       return {
