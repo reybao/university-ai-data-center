@@ -1,4 +1,5 @@
 export type ResearchIntent =
+  | "recommendation"
   | "framework"
   | "demand"
   | "strategy"
@@ -30,6 +31,7 @@ const sectionIntent: Record<string, ResearchIntent> = {
 };
 
 const rules: Array<[ResearchIntent, RegExp]> = [
+  ["recommendation", /\b(?:final|overall|investment|committee|ic)\s+(?:recommendation|decision|verdict|conclusion)\b|\bwhat\s+should\s+(?:the\s+)?(?:committee|ic|we)\s+(?:approve|do)\b|最终建议|总体建议|投资建议|最终结论|建议是什么|应该批准|是否批准/i],
   ["framework", /\b(decision|analysis|research)\s+(logic|framework|tree|process|steps?)\b|\bhow\s+(?:should|do|would)\s+(?:we|you)\s+(?:analyse|analyze|decide)\b|决策逻辑|分析逻辑|分析框架|决策框架|分析步骤|研究逻辑|如何分析|如何决策/i],
   ["countries", /\b(?:compare|comparison|rank|ranking)\b.{0,40}\b(?:countries|country|us|usa|united states|china|uk|united kingdom)\b|国家比较|国家对比|美国.{0,12}中国|中国.{0,12}英国/i],
   ["location", /\b(?:texas|ercot|parcel|site selection|regional? screen|location|utility commitment|power delivery)\b|德州|得州|选址|地块|地区筛选|电网接入地点/i],
@@ -50,6 +52,12 @@ export function classifyResearchIntent(message: string, section: string): Resear
 
 export function evidenceScopeForIntent(intent: ResearchIntent): EvidenceScope {
   switch (intent) {
+    case "recommendation":
+      return {
+        indicators: [],
+        claims: ["decision_recommendation"],
+        assumptions: [],
+      };
     case "framework":
       return {
         indicators: [],

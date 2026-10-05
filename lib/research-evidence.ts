@@ -63,6 +63,7 @@ const assumptions = [
 
 const claims = [
   ["analysis_framework", "The investment analysis sequence is: validate users, workloads and effective GPU-hours; test whether demand supports 25 MW or a smaller staged start; compare build-and-own, rented compute and phased hybrid delivery, including ownership boundaries; test the physical design, critical-component failure and a 48-hour outage; compare at least three countries and only then screen regions inside the selected project country; model ten-year facility and GPU cash flows; run the required base, one-year grid-delay and half-forecast GPU-utilization scenarios; then separate verified facts, estimates, calculations, assumptions, design decisions and unknowns to decide whether to approve, reject or request more evidence. Texas/ERCOT enters only in the later US regional price screen, not at the start of the analysis.", "design decision", null, null],
+  ["decision_recommendation", "The current investment recommendation is to approve demand validation, engineering and commercial diligence, and matched cloud and colocation bids for a phased hybrid plan; do not authorize construction of the full 25 MW facility or the full GPU purchase now. Use 12 MW total facility input as the illustrative 2030 first module, expand to 15 MW from 2033 only if observed demand and comparable contracts support it, and keep 25 MW as an uncommitted planning envelope. The recommendation must be reconsidered if member demand commitments, matched supplier pricing, or deliverable power evidence are materially weaker than assumed.", "design decision", null, null],
   ["iea_scope", "IEA 2024 US and China data-centre electricity figures are model estimates based on shares of its global 415 TWh total.", "fact", "iea_energy_ai", "us_dc_2024"],
   ["uk_scope", "DESNZ 2024 Great Britain data-centre electricity covers a narrower operational-centre population; it is not directly comparable with the IEA national estimates.", "fact", "uk_scope", "uk_dc_2024"],
   ["research_location", "Texas / ERCOT is a provisional design research region; no parcel or power-delivery commitment has been selected.", "assumption", null, null],
@@ -84,10 +85,10 @@ export async function ensureEvidenceSeeded(db: D1Database) {
       db.prepare("SELECT evidence_type,value,source_id FROM indicators WHERE id='cn_cooling'").first<{ evidence_type: string; value: string | null; source_id: string | null }>(),
       db.prepare("SELECT statement,source_id FROM research_claims WHERE id='research_location'").first<{ statement: string; source_id: string | null }>(),
     ]);
-    const frameworkClaim = claims.find(row => row[0] === "analysis_framework")!;
-    const updates: D1PreparedStatement[] = [
-      db.prepare("INSERT OR IGNORE INTO research_claims (id,statement,evidence_type,source_id,indicator_id) VALUES (?,?,?,?,?)").bind(...frameworkClaim),
-    ];
+    const newClaims = claims.filter(row => row[0] === "analysis_framework" || row[0] === "decision_recommendation");
+    const updates: D1PreparedStatement[] = newClaims.map(row =>
+      db.prepare("INSERT OR IGNORE INTO research_claims (id,statement,evidence_type,source_id,indicator_id) VALUES (?,?,?,?,?)").bind(...row)
+    );
     if (ukPrior?.evidence_type === "unknown" && ukPrior.value === null && ukPrior.source_id === "uk_carbon_table") {
       const source = sources.find(row => row[0] === "gb_carbon_annual_2024")!;
       updates.push(
