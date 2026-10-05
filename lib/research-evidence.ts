@@ -64,7 +64,7 @@ const assumptions = [
 const claims = [
   ["iea_scope", "IEA 2024 US and China data-centre electricity figures are model estimates based on shares of its global 415 TWh total.", "fact", "iea_energy_ai", "us_dc_2024"],
   ["uk_scope", "DESNZ 2024 Great Britain data-centre electricity covers a narrower operational-centre population; it is not directly comparable with the IEA national estimates.", "fact", "uk_scope", "uk_dc_2024"],
-  ["research_location", "Texas / ERCOT is the provisional US region for design research because it has the lowest historical 2024 industrial retail-price proxy in the current four-state screen; it is not a selected parcel or a power-delivery commitment.", "assumption", "eia_price", null],
+  ["research_location", "Texas / ERCOT is a provisional design research region; no parcel or power-delivery commitment has been selected.", "assumption", null, null],
   ["carbon_basis", "The US operational CO₂ measure is a generator factor, distinct from lifecycle carbon accounting; a harmonized carbon ranking is TBD.", "fact", "eia_emissions", "us_carbon"],
   ["cooling_gate", "Cooling design, water availability and annual PUE need local engineering and service-provider evidence before site underwriting.", "assumption", "uk_water", null],
   ["model_demand", "Five hypothetical members sum to 3.5 MIT-reference demand units; the weights and future utilization have not been measured for a real consortium.", "assumption", "model_demand", null],
@@ -78,9 +78,10 @@ export async function ensureEvidenceSeeded(db: D1Database) {
   const existing = await db.prepare("SELECT code FROM countries LIMIT 1").first();
   if (existing) {
     // Correct only prior placeholder records, preserving manually edited and refreshed evidence.
-    const [ukPrior, cnPrior] = await Promise.all([
+    const [ukPrior, cnPrior, locationPrior] = await Promise.all([
       db.prepare("SELECT evidence_type,value,source_id FROM indicators WHERE id='uk_carbon'").first<{ evidence_type: string; value: string | null; source_id: string | null }>(),
       db.prepare("SELECT evidence_type,value,source_id FROM indicators WHERE id='cn_cooling'").first<{ evidence_type: string; value: string | null; source_id: string | null }>(),
+      db.prepare("SELECT statement,source_id FROM research_claims WHERE id='research_location'").first<{ statement: string; source_id: string | null }>(),
     ]);
     const updates: D1PreparedStatement[] = [];
     if (ukPrior?.evidence_type === "unknown" && ukPrior.value === null && ukPrior.source_id === "uk_carbon_table") {
@@ -98,6 +99,11 @@ export async function ensureEvidenceSeeded(db: D1Database) {
         db.prepare("UPDATE indicators SET label=?,value=?,unit=NULL,evidence_type='fact',reporting_period=?,retrieved_at=?,source_id=?,method_note=?,updated_at=CURRENT_TIMESTAMP WHERE id='cn_cooling' AND evidence_type='estimate' AND value='Climate, water and grid conditions require provincial screening' AND source_id='iea_energy_ai'")
           .bind("Cooling and efficiency policy", "Water-conservation review; large-centre PUE ≤1.25, hub PUE ≤1.20", "2024 policy; end-2025 target", retrievedAt, "cn_green_policy", "Official policy calls for water-conservation review of new or expanded projects and sets PUE targets for large/very large and national-hub data centres. Policy targets are not observed performance or a site water allocation."),
       );
+    }
+    const oldLocationStatement = "Texas / ERCOT is the provisional US region for design research because it has the lowest historical 2024 industrial retail-price proxy in the current four-state screen; it is not a selected parcel or a power-delivery commitment.";
+    if (locationPrior?.source_id === "eia_price" && locationPrior.statement === oldLocationStatement) {
+      updates.push(db.prepare("UPDATE research_claims SET statement=?,source_id=NULL,updated_at=CURRENT_TIMESTAMP WHERE id='research_location' AND statement=? AND source_id='eia_price'")
+        .bind("Texas / ERCOT is a provisional design research region; no parcel or power-delivery commitment has been selected.", oldLocationStatement));
     }
     if (updates.length) await db.batch(updates);
     return;
