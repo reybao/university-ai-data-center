@@ -344,6 +344,7 @@ function ResearchAssistant({ section }: { section: string }) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [needsRegistration, setNeedsRegistration] = useState(false);
   const [needsSignIn, setNeedsSignIn] = useState(false);
+  const [registeredReady, setRegisteredReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [voiceFormat, setVoiceFormat] = useState("");
   const [voiceStatus, setVoiceStatus] = useState<"idle" | "requesting" | "recording" | "transcribing">("idle");
@@ -367,13 +368,29 @@ function ResearchAssistant({ section }: { section: string }) {
   }, []);
   useEffect(() => { if (threadRef.current) threadRef.current.scrollTop = threadRef.current.scrollHeight; }, [messages, busy]);
 
+  async function checkRegistration() {
+    try {
+      const response = await fetch("/api/auth/register", { cache: "no-store" });
+      if (response.status === 401) {
+        setNeedsSignIn(true); setNeedsRegistration(false); setRegisteredReady(false);
+        return;
+      }
+      if (!response.ok) return;
+      const data = await response.json() as { registered?: boolean };
+      setNeedsSignIn(false);
+      setNeedsRegistration(!data.registered);
+      setRegisteredReady(Boolean(data.registered));
+    } catch { /* The chat endpoint still enforces access if this status check fails. */ }
+  }
+
   async function register() {
     try {
       const r = await fetch("/api/auth/register", { method: "POST" });
       const d = await r.json() as { error?: string };
       if (!r.ok) throw new Error(d.error || "Registration is unavailable.");
       setNeedsRegistration(false);
-      setMessages(previous => [...previous, { role: "assistant", content: "Registration complete. Please send your question again.", isError: true }]);
+      setRegisteredReady(true);
+      setMessages(previous => [...previous, { role: "assistant", content: "Registration complete. You can now ask a question." }]);
     } catch (error) {
       setMessages(previous => [...previous, { role: "assistant", content: error instanceof Error ? error.message : "Registration is unavailable.", isError: true }]);
     }
@@ -389,6 +406,7 @@ function ResearchAssistant({ section }: { section: string }) {
       const data = await response.json() as { text?: string; error?: string };
       setNeedsRegistration(response.status === 403);
       setNeedsSignIn(response.status === 401);
+      if (response.status === 401 || response.status === 403) setRegisteredReady(false);
       if (!response.ok || !data.text) throw new Error(data.error || "Speech could not be transcribed.");
       setPrompt(previous => previous.trim() ? `${previous.trim()} ${data.text}` : data.text!);
       setVoiceError("");
@@ -450,6 +468,7 @@ function ResearchAssistant({ section }: { section: string }) {
       if (!response.ok) {
         const data = await response.json() as { error?: string };
         setNeedsRegistration(response.status === 403); setNeedsSignIn(response.status === 401);
+        if (response.status === 401 || response.status === 403) setRegisteredReady(false);
         throw new Error(data.error || "Chat is not available yet.");
       }
       if (!response.body) throw new Error("The AI response could not be read.");
@@ -488,6 +507,7 @@ function ResearchAssistant({ section }: { section: string }) {
 
   const stopOnClose = (open: boolean) => {
     sheetOpenRef.current = open;
+    if (open) void checkRegistration();
     if (!open && recorderRef.current?.state === "recording") {
       discardVoiceRef.current = true;
       recorderRef.current.stop();
@@ -499,7 +519,7 @@ function ResearchAssistant({ section }: { section: string }) {
     <SheetContent className="assistant-sheet">
       <SheetHeader><SheetTitle>AI Research Assistant</SheetTitle><SheetDescription>Short answers grounded in saved research evidence.</SheetDescription></SheetHeader>
       <div className="assistant-body" ref={threadRef} role="log" aria-label="Research assistant conversation" aria-live="polite" aria-busy={busy}>
-        <div className="assistant-intro"><CircleHelp size={22}/><strong>Ask a research question</strong><p>Sign in and register to ask. Answers cite available evidence. Limit: 20 questions per hour.</p></div>
+        <div className="assistant-intro"><CircleHelp size={22}/><strong>Ask a research question</strong><p>Sign in with ChatGPT and register this site once to ask. Answers cite available evidence. Limit: 20 questions per hour.</p>{registeredReady && <p>Registered · ready to ask.</p>}</div>
         <div className="chat-thread">{messages.map((item, index) => <div key={index} className={`chat-message chat-message--${item.role}${item.isError ? " chat-message--error" : ""}`}>
           <span className="chat-message-label">{item.role === "user" ? "You" : `AI Research Assistant${item.isPending ? " · writing…" : ""}`}</span>
           <div className="chat-bubble">{renderChatText(item.content || "Reading evidence…", item.role === "assistant" ? (item.citations || []).map(citation => citation.id) : undefined)}</div>

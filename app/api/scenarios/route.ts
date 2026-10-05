@@ -1,4 +1,4 @@
-import { authenticatedStore, inputKeys, registerUser } from "@/lib/scenario-store";
+import { authenticatedStore, inputKeys } from "@/lib/scenario-store";
 
 export async function GET() {
   const access = await authenticatedStore(); if (access.error) return access.error;
@@ -18,7 +18,8 @@ export async function POST(request: Request) {
   for (const key of inputKeys) if (inputs[key] != null && (typeof inputs[key] !== "string" || String(inputs[key]).length > 40)) return Response.json({ error: `Invalid ${key} input.` }, { status: 400 });
   const id = crypto.randomUUID();
   try {
-    await registerUser(access.db!, access.user!);
+    const registered = await access.db!.prepare("SELECT id FROM users WHERE id=?").bind(access.user!.userId).first();
+    if (!registered) return Response.json({ error: "Open AI Research Assistant and register your account before saving a scenario." }, { status: 403 });
     const statements = [access.db!.prepare("INSERT INTO scenarios (id, user_id, name) VALUES (?, ?, ?)").bind(id, access.user!.userId, name), ...inputKeys.map(key => access.db!.prepare("INSERT INTO scenario_inputs (scenario_id, input_key, input_value) VALUES (?, ?, ?)").bind(id, key, String(inputs[key] || "")))];
     await access.db!.batch(statements);
     return Response.json({ scenario: { id, name } }, { status: 201 });
