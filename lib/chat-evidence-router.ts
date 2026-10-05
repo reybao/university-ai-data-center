@@ -53,8 +53,8 @@ export function evidenceScopeForIntent(intent: ResearchIntent): EvidenceScope {
     case "framework":
       return {
         indicators: [],
-        claims: ["analysis_framework", "model_demand", "model_power", "model_staging", "model_cost", "model_stress"],
-        assumptions: ["member_units", "first_module", "later_module", "envelope"],
+        claims: ["analysis_framework"],
+        assumptions: [],
       };
     case "demand":
       return {
