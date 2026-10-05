@@ -7,6 +7,8 @@ export async function requireResearchAdmin() {
   if (!env.DB) return { error: Response.json({ error: "Research evidence storage is unavailable." }, { status: 503 }) };
   const registered = await env.DB.prepare("SELECT role FROM users WHERE id=?").bind(user.userId).first<{ role: string }>();
   if (!registered) return { error: Response.json({ error: "Register before requesting research updates." }, { status: 403 }) };
-  if (registered.role !== "admin") return { error: Response.json({ error: "Research updates require an authorized administrator." }, { status: 403 }) };
+  const configured = (env as unknown as { RESEARCH_ADMIN_EMAILS?: string }).RESEARCH_ADMIN_EMAILS || "";
+  const configuredAdmins = new Set(configured.split(",").map(value => value.trim().toLowerCase()).filter(Boolean));
+  if (registered.role !== "admin" && !configuredAdmins.has(user.email.toLowerCase())) return { error: Response.json({ error: "Research updates require an authorized administrator." }, { status: 403 }) };
   return { user, db: env.DB };
 }
