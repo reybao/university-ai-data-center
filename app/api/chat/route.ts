@@ -31,6 +31,14 @@ function publicAnswer(reply: string, citations: Citation[]): { reply: string; ci
   };
 }
 
+function directAnswerResponse(reply: string, citations: Citation[], stream: boolean): Response {
+  const answer = publicAnswer(reply, citations);
+  const headers = { "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" };
+  if (!stream) return Response.json(answer, { headers });
+  const body = `${JSON.stringify({ type: "delta", text: answer.reply })}\n${JSON.stringify({ type: "done", citations: answer.citations })}\n`;
+  return new Response(body, { headers: { ...headers, "Content-Type": "application/x-ndjson; charset=utf-8" } });
+}
+
 function sqlPlaceholders(ids: string[]): string {
   return ids.map(() => "?").join(",");
 }
@@ -196,6 +204,33 @@ export async function POST(request: Request) {
           lines.push(`[${id}] ${input.input_key}=${input.input_value}; type=assumption; saved scenario=${owned.name}; updated=${owned.updated_at}`);
         }
       }
+    }
+    const asksForEveryRecord = /逐条|每条|全部指标|所有来源|完整来源清单|row.by.row|every (?:record|source|metric)|full (?:source|data) list/i.test(message);
+    if (intents.includes("data_inventory") && !asksForEveryRecord) {
+      const a = (id: string) => assumptions.find(row => row.id === id)?.value ?? "TBD";
+      const indicator = (id: string) => indicators.find(row => row.id === id);
+      const ref = (id: string) => citationMap.has(id) ? `[${id}]` : "";
+      const publisher = (id: string) => (indicator(id)?.source_publisher ?? "publisher TBD")
+        .replace("International Energy Agency", "IEA")
+        .replace("UK Department for Energy Security and Net Zero", "UK DESNZ");
+      const chinese = /[\u3400-\u9fff]/.test(message);
+      const status = (id: string) => {
+        const value = indicator(id)?.evidence_type ?? "unknown";
+        return chinese ? ({ fact: "事实", estimate: "估计", calculation: "计算", assumption: "假设", unknown: "未知" } as Record<string, string>)[value] ?? value : value;
+      };
+      const countryItems = [
+        `${chinese ? "美国" : "US"} ${indicator("us_dc_2024")?.reporting_period ?? "TBD"}: ${publisher("us_dc_2024")} (${status("us_dc_2024")}) ${ref("I:us_dc_2024")}`,
+        `${chinese ? "中国" : "China"} ${indicator("cn_dc_2024")?.reporting_period ?? "TBD"}: ${publisher("cn_dc_2024")} (${status("cn_dc_2024")}) ${ref("I:cn_dc_2024")}`,
+        `${chinese ? "英国 GB" : "Great Britain"} ${indicator("uk_dc_2024")?.reporting_period ?? "TBD"}: ${publisher("uk_dc_2024")} (${status("uk_dc_2024")}) ${ref("I:uk_dc_2024")}`,
+      ].join("; ");
+      const frameworkLine = intents.includes("framework")
+        ? `决策顺序：先验证需求，再比较国家和候选场址，取得同口径报价后测算自建、租用和混合方案，最后测试故障、十年现金流及压力情景。${ref("C:analysis_framework")}\n\n`
+        : "";
+      const reply = chinese
+        ? `${frameworkLine}当前使用五类数据：\n1. 需求：五个规划成员合计 ${a("member_units")} 个 MIT 参考需求单位，属假设；实际 GPU 小时与利用率尚未取得。${ref("A:member_units")}${ref("C:model_demand")}\n2. 工程：PUE ${a("pue")}、首期 ${a("first_module")} MW、条件扩至 ${a("later_module")} MW、${a("envelope")} MW 扩展上限，均为设计假设。${ref("A:pue")}${ref("A:first_module")}${ref("A:later_module")}${ref("A:envelope")}\n3. 国家比较：数据中心用电的来源和类型分别是 ${countryItems}；D1 另存电力结构、碳和冷却指标。\n4. 区域筛选：Texas/ERCOT 是暂定研究区域；${indicator("us_tx_price")?.reporting_period ?? "TBD"} 年工业电价 ${indicator("us_tx_price")?.value ?? "TBD"} ${indicator("us_tx_price")?.unit ?? ""} 是历史代理值，不是项目报价。${ref("A:research_region")}${ref("I:us_tx_price")}\n5. 经济：十年方案成本与一年接电延迟、GPU 利用率减半结果是模型计算；折现和分期投入仍是假设。${ref("C:model_cost")}${ref("C:model_stress")}\n关键缺口：成员使用承诺、具体场址接电条件及同口径供应商报价。`
+        : `${intents.includes("framework") ? `Decision sequence: validate demand, compare countries and candidate sites, obtain matched offers, then test physical failure paths, ten-year cash flows and stress cases. ${ref("C:analysis_framework")}\n\n` : ""}Five data groups are used:\n1. Demand: ${a("member_units")} MIT reference units for five planning members are assumptions; observed GPU hours and utilization are missing. ${ref("A:member_units")}${ref("C:model_demand")}\n2. Engineering: PUE ${a("pue")}, ${a("first_module")} MW first stage, ${a("later_module")} MW conditional stage, and a ${a("envelope")} MW envelope are assumptions. ${ref("A:pue")}${ref("A:first_module")}${ref("A:later_module")}${ref("A:envelope")}\n3. Country comparison: data-center electricity sources and types are ${countryItems}; D1 also holds generation mix, carbon and cooling indicators.\n4. Regional screen: Texas/ERCOT is provisional; its ${indicator("us_tx_price")?.reporting_period ?? "TBD"} industrial price of ${indicator("us_tx_price")?.value ?? "TBD"} ${indicator("us_tx_price")?.unit ?? ""} is a historical proxy, not a project quote. ${ref("A:research_region")}${ref("I:us_tx_price")}\n5. Economics: ten-year cost and the one-year grid delay and half-utilization cases are model calculations; discount and staging remain assumptions. ${ref("C:model_cost")}${ref("C:model_stress")}\nCritical gaps: member commitments, site-specific power terms and matched supplier offers.`;
+      const citations = verifiedCitations(reply, citationMap);
+      if (citations) return directAnswerResponse(reply, citations, payload.stream === true);
     }
     const instructions = `You are the University Consortium AI data-centre research assistant. Answer the CURRENT question in the user's language, in plain text. Lead with a direct answer. The question may combine several topics; cover each requested part rather than repeating a generic framework. Use only the scoped D1 records supplied by the server, and cite the exact relevant IDs in [I:...] / [C:...] / [A:...] / [S:...] form next to substantive claims. S records are the current user's saved scenario inputs. If present, use them when the user asks about that scenario or its changed inputs; distinguish them from the D1 planning baseline. The server verifies IDs and converts them to numbered references for the browser. Never invent an ID or treat a D1 planning record as an external source.
 
