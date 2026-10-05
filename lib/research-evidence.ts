@@ -15,10 +15,12 @@ const sources = [
   ["eia_emissions", "U.S. Energy Information Administration", "United States Electricity Profile 2024", "https://www.eia.gov/electricity/state/unitedstates/", "2025-11"],
   ["china_stats", "National Bureau of Statistics of China", "2024 National Economic and Social Development Statistical Communiqué", "https://www.stats.gov.cn/sj/zxfb/202502/t20250228_1958817.html", "2025-02"],
   ["china_carbon", "Ministry of Ecology and Environment of China", "2024 national electricity carbon-footprint factors", "https://www.mee.gov.cn/xxgk2018/xxgk/xxgk01/202510/W020251024569470952545.pdf", "2025-10"],
+  ["cn_green_policy", "National Development and Reform Commission of China et al.", "Special Action Plan for Green and Low-Carbon Development of Data Centers", "https://www.ndrc.gov.cn/xxgk/zcfb/tz/202407/P020240723625582947550.pdf", "2024-07"],
   ["uk_dc", "UK Department for Energy Security and Net Zero", "Data centre electricity consumption in Great Britain, 2020 to 2024", "https://www.gov.uk/government/publications/energy-trends-june-2026-special-feature-article-data-centre-electricity-consumption-in-great-britain-2020-to-2024", "2026-06"],
   ["uk_scope", "UK Office for National Statistics", "Data centres and the UK National Accounts", "https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/methodologies/datacentresandtheuknationalaccounts", "2026-09"],
   ["uk_mix", "UK Department for Energy Security and Net Zero", "Digest of UK Energy Statistics 2025, chapter 5", "https://assets.publishing.service.gov.uk/media/68dbe477ef1c2f72bc1e4c4d/DUKES_2025_Chapters_1-7.pdf", "2025-07"],
   ["uk_carbon_table", "UK Department for Energy Security and Net Zero", "DUKES 5.14: estimated carbon dioxide intensity of electricity supplied", "https://www.gov.uk/government/statistics/electricity-chapter-5-digest-of-united-kingdom-energy-statistics-dukes", "2026-07"],
+  ["gb_carbon_annual_2024", "UK Department for Energy Security and Net Zero", "DESNZ annual report 2025–26: Clean Power 2030 Metrics, Table 3", "https://www.gov.uk/government/publications/desnz-annual-report-and-accounts-2025-to-2026/performance-report", "2026"],
   ["uk_water", "UK Environment Agency", "National Framework for Water Resources 2025: data centres and AI", "https://www.gov.uk/government/publications/national-framework-for-water-resources-2025-water-for-growth-nature-and-a-resilient-future/9-taking-action-on-other-significant-water-using-sectors-and-emerging-demands-national-framework-for-water-resources-2025", "2025"],
   ["us_cooling", "U.S. Department of Energy", "Cooling Water Efficiency Opportunities for Federal Data Centers", "https://www.energy.gov/cmei/femp/cooling-water-efficiency-opportunities-federal-data-centers", null],
   ["gb_carbon_api", "National Energy System Operator", "Great Britain Carbon Intensity API", "https://api.carbonintensity.org.uk/", null],
@@ -38,11 +40,11 @@ const indicators = [
   ["cn_dc_2024", "CN", "Data-centre electricity", "~104", "TWh", "estimate", "2024", "iea_energy_ai", "IEA model: 25% of 415 TWh global total. Approximate; not a national meter census."],
   ["cn_mix", "CN", "Electricity generation mix", "63.2% thermal · 14.1% hydro · 9.9% wind · 8.3% solar · 4.5% nuclear", null, "calculation", "2024", "china_stats", "Calculated from official 2024 generation volumes; thermal is broader than coal."],
   ["cn_carbon", "CN", "National electricity carbon footprint", "0.5777", "kg CO₂e/kWh", "fact", "2024", "china_carbon", "Official lifecycle electricity footprint; not directly comparable with US generator CO₂."],
-  ["cn_cooling", "CN", "Cooling constraint", "Climate, water and grid conditions require provincial screening", null, "estimate", "Site TBD", "iea_energy_ai", "A research screening question, not a measured national cooling limit."],
+  ["cn_cooling", "CN", "Cooling and efficiency policy", "Water-conservation review; large-centre PUE ≤1.25, hub PUE ≤1.20", null, "fact", "2024 policy; end-2025 target", "cn_green_policy", "Official policy calls for water-conservation review of new or expanded projects and sets PUE targets for large/very large and national-hub data centres. Policy targets are not observed performance or a site water allocation."],
   ["uk_dc_2024", "UK", "Operational data-centre electricity · Great Britain", "4.5", "TWh", "fact", "2024", "uk_dc", "DESNZ narrow GB operational-centre scope; excludes some enterprise facilities and Northern Ireland."],
   ["uk_dc_count", "UK", "Operational data-centre count · Great Britain", "239", "sites", "fact", "2024", "uk_scope", "ONS cites the DESNZ narrow operational-centre series; not total UK estate."],
   ["uk_mix", "UK", "Electricity generation mix · UK", "50.4% renewables · 14.2% nuclear · 31.8% fossil", null, "fact", "2024", "uk_mix", "DUKES UK generation shares, not the GB data-centre supply mix."],
-  ["uk_carbon", "UK", "Annual electricity-supplied carbon intensity", null, "g CO₂/kWh", "unknown", "2024 · verification pending", "uk_carbon_table", "Official DUKES 5.14 table identified; 2024 value has not yet been transcribed and checked."],
+  ["uk_carbon", "UK", "GB electricity-supplied emissions intensity", "107", "g CO₂e/kWh", "fact", "2024", "gb_carbon_annual_2024", "DESNZ Clean Power 2030 Metrics Table 3. GB electricity supplied, not a UK data-centre footprint or lifecycle factor; carbon measures across countries are not directly comparable."],
   ["uk_cooling", "UK", "Cooling and water constraint", "Water availability must be checked early; some catchments restrict new abstraction", null, "fact", "2025 guidance", "uk_water", "Qualitative planning constraint, not a site-specific water allocation."],
   ["gb_live_carbon", "UK", "GB grid carbon intensity · current half-hour", null, "g CO₂/kWh", "unknown", "TBD", "gb_carbon_api", "Refresh from NESO API. Forecast is identified as forecast if actual is unavailable."],
   ["us_tx_price", "US", "Texas industrial retail-price proxy", "6.12", "¢/kWh", "fact", "2024", "eia_price", "Historical state blended average; not a 2030 data-centre tariff or a city quote."],
@@ -74,7 +76,32 @@ const claims = [
 
 export async function ensureEvidenceSeeded(db: D1Database) {
   const existing = await db.prepare("SELECT code FROM countries LIMIT 1").first();
-  if (existing) return;
+  if (existing) {
+    // Correct only prior placeholder records, preserving manually edited and refreshed evidence.
+    const [ukPrior, cnPrior] = await Promise.all([
+      db.prepare("SELECT evidence_type,value,source_id FROM indicators WHERE id='uk_carbon'").first<{ evidence_type: string; value: string | null; source_id: string | null }>(),
+      db.prepare("SELECT evidence_type,value,source_id FROM indicators WHERE id='cn_cooling'").first<{ evidence_type: string; value: string | null; source_id: string | null }>(),
+    ]);
+    const updates: D1PreparedStatement[] = [];
+    if (ukPrior?.evidence_type === "unknown" && ukPrior.value === null && ukPrior.source_id === "uk_carbon_table") {
+      const source = sources.find(row => row[0] === "gb_carbon_annual_2024")!;
+      updates.push(
+        db.prepare("INSERT OR IGNORE INTO evidence_sources (id,publisher,title,url,published_at,retrieved_at) VALUES (?,?,?,?,?,?)").bind(...source, retrievedAt),
+        db.prepare("UPDATE indicators SET label=?,value=?,unit=?,evidence_type='fact',reporting_period='2024',retrieved_at=?,source_id=?,method_note=?,updated_at=CURRENT_TIMESTAMP WHERE id='uk_carbon' AND evidence_type='unknown' AND value IS NULL AND source_id='uk_carbon_table'")
+          .bind("GB electricity-supplied emissions intensity", "107", "g CO₂e/kWh", retrievedAt, "gb_carbon_annual_2024", "DESNZ Clean Power 2030 Metrics Table 3. GB electricity supplied, not a UK data-centre footprint or lifecycle factor; carbon measures across countries are not directly comparable."),
+      );
+    }
+    if (cnPrior?.evidence_type === "estimate" && cnPrior.value === "Climate, water and grid conditions require provincial screening" && cnPrior.source_id === "iea_energy_ai") {
+      const source = sources.find(row => row[0] === "cn_green_policy")!;
+      updates.push(
+        db.prepare("INSERT OR IGNORE INTO evidence_sources (id,publisher,title,url,published_at,retrieved_at) VALUES (?,?,?,?,?,?)").bind(...source, retrievedAt),
+        db.prepare("UPDATE indicators SET label=?,value=?,unit=NULL,evidence_type='fact',reporting_period=?,retrieved_at=?,source_id=?,method_note=?,updated_at=CURRENT_TIMESTAMP WHERE id='cn_cooling' AND evidence_type='estimate' AND value='Climate, water and grid conditions require provincial screening' AND source_id='iea_energy_ai'")
+          .bind("Cooling and efficiency policy", "Water-conservation review; large-centre PUE ≤1.25, hub PUE ≤1.20", "2024 policy; end-2025 target", retrievedAt, "cn_green_policy", "Official policy calls for water-conservation review of new or expanded projects and sets PUE targets for large/very large and national-hub data centres. Policy targets are not observed performance or a site water allocation."),
+      );
+    }
+    if (updates.length) await db.batch(updates);
+    return;
+  }
   const statements: D1PreparedStatement[] = [];
   for (const row of countries) statements.push(db.prepare("INSERT OR IGNORE INTO countries (code,name,scope_note) VALUES (?,?,?)").bind(...row));
   for (const row of sources) statements.push(db.prepare("INSERT OR IGNORE INTO evidence_sources (id,publisher,title,url,published_at,retrieved_at) VALUES (?,?,?,?,?,?)").bind(...row, retrievedAt));
