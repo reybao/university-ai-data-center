@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "University Consortium AI Data Center | Decision Framework",
-  description: "An executive research framework for a university consortium AI data center, with a proposed 25 MW expansion boundary. Findings remain conditional.",
+  title: "University Consortium AI Data Center | Investment Committee Memo",
+  description: "A conditional planning-price memorandum and research framework for a university consortium AI data center. The 25 MW expansion envelope is uncommitted.",
   icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
 };
 

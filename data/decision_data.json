@@ -2,7 +2,13 @@
   "schema_version": 1,
   "as_of": "2026-10-04",
   "status": "25mw_expandable_planning_supported_phased_capital_commitment_no_site_approval",
-  "research_recommendation": "Use 25 MW total facility input as an expandable planning envelope; investigate a 12 MW contracted first phase in 2030 and 15 MW in 2033 for the 70 percent controlled colo annual workload share. The remaining 30 percent is an eligible external cloud annual share, not a measured temporal peak. Compare against public-price cloud and retain 20-25 MW as an uncommitted expansion option.",
+  "research_recommendation": "Use 25 MW total facility input as an expandable planning envelope; price a 12 MW contracted first phase in 2030 and 15 MW in 2033 for the 70 percent controlled colo annual workload share. The remaining 30 percent is an eligible external cloud annual share, not a measured temporal peak. Compare against public-price cloud and retain 20-25 MW as an uncommitted expansion option. Screen US regions by electricity and power-access price while assuming electricity can be purchased, without parcel-specific feasibility in the present stage.",
+  "first_page": {
+    "title": "Investment Committee Memorandum",
+    "document": "step10/ic_memo.md",
+    "status": "conditional_planning_price_case"
+  },
+  "location_screen_scope": "electricity_and_power_access_cost_only_assume_supply_available_no_parcel_check",
   "facility_target": {
     "value": 25,
     "unit": "MW total facility design input",
@@ -1297,20 +1303,20 @@
     {
       "id": "J11",
       "topic": "site_range",
-      "value_or_rule": "US_only_screening_four_unranked_regions",
+      "value_or_rule": "US_only_four_region_electricity_cost_screen",
       "type": "planning_choice",
-      "evidence_or_source": "step6/site_screening.md",
-      "why_it_matters": "Keeps site comparison inside feasible envelope",
-      "revisit_trigger": "Actual member geography and utility site letters"
+      "evidence_or_source": "planning-revision/electricity_cost_only.md",
+      "why_it_matters": "Keeps price comparison inside data governance envelope",
+      "revisit_trigger": "Actual member geography and comparable power prices"
     },
     {
       "id": "J12",
-      "topic": "site_gate",
-      "value_or_rule": "parcel_specific_25_MW_service_letter_required",
-      "type": "reasoned_decision",
-      "evidence_or_source": "step6/site_due_diligence.csv; MISO NERC",
-      "why_it_matters": "Prevents state price from masquerading as power availability",
-      "revisit_trigger": "Utility binding or conditional service plan"
+      "topic": "site_scope",
+      "value_or_rule": "power_assumed_purchasable_no_parcel_availability_gate",
+      "type": "user_directed_scope",
+      "evidence_or_source": "planning-revision/electricity_cost_only.md",
+      "why_it_matters": "Current research compares price without specific land or time-to-power proof",
+      "revisit_trigger": "Revisit only if proceeding to executable construction decision"
     },
     {
       "id": "J13",
@@ -1342,11 +1348,11 @@
     {
       "id": "J16",
       "topic": "owned_online",
-      "value_or_rule": "2030_conditional_with_2027_2029_cloud_bridge",
+      "value_or_rule": "2030_assumed_with_2027_2029_cloud_bridge",
       "type": "model_and_timeline_assumption",
-      "evidence_or_source": "step9/risk_and_timeline.md",
-      "why_it_matters": "Prevents 2027 greenfield assumption",
-      "revisit_trigger": "Site grid and permit schedule"
+      "evidence_or_source": "planning-revision/phased_delivery_underwriting.md",
+      "why_it_matters": "Keeps cost comparison on a common time basis without current grid feasibility screen",
+      "revisit_trigger": "Reprice if planning year changes"
     },
     {
       "id": "J17",
@@ -1377,12 +1383,12 @@
     },
     {
       "id": "J20",
-      "topic": "investment_gate",
-      "value_or_rule": "support_expandable_25MW_planning_and_10_to_14MW_first_phase_no_full_build_now",
+      "topic": "decision_stage",
+      "value_or_rule": "support_expandable_25MW_planning_and_10_to_14MW_first_phase_price_case_no_full_build_now",
       "type": "research_recommendation",
-      "evidence_or_source": "planning-revision/decision_update.md",
-      "why_it_matters": "Allows scoped progress with no full-capacity capital lock-in",
-      "revisit_trigger": "Site and member evidence for first-phase commitment"
+      "evidence_or_source": "step10/ic_memo.md; planning-revision/decision_update.md",
+      "why_it_matters": "Supports price study without full-capacity capital lock-in",
+      "revisit_trigger": "Member demand and comparable vendor power-access prices"
     },
     {
       "id": "J21",
@@ -1436,7 +1442,7 @@
       "type": "research_recommendation",
       "evidence_or_source": "planning-revision/decision_update.md; planning-revision/phased_delivery_underwriting.md",
       "why_it_matters": "Near-cloud modeled cost with control for approved restricted data",
-      "revisit_trigger": "First-phase supplier and utility conditions"
+      "revisit_trigger": "Comparable supplier and power-access prices"
     },
     {
       "id": "J27",
@@ -1455,14 +1461,32 @@
       "evidence_or_source": "planning-revision/phased_underwriting_summary.csv",
       "why_it_matters": "Includes extra rent and module fitout in preferred hybrid delivery",
       "revisit_trigger": "Comparable vendor pricing and contract terms"
+    },
+    {
+      "id": "J29",
+      "topic": "electricity_cost_scope",
+      "value_or_rule": "energy_price_plus_power_access_cost_no_parcel_gate",
+      "type": "user_directed_scope",
+      "evidence_or_source": "planning-revision/electricity_cost_only.md; planning-revision/electricity_cost_screen.csv",
+      "why_it_matters": "Separates historical energy price proxies from unknown connection and capacity fees",
+      "revisit_trigger": "Comparable tariff and access cost range"
+    },
+    {
+      "id": "J30",
+      "topic": "first_website_page",
+      "value_or_rule": "standard_investment_committee_memo",
+      "type": "user_directed_format",
+      "evidence_or_source": "step10/ic_memo.md; step10/website_mapping.csv",
+      "why_it_matters": "Presents decision request thesis alternatives underwriting risk and next steps before detailed pages",
+      "revisit_trigger": "User framework revision"
     }
   ],
   "website_mapping": [
     {
-      "page": "Overview",
-      "primary_files": "planning-revision/decision_update.md;planning-revision/phased_delivery_underwriting.md;step10/csuite_recommendation.md;research-source-of-truth/decision_data.json",
-      "approved_display": "25 MW expandable envelope; 12 MW 2030 and 15 MW 2033 illustrative hybrid-core phases; 2030 full-workload equivalent 13.20 MW",
-      "mandatory_caveat": "Full build and parcel not approved; phase capacities are unquoted assumptions"
+      "page": "IC Memo",
+      "primary_files": "step10/ic_memo.md;planning-revision/decision_update.md;planning-revision/phased_delivery_underwriting.md;research-source-of-truth/decision_data.json",
+      "approved_display": "Investment Committee Memorandum with decision requested recommendation thesis project definition alternatives underwriting electricity-cost scope risks and next decision",
+      "mandatory_caveat": "Planning-price memo only; no capital approval supplier quote or actual site commitment"
     },
     {
       "page": "Demand",
@@ -1478,9 +1502,9 @@
     },
     {
       "page": "Location",
-      "primary_files": "step5/eligibility_rules.csv;step6/candidate_regions.csv;step6/site_screening.md",
-      "approved_display": "US-only eligibility and four unranked regional inquiries",
-      "mandatory_caveat": "No parcel has verified 25 MW or quote; state average prices are historical"
+      "primary_files": "planning-revision/electricity_cost_only.md;planning-revision/electricity_cost_screen.csv;step5/eligibility_rules.csv;step6/candidate_regions.csv",
+      "approved_display": "US-only eligibility and four-region historical electricity-price comparison; separate unknown power-access cost",
+      "mandatory_caveat": "Assume power can be purchased; no parcel availability or time-to-power check in current price screen; historical averages are not bids"
     },
     {
       "page": "Economics",
@@ -1490,9 +1514,9 @@
     },
     {
       "page": "Risk & Delivery",
-      "primary_files": "planning-revision/risk_register.csv;step9/timeline.csv;planning-revision/phased_delivery_underwriting.md",
-      "approved_display": "Current three-tier risks and conditional 2027-2036 phased delivery schedule",
-      "mandatory_caveat": "No guaranteed energization or module product; model impacts exclude penalties"
+      "primary_files": "planning-revision/risk_register.csv;step9/timeline.csv;planning-revision/phased_delivery_underwriting.md;step10/ic_memo.md",
+      "approved_display": "Current price utilization GPU security and capacity-commitment risks with illustrative 2027-2036 phases",
+      "mandatory_caveat": "Power deliverability and parcel checks are outside this cost screen; dates and module products are planning assumptions"
     },
     {
       "page": "Scenario Lab",
@@ -3058,11 +3082,11 @@
       {
         "risk_id": "POWER_DELAY",
         "risk": "first_phase_power_late",
-        "level": "high",
+        "level": "deferred_execution_risk",
         "indicator": "Utility requires substation or transmission upgrade",
-        "mitigation": "Parallel Texas Iowa site inquiry and cloud bridge",
-        "decision_gate": "Written first-phase and 25MW expansion path",
-        "planning_model_impact": "2030_to_2032_hybrid_colo_NPV_1.177bn_to_1.241bn"
+        "mitigation": "Keep prior delay sensitivity as optional implementation background",
+        "decision_gate": "Outside current electricity-price-only regional screen",
+        "planning_model_impact": "Legacy sensitivity 2030_to_2032_hybrid_colo_NPV_1.177bn_to_1.241bn"
       },
       {
         "risk_id": "DEDICATED_PRICE",
@@ -3084,12 +3108,12 @@
       },
       {
         "risk_id": "POWER_PRICE",
-        "risk": "tariff_and_minimum_take",
-        "level": "medium_high",
-        "indicator": "25MW contract demand or energy rate exceeds assumed 8cents_per_kWh",
-        "mitigation": "Model full fixed variable and exit costs",
-        "decision_gate": "Utility tariff and load shape before capacity commitment",
-        "planning_model_impact": "Own_NPV_1.211bn_to_1.235bn_across_6_to_12_cent_energy_only_range"
+        "risk": "tariff_access_and_minimum_take",
+        "level": "high",
+        "indicator": "Energy rate or obtaining-power fees exceed 8cents_per_kWh and assumed fixed capital",
+        "mitigation": "Model energy demand transmission access upgrade deposit and minimum-take separately",
+        "decision_gate": "Comparable cost range before long capacity commitment; no parcel screen now",
+        "planning_model_impact": "Own_NPV_1.211bn_to_1.235bn_across_6_to_12_cent_energy_only_range; 10m_access_fee_equiv_3.63c_per_kWh_for_base_phased_site"
       },
       {
         "risk_id": "DATA_PERMISSION",
@@ -3504,6 +3528,52 @@
         "incremental_rent_usd": "13605144.000000002",
         "incremental_fitout_usd": "-353565.0000000001"
       }
+    ],
+    "electricity_cost_screen": [
+      {
+        "region_id": "TX_ERCOT",
+        "historical_price_year": "2024",
+        "historical_state_industrial_cents_per_kwh": "6.12",
+        "modeled_site_energy_kwh_2030_2036": "442167328",
+        "modeled_site_energy_pv_kwh_2027_basis": "275326402",
+        "energy_tco_usd_at_frozen_historical_rate": "27060640",
+        "energy_cost_npv_usd_at_frozen_historical_rate": "16849976",
+        "incremental_power_access_cost_usd": "unknown_add_separately",
+        "cost_scope": "energy_only_excludes_cloud_energy_access_demand_transmission_upgrade_taxes"
+      },
+      {
+        "region_id": "IA_MISO",
+        "historical_price_year": "2024",
+        "historical_state_industrial_cents_per_kwh": "6.80",
+        "modeled_site_energy_kwh_2030_2036": "442167328",
+        "modeled_site_energy_pv_kwh_2027_basis": "275326402",
+        "energy_tco_usd_at_frozen_historical_rate": "30067378",
+        "energy_cost_npv_usd_at_frozen_historical_rate": "18722195",
+        "incremental_power_access_cost_usd": "unknown_add_separately",
+        "cost_scope": "energy_only_excludes_cloud_energy_access_demand_transmission_upgrade_taxes"
+      },
+      {
+        "region_id": "OH_AEP_PJM",
+        "historical_price_year": "2024",
+        "historical_state_industrial_cents_per_kwh": "7.10",
+        "modeled_site_energy_kwh_2030_2036": "442167328",
+        "modeled_site_energy_pv_kwh_2027_basis": "275326402",
+        "energy_tco_usd_at_frozen_historical_rate": "31393880",
+        "energy_cost_npv_usd_at_frozen_historical_rate": "19548175",
+        "incremental_power_access_cost_usd": "unknown_add_separately",
+        "cost_scope": "energy_only_excludes_cloud_energy_access_demand_transmission_upgrade_taxes"
+      },
+      {
+        "region_id": "VA_DOM_PJM",
+        "historical_price_year": "2024",
+        "historical_state_industrial_cents_per_kwh": "8.99",
+        "modeled_site_energy_kwh_2030_2036": "442167328",
+        "modeled_site_energy_pv_kwh_2027_basis": "275326402",
+        "energy_tco_usd_at_frozen_historical_rate": "39750843",
+        "energy_cost_npv_usd_at_frozen_historical_rate": "24751844",
+        "incremental_power_access_cost_usd": "unknown_add_separately",
+        "cost_scope": "energy_only_excludes_cloud_energy_access_demand_transmission_upgrade_taxes"
+      }
     ]
   },
   "source_checksums": {
@@ -3515,14 +3585,15 @@
     "step8/gpu_unit_economics.csv": "cafba4950521b2fe0f02cdd4f7f358f52611fea6ef26b8ba94630dfdab004cb3",
     "step9/risk_register.csv": "ecb2fed86555620e8e5d8b9fb64e5fc887d0fdd08167e67144a80990c9a137bf",
     "step9/timeline.csv": "f365a0cd510c2d56a62ebee9cbb471bd315cc204572df4568b4e08bbee2abd61",
-    "step10/key_judgments_assumptions.csv": "52d23dd26e7081b2ecfbdc2dd8b0a0b972eb857bbe104a77a65cf092cd0ca10e",
-    "step10/website_mapping.csv": "651e5693f11960fcb6f18ec3e84c1c03193198e94f60c386e6759009536f3114",
+    "step10/key_judgments_assumptions.csv": "c38d0abddc9141380183e4aaf7eb1bb8e6fa7efaae0351f135428ada723ae86e",
+    "step10/website_mapping.csv": "8f3e289a333bcfe7aa534c54c63454800dfb3b6cc9d4c9b0e5b500b8a91a144a",
     "planning-revision/architecture_cases.csv": "b3cb4eac02a2b6937660d7a517735b760024debb2cfacb83f4fd1f787bd1d94c",
     "planning-revision/option_summary.csv": "3977758d6495597f4e65aab7f6877ecfeaf00ccd48dded30775392793e12daeb",
     "planning-revision/sensitivity_outputs.csv": "38d718bceeca0fd06308bcb923e0f2cad7f928a417d30a375555095eea27e20c",
     "planning-revision/source_ledger.csv": "f2483cf4a2cdecc474f667043da7699e75ca15e12b4ea9b5cad4df69d766c621",
-    "planning-revision/risk_register.csv": "77e1e4ebe9db59d24b7d7780a98a6a11071606e672919d364f915c766a20ac84",
+    "planning-revision/risk_register.csv": "140b39793ab31400be7d83002f8db88762f84e0cf00a31de6163b63f392a4f68",
     "planning-revision/phased_underwriting_summary.csv": "477aeb38e89679228e495d7d4feef08f30f77edc19627b61309f594d9c6f41b4",
-    "planning-revision/phased_underwriting_cashflows.csv": "5efef0b02df53b0d09227f66172877af01fd55f97905bd0611484510b8f82e5e"
+    "planning-revision/phased_underwriting_cashflows.csv": "5efef0b02df53b0d09227f66172877af01fd55f97905bd0611484510b8f82e5e",
+    "planning-revision/electricity_cost_screen.csv": "0a9e930c98cc1b1236063b571c81c6987a587e89933729614ce321f626d3c192"
   }
 }
