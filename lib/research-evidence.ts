@@ -56,7 +56,7 @@ const assumptions = [
   ["later_module", "2033 conditional module input", "15", "MW", "assumption", "Expansion conditional on demand and contract"],
   ["envelope", "Expandable facility envelope", "25", "MW", "assumption", "Uncommitted total facility input, not IT load"],
   ["pue", "Efficiency target", "1.20", "PUE", "assumption", "Engineering validation TBD"],
-  ["member_units", "Five hypothetical members", "3.5", "MIT reference demand units", "assumption", "Not measured consortium use"],
+  ["member_units", "Five planning member profiles", "3.5", "MIT reference demand units", "assumption", "Not measured consortium use"],
   ["colo_share", "Controlled colo workload share", "70", "% of eligible annual task hours", "assumption", "Not an observed hourly load split"],
   ["discount_rate", "Real cost discount rate", "8", "%", "assumption", "2027–2036 cost NPV proxy"],
 ] as const;
@@ -67,7 +67,7 @@ const claims = [
   ["research_location", "Texas / ERCOT is a provisional design research region; no parcel or power-delivery commitment has been selected.", "assumption", null, null],
   ["carbon_basis", "The US operational CO₂ measure is a generator factor, distinct from lifecycle carbon accounting; a harmonized carbon ranking is TBD.", "fact", "eia_emissions", "us_carbon"],
   ["cooling_gate", "Cooling design, water availability and annual PUE need local engineering and service-provider evidence before site underwriting.", "assumption", "uk_water", null],
-  ["model_demand", "Five hypothetical members sum to 3.5 MIT-reference demand units; the weights and future utilization have not been measured for a real consortium.", "assumption", "model_demand", null],
+  ["model_demand", "Five planning member profiles sum to 3.5 MIT-reference demand units; the weights and future utilization are model assumptions rather than measured use.", "assumption", "model_demand", null],
   ["model_power", "The illustrative three-tier planning base calculates 13.204 MW total facility design input for the full modeled 2030 workload and 19.795 MW for 2035; these are model outputs, not measured demand or utility capacity.", "calculation", "model_architecture", null],
   ["model_staging", "The base hybrid case models 12 MW total-facility commitment in 2030 and conditional 15 MW from 2033; the 25 MW envelope remains uncommitted.", "assumption", "model_economics", null],
   ["model_cost", "For 2027–2036, the illustrative staged 70% colo / 30% eligible-cloud hybrid cost NPV is about $1.192bn; the flexible-capacity hybrid is about $1.177bn and the all-cloud public-anchor proxy about $1.152bn. These are cost estimates, not vendor bids.", "calculation", "model_economics", null],

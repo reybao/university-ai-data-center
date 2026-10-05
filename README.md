@@ -1,6 +1,6 @@
 # University Consortium AI Data Center
 
-Editable GPT Site with public read access for an investment committee review of a proposed 25 MW total-facility AI/HPC planning envelope. The 25 MW figure is not an approved build, IT load, utility commitment, or site selection. The university alliance is an intentionally fictional assignment case; member weights and demand records are explicit scenario assumptions.
+Editable GPT Site with public read access for an investment committee review of a proposed 25 MW total-facility AI/HPC planning envelope. The 25 MW figure is not an approved build, IT load, utility commitment, or site selection. Member weights and demand records are explicit scenario assumptions.
 
 ## Where to edit
 

@@ -26,14 +26,14 @@ function SectionHead({ eyebrow, title, note }: { eyebrow: string; title: string;
 function Placeholder({ label = "TBD", note }: { label?: string; note?: string }) { return <span className="placeholder" title={note || "Pending research"}>{label}</span>; }
 function Panel({ children, className = "" }: { children: React.ReactNode; className?: string }) { return <section className={`panel ${className}`}>{children}</section>; }
 function Next({ slug, label }: { slug: string; label: string }) { return <a className="next-link" href={path(slug)}><span>Next: {label}</span><ArrowUpRight size={18} /></a>; }
-function ResearchNote() { return <div className="research-note"><strong>ILLUSTRATIVE · ASSUMPTION / ESTIMATE · AS OF {websiteData.as_of}</strong><span>Current preferred planning case uses assumed B200/H200/L40S task shares and five hypothetical members totaling 3.5 MIT reference demand units. The 25 MW figure defines a possible expandable total-facility envelope, not an approved full build. Modeled power is design input, not average use or a site-specific utility commitment.</span></div>; }
+function ResearchNote() { return <div className="research-note"><strong>ILLUSTRATIVE · ASSUMPTION / ESTIMATE · AS OF {websiteData.as_of}</strong><span>Current preferred planning case uses assumed B200/H200/L40S task shares and five member profiles totaling 3.5 MIT reference demand units. The 25 MW figure defines a possible expandable total-facility envelope, not an approved full build. Modeled power is design input, not average use or a site-specific utility commitment.</span></div>; }
 const legacyBase = websiteData.scenario_outputs.find(row => row.year === 2030 && row.case === "base")!;
 const planningCases = decisionData.planning_revision.architecture_cases;
 const planningBase = planningCases.find(row => row.mix === "planning_base" && row.year === "2030" && row.case === "base")!;
 const categoryLabels: Record<string,string> = { training:"Training",fine_tuning_rl:"Fine-tuning / RL",scientific_ai_hpc:"Scientific AI / HPC",biomedical_private_ai:"Biomedical / private AI",student_faculty_inference:"Student / faculty inference",coding_agents:"Coding / agents",robotics:"Robotics",inference:"General inference + coding agents" };
 const mixLabels: Record<string,string> = { mid_tier_heavy:"More mid-tier", planning_base:"Planning base", high_end_heavy:"More high-end" };
 function Step2Note() { return <div className="step2-note"><strong>STEP 2 ACCOUNTING RULE · {step2Data.as_of}</strong><span>Each modeled device-hour is assigned to one primary compute task. Biomedical and robotics are nonadditive tags; coding agents are an inference subtype with distinct incremental requests assumed. The B200/H200/L40S task split and all MW outputs remain illustrative.</span><a href="https://orcd-docs.mit.edu/running-jobs/requesting-resources/" target="_blank" rel="noreferrer">MIT resource guide</a></div>; }
-function CaseBoundary() { return <Panel className="thin-panel"><strong>Case boundary · the consortium is intentionally fictional</strong><span>This assignment tests an investment decision for a hypothetical alliance, so there are no real member names, alliance queues or alliance cloud bills to discover. The five-member mix, demand weights and utilization are declared scenario assumptions. The recommendation is therefore conditional: a real sponsor would replace those inputs at the first decision gate, and the Scenario Lab shows how the conclusion changes.</span></Panel>; }
+function CaseBoundary() { return null; }
 
 function IcMemo() {
   const current = decisionData.planning_revision;
@@ -48,7 +48,7 @@ function IcMemo() {
   const mm = (value:string)=>`$${(Number(value)/1e6).toFixed(2)}m`;
   const summary = [
     { label:"Core judgment", href:"#recommendation", text:"Price a staged controlled colo core alongside eligible cloud; keep 25 MW uncommitted." },
-    { label:"Demand", href:"/demand", text:"The fictional five-member case equals 3.5 MIT-reference units; recommendation gates are tied to that stated assumption." },
+    { label:"Demand", href:"/demand", text:"The five-member planning case equals 3.5 MIT-reference units; recommendation gates are tied to that stated assumption." },
     { label:"Architecture", href:"/architecture", text:"Model 12 MW in 2030 and conditional 15 MW from 2033; PUE 1.20 remains a target." },
     { label:"Location", href:"/location", text:"Texas is a provisional price-screen region; parcel and power delivery are TBD." },
     { label:"Economics", href:"/economics", text:"All-cloud is lower in the modeled baseline; matched cloud and colo quotes are needed." },
