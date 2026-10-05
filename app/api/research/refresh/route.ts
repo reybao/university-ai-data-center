@@ -28,6 +28,8 @@ export async function POST() {
     const value = typeof actual === "number" && Number.isInteger(actual) ? actual : forecast;
     const kind = value === actual ? "actual" : "forecast";
     if (typeof value !== "number" || !Number.isInteger(value) || value < 0 || value > 1500 || typeof record?.from !== "string" || typeof record.to !== "string" || !Number.isFinite(Date.parse(record.from)) || !Number.isFinite(Date.parse(record.to))) throw new Error("NESO API returned invalid data");
+    const fromMs = Date.parse(record.from), toMs = Date.parse(record.to);
+    if (toMs <= fromMs || toMs - fromMs > 60 * 60 * 1000 || Math.abs(Date.now() - toMs) > 6 * 60 * 60 * 1000) throw new Error("NESO API returned a stale or invalid reporting period");
     const now = new Date().toISOString();
     await db.prepare("UPDATE indicators SET value=?,evidence_type=?,reporting_period=?,retrieved_at=?,method_note=?,refresh_status='ok',last_success_at=?,last_error_at=NULL,updated_at=? WHERE id='gb_live_carbon'")
       .bind(String(value), kind === "actual" ? "fact" : "estimate", `${record.from} to ${record.to}`, now, `NESO ${kind} half-hour GB grid carbon intensity. Current grid intensity is not annual UK data-centre emissions.`, now, now).run();

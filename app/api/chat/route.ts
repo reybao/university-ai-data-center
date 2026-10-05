@@ -21,8 +21,8 @@ export async function POST(request: Request) {
     const registered = await db.prepare("SELECT id FROM users WHERE id=?").bind(user.userId).first();
     if (!registered) return Response.json({ error: "Register your account before using the research assistant." }, { status: 403 });
     const apiKey = env.OPENAI_API_KEY;
-    const model = env.OPENAI_MODEL;
-    if (!apiKey || !model) return Response.json({ error: "AI Research Assistant is awaiting secure server configuration." }, { status: 503 });
+    const model = env.OPENAI_MODEL || "gpt-6-astra";
+    if (!apiKey) return Response.json({ error: "AI Research Assistant is awaiting secure server configuration." }, { status: 503 });
     await ensureEvidenceSeeded(db);
     const windowStart = new Date(); windowStart.setUTCMinutes(0, 0, 0);
     const allowed = await db.prepare("INSERT INTO chat_rate_limits (user_id,window_start,count) VALUES (?,?,1) ON CONFLICT(user_id,window_start) DO UPDATE SET count=count+1 WHERE count < 20 RETURNING count")
