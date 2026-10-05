@@ -38,7 +38,7 @@
 
   <path d="M306 181H375" class="line"/><text x="325" y="163" class="small">ask</text>
   <path d="M643 181H712" class="line"/><text x="658" y="163" class="small">read</text>
-  <path d="M840 278V296H515V286" class="dash"/><text x="634" y="290" class="small">scoped records / data inventory</text>
+  <path d="M840 278V296H515V286" class="dash"/><text x="626" y="290" class="small">scoped records / structured answer</text>
   <path d="M530 104V77H1191V96" class="line"/><text x="843" y="70" class="small">open questions + context</text>
   <path d="M1191 278V332H515V286" class="dash"/>
   <text x="742" y="324" class="small">Answer → backend citation check</text>

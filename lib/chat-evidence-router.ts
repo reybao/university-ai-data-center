@@ -79,8 +79,8 @@ export function evidenceScopeForIntent(intent: ResearchIntent): EvidenceScope {
     case "recommendation":
       return {
         indicators: [],
-        claims: ["decision_recommendation"],
-        assumptions: [],
+        claims: ["decision_recommendation", "model_demand", "model_staging", "model_cost", "model_stress"],
+        assumptions: ["first_module", "later_module", "envelope"],
       };
     case "framework":
       return {
@@ -97,7 +97,7 @@ export function evidenceScopeForIntent(intent: ResearchIntent): EvidenceScope {
     case "strategy":
       return {
         indicators: [],
-        claims: ["analysis_framework", "model_staging", "model_cost", "model_stress"],
+        claims: ["decision_recommendation", "analysis_framework", "model_demand", "model_staging", "model_cost", "model_stress"],
         assumptions: ["colo_share", "first_module", "later_module", "envelope", "discount_rate"],
       };
     case "architecture":
