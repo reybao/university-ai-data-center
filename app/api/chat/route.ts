@@ -39,6 +39,12 @@ function directAnswerResponse(reply: string, citations: Citation[], stream: bool
   return new Response(body, { headers: { ...headers, "Content-Type": "application/x-ndjson; charset=utf-8" } });
 }
 
+function unsupportedAnswer(question: string): string {
+  return /[\u3400-\u9fff]/.test(question)
+    ? "目前无法从已核验的记录中可靠回答这个问题；请把它视为未核实，而不是零、已批准或已获得供应商承诺。"
+    : "The available verified records do not support a reliable answer to this question. Treat it as unverified, not zero, approved, or supplier-committed.";
+}
+
 function sqlPlaceholders(ids: string[]): string {
   return ids.map(() => "?").join(",");
 }
@@ -55,7 +61,7 @@ async function readAssumptionsByIds(db: D1Database, ids: string[]): Promise<Assu
   return result.results;
 }
 
-function streamAnswer(upstream: Response, citationMap: Map<string, Citation>, startedAt: number): Response {
+function streamAnswer(upstream: Response, citationMap: Map<string, Citation>, startedAt: number, question: string): Response {
   const encoder = new TextEncoder();
   const body = new ReadableStream<Uint8Array>({
     async start(controller) {
@@ -98,8 +104,10 @@ function streamAnswer(upstream: Response, citationMap: Map<string, Citation>, st
           const answer = publicAnswer(reply.trim(), citations);
           send({ type: "delta", text: answer.reply });
           send({ type: "done", citations: answer.citations });
-        }
-        else send({ type: "error", error: "The assistant could not produce an answer with verified evidence references. Please try a narrower question." });
+        } else if (!failed && completed) {
+          send({ type: "delta", text: unsupportedAnswer(question) });
+          send({ type: "done", citations: [] });
+        } else send({ type: "error", error: "The AI response was interrupted. Try again." });
         console.info("Research assistant timing", JSON.stringify({ totalMs: Date.now() - startedAt, completed: Boolean(citations) }));
       } catch (error) {
         console.error("OpenAI stream failure", error instanceof Error ? error.name : "UnknownError");
@@ -205,6 +213,15 @@ export async function POST(request: Request) {
         }
       }
     }
+    const locationClaim = claims.find(row => row.id === "research_location")?.statement ?? "";
+    const asksForSitePowerCommitment = /具体地块|书面.{0,12}(?:接电|供电)|接电(?:承诺|日期|时间)|(?:parcel|site).{0,25}(?:secured|selected|verified)|(?:power|grid|utility).{0,25}(?:commitment|energization|service date|delivery date)/i.test(message);
+    if (asksForSitePowerCommitment && /no parcel or power-delivery commitment/i.test(locationClaim) && citationMap.has("C:research_location")) {
+      const reply = /[\u3400-\u9fff]/.test(message)
+        ? `尚无具体地块、书面接电承诺或已核实的接电日期。Texas/ERCOT 只是价格筛选的研究区域，不能据此认定 25 MW 电力可按期交付。[C:research_location]${citationMap.has("A:research_region") ? "[A:research_region]" : ""}`
+        : `There is no selected parcel, written power-delivery commitment or verified energization date. Texas/ERCOT is a price-screening region, not proof that 25 MW can be delivered on schedule. [C:research_location]${citationMap.has("A:research_region") ? "[A:research_region]" : ""}`;
+      const citations = verifiedCitations(reply, citationMap);
+      if (citations) return directAnswerResponse(reply, citations, payload.stream === true);
+    }
     const asksForEveryRecord = /逐条|每条|全部指标|所有来源|完整来源清单|row.by.row|every (?:record|source|metric)|full (?:source|data) list/i.test(message);
     if (intents.includes("data_inventory") && !asksForEveryRecord) {
       const a = (id: string) => assumptions.find(row => row.id === id)?.value ?? "TBD";
@@ -278,13 +295,13 @@ Distinguish verified fact, estimate, deterministic calculation, planning assumpt
       console.error("OpenAI API rejected chat request", JSON.stringify({ status: upstream.status, code, type }));
       return Response.json({ error: openAIErrorMessage(upstream.status, code, type) }, { status: upstream.status === 429 ? 429 : 502 });
     }
-    if (payload.stream === true) return streamAnswer(upstream, citationMap, startedAt);
+    if (payload.stream === true) return streamAnswer(upstream, citationMap, startedAt, message);
     let data: { output?: Array<{ content?: Array<{ type?: string; text?: string }> }> };
     try { data = await upstream.json(); }
     catch { return Response.json({ error: "The AI service returned an unreadable response. Try again later." }, { status: 502 }); }
     const reply = data.output?.flatMap(item => item.content || []).filter(item => item.type === "output_text").map(item => item.text || "").join("\n").trim() || "";
     const citations = verifiedCitations(reply, citationMap);
-    if (!citations) return Response.json({ error: "The assistant could not produce an answer with verified evidence references. Please try a narrower question." }, { status: 502 });
+    if (!citations) return directAnswerResponse(unsupportedAnswer(message), [], false);
     const answer = publicAnswer(reply, citations);
     console.info("Research assistant timing", JSON.stringify({ totalMs: Date.now() - startedAt, completed: true }));
     return Response.json(answer, { headers: { "Cache-Control": "no-store" } });
