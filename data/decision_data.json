@@ -2,7 +2,7 @@
   "schema_version": 1,
   "as_of": "2026-10-04",
   "status": "25mw_expandable_planning_supported_phased_capital_commitment_no_site_approval",
-  "research_recommendation": "Use 25 MW total facility input as an expandable planning envelope; investigate a roughly 10-14 MW 2030 first phase and favor a controlled colo core plus eligible cloud burst, with public-price cloud as an alternative. Do not commit full 25 MW construction or fleet at once.",
+  "research_recommendation": "Use 25 MW total facility input as an expandable planning envelope; investigate a 12 MW contracted first phase in 2030 and 15 MW in 2033 for the 70 percent controlled colo annual workload share. The remaining 30 percent is an eligible external cloud annual share, not a measured temporal peak. Compare against public-price cloud and retain 20-25 MW as an uncommitted expansion option.",
   "facility_target": {
     "value": 25,
     "unit": "MW total facility design input",
@@ -1369,10 +1369,10 @@
     {
       "id": "J19",
       "topic": "hybrid_core",
-      "value_or_rule": "0.70_owned_or_dedicated_core_fraction",
+      "value_or_rule": "0.70_annual_hours_to_site_0.30_to_eligible_cloud_from_2030",
       "type": "unvalidated_model_assumption",
-      "evidence_or_source": "step8/financial_inputs.json",
-      "why_it_matters": "Tests core plus cloud burst and transfer rules",
+      "evidence_or_source": "step8/financial_inputs.json; planning-revision/phased_delivery_underwriting.md",
+      "why_it_matters": "Annual planning allocation is not a measured temporal peak fraction",
       "revisit_trigger": "Telemetry and data eligibility"
     },
     {
@@ -1432,19 +1432,37 @@
     {
       "id": "J26",
       "topic": "preferred_delivery",
-      "value_or_rule": "controlled_colo_core_70pct_plus_eligible_cloud_burst_with_25MW_expandable_envelope",
+      "value_or_rule": "controlled_colo_core_70pct_plus_eligible_cloud_annual_share_with_25MW_expandable_envelope",
       "type": "research_recommendation",
-      "evidence_or_source": "planning-revision/decision_update.md",
+      "evidence_or_source": "planning-revision/decision_update.md; planning-revision/phased_delivery_underwriting.md",
       "why_it_matters": "Near-cloud modeled cost with control for approved restricted data",
       "revisit_trigger": "First-phase supplier and utility conditions"
+    },
+    {
+      "id": "J27",
+      "topic": "phased_colo_commitment",
+      "value_or_rule": "12MW_2030_then_15MW_2033_total_facility_input",
+      "type": "illustrative_contract_capacity_assumption",
+      "evidence_or_source": "planning-revision/phased_underwriting_summary.csv",
+      "why_it_matters": "Tests idle contracted capacity rather than exact yearly resizing",
+      "revisit_trigger": "Provider capacity ladder and exit clauses"
+    },
+    {
+      "id": "J28",
+      "topic": "phased_base_cost_npv",
+      "value_or_rule": "1.192bn_USD_2027_2036_8pct_real",
+      "type": "model_output",
+      "evidence_or_source": "planning-revision/phased_underwriting_summary.csv",
+      "why_it_matters": "Includes extra rent and module fitout in preferred hybrid delivery",
+      "revisit_trigger": "Comparable vendor pricing and contract terms"
     }
   ],
   "website_mapping": [
     {
       "page": "Overview",
-      "primary_files": "planning-revision/decision_update.md;step10/csuite_recommendation.md;research-source-of-truth/decision_data.json",
-      "approved_display": "25 MW expandable envelope supported; 10-14 MW first-phase inquiry; 2030 planning base 13.20 MW",
-      "mandatory_caveat": "Full build and parcel not approved; numbers are model assumptions"
+      "primary_files": "planning-revision/decision_update.md;planning-revision/phased_delivery_underwriting.md;step10/csuite_recommendation.md;research-source-of-truth/decision_data.json",
+      "approved_display": "25 MW expandable envelope; 12 MW 2030 and 15 MW 2033 illustrative hybrid-core phases; 2030 full-workload equivalent 13.20 MW",
+      "mandatory_caveat": "Full build and parcel not approved; phase capacities are unquoted assumptions"
     },
     {
       "page": "Demand",
@@ -1466,21 +1484,21 @@
     },
     {
       "page": "Economics",
-      "primary_files": "planning-revision/option_summary.csv;planning-revision/sensitivity_outputs.csv;planning-revision/decision_update.md;step8/underwriting.md",
-      "approved_display": "Preferred seven-option 10-year TCO/NPV; legacy high-end AWS comparison separate",
-      "mandatory_caveat": "Cross-product public cloud price proxy and dedicated discount are not unified quotes"
+      "primary_files": "planning-revision/option_summary.csv;planning-revision/sensitivity_outputs.csv;planning-revision/phased_underwriting_summary.csv;planning-revision/phased_underwriting_cashflows.csv;planning-revision/phased_delivery_underwriting.md;step8/underwriting.md",
+      "approved_display": "Preferred seven-option 10-year TCO/NPV plus fixed 12-to-15-MW module commitments; legacy high-end AWS comparison separate",
+      "mandatory_caveat": "Cost underwriting only; cross-product cloud prices and dedicated discounts are not unified quotes"
     },
     {
       "page": "Risk & Delivery",
-      "primary_files": "planning-revision/risk_register.csv;step9/timeline.csv;planning-revision/decision_update.md",
-      "approved_display": "Current three-tier price comparability power delay GPU utilization security permitting and conditional 2030 target",
-      "mandatory_caveat": "No guaranteed energization date; model impacts exclude penalties"
+      "primary_files": "planning-revision/risk_register.csv;step9/timeline.csv;planning-revision/phased_delivery_underwriting.md",
+      "approved_display": "Current three-tier risks and conditional 2027-2036 phased delivery schedule",
+      "mandatory_caveat": "No guaranteed energization or module product; model impacts exclude penalties"
     },
     {
       "page": "Scenario Lab",
-      "primary_files": "research-source-of-truth/website_data.json;planning-revision/planning_inputs.json;planning-revision/sensitivity_outputs.csv",
-      "approved_display": "Tier mix demand PUE utilization refresh power cloud and rental what-if",
-      "mandatory_caveat": "Changed values are scenarios; no engineered or vendor commitment"
+      "primary_files": "research-source-of-truth/website_data.json;planning-revision/planning_inputs.json;planning-revision/sensitivity_outputs.csv;planning-revision/phased_underwriting_summary.csv",
+      "approved_display": "Demand low/base/high; tier mix; site share; capacity commitments; utilization; refresh; power and cloud price what-if",
+      "mandatory_caveat": "30 percent cloud is annual workload allocation not measured temporal peak; single-variable sensitivities are not combined cases"
     }
   ],
   "planning_revision": {
@@ -2036,7 +2054,7 @@
         "demand_case": "base",
         "capex_usd": "0.0",
         "opex_usd": "1696787231.91804",
-        "cloud_bridge_or_spill_usd": "0.0",
+        "external_cloud_work_usd": "0.0",
         "tco_usd": "1696787231.91804",
         "cost_npv_usd": "1152033652.753287",
         "max_site_facility_design_mw": "0.0"
@@ -2047,7 +2065,7 @@
         "demand_case": "base",
         "capex_usd": "0.0",
         "opex_usd": "2140176012.0",
-        "cloud_bridge_or_spill_usd": "0.0",
+        "external_cloud_work_usd": "0.0",
         "tco_usd": "2140176012.0",
         "cost_npv_usd": "1451684798.9297197",
         "max_site_facility_design_mw": "0.0"
@@ -2058,7 +2076,7 @@
         "demand_case": "base",
         "capex_usd": "0.0",
         "opex_usd": "2044698378.575412",
-        "cloud_bridge_or_spill_usd": "0.0",
+        "external_cloud_work_usd": "0.0",
         "tco_usd": "2044698378.575412",
         "cost_npv_usd": "1389125397.6094592",
         "max_site_facility_design_mw": "0.0"
@@ -2069,7 +2087,7 @@
         "demand_case": "base",
         "capex_usd": "882370055.0",
         "opex_usd": "512001742.82207996",
-        "cloud_bridge_or_spill_usd": "284105807.5528",
+        "external_cloud_work_usd": "284105807.5528",
         "tco_usd": "1678477605.37488",
         "cost_npv_usd": "1175782687.5578008",
         "max_site_facility_design_mw": "21.119723999999994"
@@ -2080,7 +2098,7 @@
         "demand_case": "base",
         "capex_usd": "1060767985.0",
         "opex_usd": "340323546.27208",
-        "cloud_bridge_or_spill_usd": "284105807.5528",
+        "external_cloud_work_usd": "284105807.5528",
         "tco_usd": "1685197338.82488",
         "cost_npv_usd": "1218949576.7137363",
         "max_site_facility_design_mw": "21.119723999999994"
@@ -2091,7 +2109,7 @@
         "demand_case": "base",
         "capex_usd": "620501450.0",
         "opex_usd": "404024355.25792",
-        "cloud_bridge_or_spill_usd": "671910234.862372",
+        "external_cloud_work_usd": "671910234.862372",
         "tco_usd": "1696436040.1202922",
         "cost_npv_usd": "1177008483.4891696",
         "max_site_facility_design_mw": "14.778503999999996"
@@ -2102,13 +2120,111 @@
         "demand_case": "base",
         "capex_usd": "751340230.0",
         "opex_usd": "285886626.80792",
-        "cloud_bridge_or_spill_usd": "671910234.862372",
+        "external_cloud_work_usd": "671910234.862372",
         "tco_usd": "1709137091.670292",
         "cost_npv_usd": "1214074281.2486577",
         "max_site_facility_design_mw": "14.778503999999996"
       }
     ],
     "sensitivities": [
+      {
+        "variation": "demand_low_resized",
+        "option": "cloud",
+        "cost_npv_usd": "688282825",
+        "tco_usd": "990784300",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "demand_low_resized",
+        "option": "dedicated",
+        "cost_npv_usd": "858036408",
+        "tco_usd": "1236486747",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "demand_low_resized",
+        "option": "hybrid_dedicated",
+        "cost_npv_usd": "834124284",
+        "tco_usd": "1200171240",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "demand_low_resized",
+        "option": "colo",
+        "cost_npv_usd": "680974536",
+        "tco_usd": "945667204",
+        "max_site_facility_design_mw": "10.308"
+      },
+      {
+        "variation": "demand_low_resized",
+        "option": "own",
+        "cost_npv_usd": "710725718",
+        "tco_usd": "955109784",
+        "max_site_facility_design_mw": "10.308"
+      },
+      {
+        "variation": "demand_low_resized",
+        "option": "hybrid_colo",
+        "cost_npv_usd": "691730552",
+        "tco_usd": "972036662",
+        "max_site_facility_design_mw": "7.226"
+      },
+      {
+        "variation": "demand_low_resized",
+        "option": "hybrid_own",
+        "cost_npv_usd": "719454928",
+        "tco_usd": "986726228",
+        "max_site_facility_design_mw": "7.226"
+      },
+      {
+        "variation": "demand_high_with_25mw_cap",
+        "option": "cloud",
+        "cost_npv_usd": "1940765220",
+        "tco_usd": "2932647495",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "demand_high_with_25mw_cap",
+        "option": "dedicated",
+        "cost_npv_usd": "2460437313",
+        "tco_usd": "3720660249",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "demand_high_with_25mw_cap",
+        "option": "hybrid_dedicated",
+        "cost_npv_usd": "2331490128",
+        "tco_usd": "3521541361",
+        "max_site_facility_design_mw": "0.0"
+      },
+      {
+        "variation": "demand_high_with_25mw_cap",
+        "option": "colo",
+        "cost_npv_usd": "1970100542",
+        "tco_usd": "2893092981",
+        "max_site_facility_design_mw": "24.996"
+      },
+      {
+        "variation": "demand_high_with_25mw_cap",
+        "option": "own",
+        "cost_npv_usd": "2001631683",
+        "tco_usd": "2856892577",
+        "max_site_facility_design_mw": "24.996"
+      },
+      {
+        "variation": "demand_high_with_25mw_cap",
+        "option": "hybrid_colo",
+        "cost_npv_usd": "1983394948",
+        "tco_usd": "2927438187",
+        "max_site_facility_design_mw": "24.996"
+      },
+      {
+        "variation": "demand_high_with_25mw_cap",
+        "option": "hybrid_own",
+        "cost_npv_usd": "2028179878",
+        "tco_usd": "2923242957",
+        "max_site_facility_design_mw": "24.996"
+      },
       {
         "variation": "mid_tier_heavy",
         "option": "cloud",
@@ -2935,9 +3051,9 @@
         "risk": "core_capacity_idle",
         "level": "high",
         "indicator": "Schedulable GPU use lower than 55_to_60pct assumptions",
-        "mitigation": "70pct core option and eligible cloud burst",
+        "mitigation": "70pct annual core option and eligible cloud share",
         "decision_gate": "Member minimum commitment before long reservation",
-        "planning_model_impact": "25pct_lower_utilization hybrid_colo_NPV_1.348bn_vs_cloud_1.152bn"
+        "planning_model_impact": "25pct_lower_utilization hybrid_colo_NPV_1.348bn_vs_cloud_1.152bn; fixed_12_to_15MW_low_demand_NPV_0.756bn"
       },
       {
         "risk_id": "POWER_DELAY",
@@ -3002,6 +3118,392 @@
         "decision_gate": "Named carriers and engineering review",
         "planning_model_impact": "Site eligibility unquantified"
       }
+    ],
+    "phased_underwriting_summary": [
+      {
+        "case": "base",
+        "option": "hybrid_colo_12mw_2030_15mw_2033",
+        "committed_facility_mw_2030": "12.0",
+        "committed_facility_mw_2033": "15.0",
+        "tco_usd": "1717492053.1202922",
+        "cost_npv_usd": "1191771987.5103128",
+        "incremental_rent_usd": "20779143.00000001",
+        "incremental_fitout_usd": "276870.00000000396",
+        "max_active_facility_mw": "14.778503999999996"
+      },
+      {
+        "case": "low",
+        "option": "hybrid_colo_12mw_2030_15mw_2033",
+        "committed_facility_mw_2030": "12.0",
+        "committed_facility_mw_2033": "15.0",
+        "tco_usd": "1071516181.7677236",
+        "cost_npv_usd": "755560705.0261291",
+        "incremental_rent_usd": "89761560.00000001",
+        "incremental_fitout_usd": "9717960.0",
+        "max_active_facility_mw": "7.225631999999999"
+      }
+    ],
+    "phased_underwriting_cashflows": [
+      {
+        "case": "base",
+        "year": "2027",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "base",
+        "capex_usd": "0.0",
+        "opex_usd": "12000000.0",
+        "external_cloud_work_usd": "71026451.8882",
+        "site_it_design_mw": "0.0",
+        "site_fraction_served": "0.0",
+        "total_usd": "83026451.8882",
+        "pv_usd": "83026451.8882",
+        "committed_facility_mw": "0.0",
+        "spare_facility_mw": "0.0",
+        "incremental_rent_usd": "0.0",
+        "incremental_fitout_usd": "0"
+      },
+      {
+        "case": "base",
+        "year": "2028",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "base",
+        "capex_usd": "0.0",
+        "opex_usd": "12000000.0",
+        "external_cloud_work_usd": "94701935.85093333",
+        "site_it_design_mw": "0.0",
+        "site_fraction_served": "0.0",
+        "total_usd": "106701935.85093333",
+        "pv_usd": "98798088.7508642",
+        "committed_facility_mw": "0.0",
+        "spare_facility_mw": "0.0",
+        "incremental_rent_usd": "0.0",
+        "incremental_fitout_usd": "0"
+      },
+      {
+        "case": "base",
+        "year": "2029",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "base",
+        "capex_usd": "0.0",
+        "opex_usd": "12000000.0",
+        "external_cloud_work_usd": "118377419.81366667",
+        "site_it_design_mw": "0.0",
+        "site_fraction_served": "0.0",
+        "total_usd": "130377419.81366667",
+        "pv_usd": "111777623.29703932",
+        "committed_facility_mw": "0.0",
+        "spare_facility_mw": "0.0",
+        "incremental_rent_usd": "0.0",
+        "incremental_fitout_usd": "0"
+      },
+      {
+        "case": "base",
+        "year": "2030",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "base",
+        "capex_usd": "235502720.0",
+        "opex_usd": "47158582.13888",
+        "external_cloud_work_usd": "42615871.132920004",
+        "site_it_design_mw": "7.712879999999999",
+        "site_fraction_served": "0.7",
+        "total_usd": "325277173.27180004",
+        "pv_usd": "258215507.41105902",
+        "committed_facility_mw": "12.0",
+        "spare_facility_mw": "2.744544000000001",
+        "incremental_rent_usd": "4802952.000000002",
+        "incremental_fitout_usd": "3430680.000000002"
+      },
+      {
+        "case": "base",
+        "year": "2031",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "base",
+        "capex_usd": "20719680.0",
+        "opex_usd": "48921535.24224",
+        "external_cloud_work_usd": "46877458.24621201",
+        "site_it_design_mw": "8.46924",
+        "site_fraction_served": "0.7",
+        "total_usd": "116518673.48845202",
+        "pv_usd": "85644703.42225489",
+        "committed_facility_mw": "12.0",
+        "spare_facility_mw": "1.8369120000000017",
+        "incremental_rent_usd": "3214596.000000002",
+        "incremental_fitout_usd": "-1134539.9999999998"
+      },
+      {
+        "case": "base",
+        "year": "2032",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "base",
+        "capex_usd": "21668160.0",
+        "opex_usd": "50760874.64192",
+        "external_cloud_work_usd": "51139045.35950401",
+        "site_it_design_mw": "9.25167",
+        "site_fraction_served": "0.7",
+        "total_usd": "123568080.00142401",
+        "pv_usd": "84098358.9386917",
+        "committed_facility_mw": "12.0",
+        "spare_facility_mw": "0.8979959999999991",
+        "incremental_rent_usd": "1571492.9999999986",
+        "incremental_fitout_usd": "-1173645.0000000023"
+      },
+      {
+        "case": "base",
+        "year": "2033",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "base",
+        "capex_usd": "24889680.0",
+        "opex_usd": "57808003.75552",
+        "external_cloud_work_usd": "55400632.47279601",
+        "site_it_design_mw": "10.02027",
+        "site_fraction_served": "0.7",
+        "total_usd": "138098316.228316",
+        "pv_usd": "87025364.41078289",
+        "committed_facility_mw": "15.0",
+        "spare_facility_mw": "2.975676",
+        "incremental_rent_usd": "5207433.0",
+        "incremental_fitout_usd": "2597100.000000001"
+      },
+      {
+        "case": "base",
+        "year": "2034",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "base",
+        "capex_usd": "233222400.0",
+        "opex_usd": "59570956.85888",
+        "external_cloud_work_usd": "59662219.586088",
+        "site_it_design_mw": "10.776629999999999",
+        "site_fraction_served": "0.7",
+        "total_usd": "352455576.444968",
+        "pv_usd": "205654443.61221758",
+        "committed_facility_mw": "15.0",
+        "spare_facility_mw": "2.068044000000002",
+        "incremental_rent_usd": "3619077.0000000023",
+        "incremental_fitout_usd": "-1134539.9999999986"
+      },
+      {
+        "case": "base",
+        "year": "2035",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "base",
+        "capex_usd": "42387840.0",
+        "opex_usd": "61410296.25856",
+        "external_cloud_work_usd": "63923806.69938",
+        "site_it_design_mw": "11.559059999999999",
+        "site_fraction_served": "0.7",
+        "total_usd": "167721942.95794",
+        "pv_usd": "90614947.02839024",
+        "committed_facility_mw": "15.0",
+        "spare_facility_mw": "1.1291280000000015",
+        "incremental_rent_usd": "1975974.0000000023",
+        "incremental_fitout_usd": "-1173644.9999999995"
+      },
+      {
+        "case": "base",
+        "year": "2036",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "base",
+        "capex_usd": "42387840.0",
+        "opex_usd": "63173249.36192001",
+        "external_cloud_work_usd": "68185393.812672",
+        "site_it_design_mw": "12.315419999999998",
+        "site_fraction_served": "0.7",
+        "total_usd": "173746483.17459202",
+        "pv_usd": "86916498.75081307",
+        "committed_facility_mw": "15.0",
+        "spare_facility_mw": "0.2214960000000037",
+        "incremental_rent_usd": "387618.0000000046",
+        "incremental_fitout_usd": "-1134539.9999999986"
+      },
+      {
+        "case": "low",
+        "year": "2027",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "low",
+        "capex_usd": "0.0",
+        "opex_usd": "12000000.0",
+        "external_cloud_work_usd": "49718516.321739994",
+        "site_it_design_mw": "0.0",
+        "site_fraction_served": "0.0",
+        "total_usd": "61718516.321739994",
+        "pv_usd": "61718516.321739994",
+        "committed_facility_mw": "0.0",
+        "spare_facility_mw": "0.0",
+        "incremental_rent_usd": "0.0",
+        "incremental_fitout_usd": "0"
+      },
+      {
+        "case": "low",
+        "year": "2028",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "low",
+        "capex_usd": "0.0",
+        "opex_usd": "12000000.0",
+        "external_cloud_work_usd": "61556258.30310666",
+        "site_it_design_mw": "0.0",
+        "site_fraction_served": "0.0",
+        "total_usd": "73556258.30310667",
+        "pv_usd": "68107646.57695061",
+        "committed_facility_mw": "0.0",
+        "spare_facility_mw": "0.0",
+        "incremental_rent_usd": "0.0",
+        "incremental_fitout_usd": "0"
+      },
+      {
+        "case": "low",
+        "year": "2029",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "low",
+        "capex_usd": "0.0",
+        "opex_usd": "12000000.0",
+        "external_cloud_work_usd": "73394000.28447333",
+        "site_it_design_mw": "0.0",
+        "site_fraction_served": "0.0",
+        "total_usd": "85394000.28447333",
+        "pv_usd": "73211591.4647405",
+        "committed_facility_mw": "0.0",
+        "spare_facility_mw": "0.0",
+        "incremental_rent_usd": "0.0",
+        "incremental_fitout_usd": "0"
+      },
+      {
+        "case": "low",
+        "year": "2030",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "low",
+        "capex_usd": "150655520.0",
+        "opex_usd": "39947548.894719996",
+        "external_cloud_work_usd": "25569522.679752003",
+        "site_it_design_mw": "4.631969999999999",
+        "site_fraction_served": "0.7",
+        "total_usd": "216172591.57447198",
+        "pv_usd": "171604772.81670094",
+        "committed_facility_mw": "12.0",
+        "spare_facility_mw": "6.441636000000002",
+        "incremental_rent_usd": "11272863.000000002",
+        "incremental_fitout_usd": "8052045.000000002"
+      },
+      {
+        "case": "low",
+        "year": "2031",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "low",
+        "capex_usd": "5903520.0",
+        "opex_usd": "40451376.84224",
+        "external_cloud_work_usd": "26847998.813739605",
+        "site_it_design_mw": "4.85049",
+        "site_fraction_served": "0.7",
+        "total_usd": "73202895.6559796",
+        "pv_usd": "53806313.618288815",
+        "committed_facility_mw": "12.0",
+        "spare_facility_mw": "6.179412",
+        "incremental_rent_usd": "10813971.0",
+        "incremental_fitout_usd": "-327780.00000000105"
+      },
+      {
+        "case": "low",
+        "year": "2032",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "low",
+        "capex_usd": "6852000.0",
+        "opex_usd": "41031591.08608",
+        "external_cloud_work_usd": "28126474.947727207",
+        "site_it_design_mw": "5.095079999999999",
+        "site_fraction_served": "0.7",
+        "total_usd": "76010066.0338072",
+        "pv_usd": "51731173.74803518",
+        "committed_facility_mw": "12.0",
+        "spare_facility_mw": "5.885904000000001",
+        "incremental_rent_usd": "10300332.000000002",
+        "incremental_fitout_usd": "-366884.9999999995"
+      },
+      {
+        "case": "low",
+        "year": "2033",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "low",
+        "capex_usd": "9654000.0",
+        "opex_usd": "46785466.17088",
+        "external_cloud_work_usd": "29404951.081714805",
+        "site_it_design_mw": "5.313629999999999",
+        "site_fraction_served": "0.7",
+        "total_usd": "85844417.2525948",
+        "pv_usd": "54096544.39006521",
+        "committed_facility_mw": "15.0",
+        "spare_facility_mw": "8.623644000000002",
+        "incremental_rent_usd": "15091377.0",
+        "incremental_fitout_usd": "3422175.0000000005"
+      },
+      {
+        "case": "low",
+        "year": "2034",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "low",
+        "capex_usd": "134507520.0",
+        "opex_usd": "47365680.41472",
+        "external_cloud_work_usd": "30683427.2157024",
+        "site_it_design_mw": "5.5582199999999995",
+        "site_fraction_served": "0.7",
+        "total_usd": "212556627.6304224",
+        "pv_usd": "124024750.67166136",
+        "committed_facility_mw": "15.0",
+        "spare_facility_mw": "8.330136",
+        "incremental_rent_usd": "14577738.000000002",
+        "incremental_fitout_usd": "-366885.0000000008"
+      },
+      {
+        "case": "low",
+        "year": "2035",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "low",
+        "capex_usd": "12155520.0",
+        "opex_usd": "47897236.134399995",
+        "external_cloud_work_usd": "31961903.34969",
+        "site_it_design_mw": "5.7856499999999995",
+        "site_fraction_served": "0.7",
+        "total_usd": "92014659.48409",
+        "pv_usd": "49712657.43729845",
+        "committed_facility_mw": "15.0",
+        "spare_facility_mw": "8.057220000000001",
+        "incremental_rent_usd": "14100135.000000002",
+        "incremental_fitout_usd": "-341145.00000000006"
+      },
+      {
+        "case": "low",
+        "year": "2036",
+        "option": "hybrid_colo",
+        "mix": "planning_base",
+        "demand_case": "low",
+        "capex_usd": "13356000.0",
+        "opex_usd": "48449769.74336",
+        "external_cloud_work_usd": "33240379.483677607",
+        "site_it_design_mw": "6.02136",
+        "site_fraction_served": "0.7",
+        "total_usd": "95046149.22703761",
+        "pv_usd": "47546737.98064808",
+        "committed_facility_mw": "15.0",
+        "spare_facility_mw": "7.774368000000001",
+        "incremental_rent_usd": "13605144.000000002",
+        "incremental_fitout_usd": "-353565.0000000001"
+      }
     ]
   },
   "source_checksums": {
@@ -3013,12 +3515,14 @@
     "step8/gpu_unit_economics.csv": "cafba4950521b2fe0f02cdd4f7f358f52611fea6ef26b8ba94630dfdab004cb3",
     "step9/risk_register.csv": "ecb2fed86555620e8e5d8b9fb64e5fc887d0fdd08167e67144a80990c9a137bf",
     "step9/timeline.csv": "f365a0cd510c2d56a62ebee9cbb471bd315cc204572df4568b4e08bbee2abd61",
-    "step10/key_judgments_assumptions.csv": "b9cd1789a4c19d59dfb581437f0abae7b444bdaf9484b1081475c2a7a943b314",
-    "step10/website_mapping.csv": "922dc167faba1d798036e0f0b7c8f05114f6460523ece35a176785073e59fd81",
+    "step10/key_judgments_assumptions.csv": "52d23dd26e7081b2ecfbdc2dd8b0a0b972eb857bbe104a77a65cf092cd0ca10e",
+    "step10/website_mapping.csv": "651e5693f11960fcb6f18ec3e84c1c03193198e94f60c386e6759009536f3114",
     "planning-revision/architecture_cases.csv": "b3cb4eac02a2b6937660d7a517735b760024debb2cfacb83f4fd1f787bd1d94c",
-    "planning-revision/option_summary.csv": "bc5dfb5f3cef8f3af9ceb0ae6c8342cbb0ef3e8e4c4dc14eb35450ad5cc76644",
-    "planning-revision/sensitivity_outputs.csv": "54dbc2af5feb66c384e7b05a30cb61538d6d9f8f3b2cd6dfd37a4025b85cb505",
+    "planning-revision/option_summary.csv": "3977758d6495597f4e65aab7f6877ecfeaf00ccd48dded30775392793e12daeb",
+    "planning-revision/sensitivity_outputs.csv": "38d718bceeca0fd06308bcb923e0f2cad7f928a417d30a375555095eea27e20c",
     "planning-revision/source_ledger.csv": "f2483cf4a2cdecc474f667043da7699e75ca15e12b4ea9b5cad4df69d766c621",
-    "planning-revision/risk_register.csv": "324b6973445bea7f71f2902f133775bbd211da40496c2043d8cac199bb89267e"
+    "planning-revision/risk_register.csv": "77e1e4ebe9db59d24b7d7780a98a6a11071606e672919d364f915c766a20ac84",
+    "planning-revision/phased_underwriting_summary.csv": "477aeb38e89679228e495d7d4feef08f30f77edc19627b61309f594d9c6f41b4",
+    "planning-revision/phased_underwriting_cashflows.csv": "5efef0b02df53b0d09227f66172877af01fd55f97905bd0611484510b8f82e5e"
   }
 }
