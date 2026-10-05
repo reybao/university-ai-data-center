@@ -5,6 +5,7 @@ Editable, private GPT Site for an investment committee review of a proposed 25 M
 ## Where to edit
 
 - `components/site-view.tsx`: the decision pages and assistant panel.
+- `public/downloads/university-consortium-ic-memo-2-page.pdf`: the two-page IC Memo download shown on the homepage.
 - `components/country-comparison.tsx`: US, China, and UK evidence cards and the Great Britain live indicator.
 - `lib/sections.ts`: navigation and page order.
 - `data/*.json` and `lib/planning-model.ts`: the existing illustrative demand, architecture, and economics model.
