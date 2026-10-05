@@ -1,17 +1,13 @@
-import { env } from "cloudflare:workers";
-import { getChatGPTUser } from "@/app/chatgpt-auth";
 import { ensureEvidenceSeeded, readIndicators } from "@/lib/research-evidence";
+import { requireResearchAdmin } from "@/lib/research-admin";
 
 type CarbonApi = { data?: Array<{ from?: unknown; to?: unknown; intensity?: { actual?: unknown; forecast?: unknown } }> };
 
 export async function POST() {
-  const user = await getChatGPTUser();
-  if (!user) return Response.json({ error: "Sign in with ChatGPT to refresh research data." }, { status: 401 });
-  if (!env.DB) return Response.json({ error: "Research evidence storage is unavailable." }, { status: 503 });
-  const db = env.DB;
+  const access = await requireResearchAdmin();
+  if (access.error) return access.error;
+  const db = access.db!;
   try {
-    const registered = await db.prepare("SELECT id FROM users WHERE id=?").bind(user.userId).first();
-    if (!registered) return Response.json({ error: "Register before refreshing research data." }, { status: 403 });
     await ensureEvidenceSeeded(db);
   } catch (error) {
     console.error("Research refresh registration check failed", error);

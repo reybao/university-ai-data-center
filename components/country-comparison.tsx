@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable @next/next/no-html-link-for-pages, react-hooks/set-state-in-effect -- Sites SIWC requires a top-level anchor; the async D1 load updates state only after fetch completion. */
+
 import { useCallback, useEffect, useState } from "react";
 
 type Indicator = {
@@ -15,7 +17,6 @@ export function CountryComparison() {
   const [data, setData] = useState<ResearchData | null>(null);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
-  const [needsRegistration, setNeedsRegistration] = useState(false);
   const [needsSignIn, setNeedsSignIn] = useState(false);
   const load = useCallback(async () => {
     const response = await fetch("/api/research", { cache: "no-store" });
@@ -25,23 +26,15 @@ export function CountryComparison() {
   }, []);
   useEffect(() => { load().catch(error => setMessage(error instanceof Error ? error.message : "Research evidence is unavailable.")); }, [load]);
   async function refresh() {
-    setBusy(true); setMessage(""); setNeedsRegistration(false); setNeedsSignIn(false);
+    setBusy(true); setMessage(""); setNeedsSignIn(false);
     try {
       const response = await fetch("/api/research/refresh", { method: "POST" });
       const result = await response.json() as { error?: string };
       await load();
-      setNeedsRegistration(response.status === 403); setNeedsSignIn(response.status === 401);
+      setNeedsSignIn(response.status === 401);
       setMessage(response.ok ? "GB carbon intensity updated from NESO." : result.error || "Update failed. Previous valid data is retained.");
     } catch { setMessage("Update failed. Previous valid data is retained."); }
     finally { setBusy(false); }
-  }
-  async function register() {
-    try {
-      const response = await fetch("/api/auth/register", { method: "POST" });
-      const result = await response.json() as { error?: string };
-      if (!response.ok) throw new Error(result.error || "Registration unavailable.");
-      setNeedsRegistration(false); setMessage("Registered. You can now refresh the data.");
-    } catch (error) { setMessage(error instanceof Error ? error.message : "Registration unavailable."); }
   }
   const live = data?.indicators.find(row => row.id === "gb_live_carbon");
   return <>
@@ -64,7 +57,7 @@ export function CountryComparison() {
     </section>)}</div>}
     <section className="panel live-evidence">
       <div><div className="eyebrow">EXTERNAL DATA API · NATIONAL ENERGY SYSTEM OPERATOR</div><h2>Great Britain grid carbon intensity</h2><p>Current half-hour API reading. The service labels actual readings and forecasts separately. This is a grid indicator, not an annual UK data-centre footprint.</p></div>
-      <div className="live-evidence-result"><strong>{live?.value ?? "TBD"} {live?.value ? live.unit : ""}</strong><span>{live?.evidence_type ?? "unknown"} · {live?.reporting_period ?? "not yet refreshed"}</span><span>Last successful update: {live?.last_success_at ?? "Never"}</span><span>Latest retrieval: {live?.retrieved_at ?? "TBD"}</span>{live?.refresh_status === "failed" && <span className="refresh-failed">Update failed: {live.last_error_at}. Showing last valid value.</span>}<button onClick={refresh} disabled={busy}>{busy ? "Updating…" : "Refresh from NESO API"}</button>{message && <p role="status">{message}</p>}{needsRegistration && <button onClick={register}>Register account</button>}{needsSignIn && <a href="/signin-with-chatgpt?return_to=%2Fcountries" target="_top">Sign in with ChatGPT</a>}</div>
+      <div className="live-evidence-result"><strong>{live?.value ?? "TBD"} {live?.value ? live.unit : ""}</strong><span>{live?.evidence_type ?? "unknown"} · {live?.reporting_period ?? "not yet refreshed"}</span><span>Last successful update: {live?.last_success_at ?? "Never"}</span><span>Latest retrieval: {live?.retrieved_at ?? "TBD"}</span>{live?.refresh_status === "failed" && <span className="refresh-failed">Update failed: {live.last_error_at}. Showing last valid value.</span>}<button onClick={refresh} disabled={busy}>{busy ? "Updating…" : "Authorized refresh from NESO API"}</button>{message && <p role="status">{message}</p>}{needsSignIn && <a href="/signin-with-chatgpt?return_to=%2Fcountries" target="_top">Sign in with ChatGPT</a>}</div>
     </section>
     <section className="panel country-caveat"><strong>Evidence rule</strong><p>Facts, estimates, calculations, assumptions and unknowns are recorded separately in D1. Each indicator shows its reporting period, retrieval date, source and scope note. Comparable national carbon and cooling benchmarks remain TBD until matching definitions are verified.</p></section>
   </>;

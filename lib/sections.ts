@@ -7,4 +7,5 @@ export const sections = [
   { slug: "economics", label: "Economics", number: "06", question: "Which delivery model creates value?" },
   { slug: "risk-delivery", label: "Risk & Delivery", number: "07", question: "What could delay or derail delivery?" },
   { slug: "scenario-lab", label: "Scenario Lab", number: "08", question: "How do assumptions change the decision?" },
+  { slug: "assurance", label: "Assurance", number: "09", question: "Does the website meet the evidence, access and testing requirements?" },
 ] as const;

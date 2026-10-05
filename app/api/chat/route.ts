@@ -2,7 +2,7 @@ import { env } from "cloudflare:workers";
 import { getChatGPTUser } from "@/app/chatgpt-auth";
 import { ensureEvidenceSeeded, readIndicators } from "@/lib/research-evidence";
 
-const allowedSections = new Set(["ic-memo", "demand", "architecture", "countries", "location", "economics", "risk-delivery", "scenario-lab"]);
+const allowedSections = new Set(["ic-memo", "demand", "architecture", "countries", "location", "economics", "risk-delivery", "scenario-lab", "assurance"]);
 type Citation = { id: string; title: string; url: string | null; evidenceType: string; reportingPeriod: string | null; retrievedAt: string | null };
 type Claim = { id: string; statement: string; evidence_type: string; source_title: string | null; source_url: string | null };
 type Assumption = { id: string; label: string; value: string; unit: string | null; status: string };

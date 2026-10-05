@@ -5,6 +5,7 @@ import { index, integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlit
 export const users = sqliteTable("users", {
   id: text("id").primaryKey(),
   email: text("email").notNull(),
+  role: text("role").notNull().default("member"),
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
 });
 
