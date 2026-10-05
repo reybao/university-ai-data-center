@@ -36,7 +36,7 @@
   <text x="1060" y="211" class="body">Question + scoped evidence</text>
   <text x="1060" y="238" class="body">Key stays on the server</text>
 
-  <path d="M306 181H375" class="line"/><text x="313" y="163" class="small">POST /api/chat</text>
+  <path d="M306 181H375" class="line"/><text x="325" y="163" class="small">ask</text>
   <path d="M643 181H712" class="line"/><text x="658" y="163" class="small">read</text>
   <path d="M840 278V296H515V286" class="dash"/><text x="661" y="290" class="small">scoped records</text>
   <path d="M530 104V77H1191V96" class="line"/><text x="843" y="70" class="small">backend call + context</text>

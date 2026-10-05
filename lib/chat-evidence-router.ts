@@ -55,7 +55,8 @@ export function classifyResearchIntent(message: string, section: string): Resear
 export function classifyResearchIntents(message: string, section: string): ResearchIntent[] {
   const matched = rules.filter(([, pattern]) => pattern.test(message)).map(([intent]) => intent);
   // A compound question needs evidence for each part, not a single page-default label.
-  return matched.length ? [...new Set(matched)].slice(0, 3) : [sectionIntent[section] || "framework"];
+  const focused = matched.includes("data_inventory") ? matched.filter(intent => intent !== "evidence") : matched;
+  return focused.length ? [...new Set(focused)].slice(0, 3) : [sectionIntent[section] || "framework"];
 }
 
 export function evidenceScopeForIntents(intents: ResearchIntent[]): EvidenceScope {
