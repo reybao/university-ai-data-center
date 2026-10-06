@@ -6,5 +6,5 @@ export const sections = [
   { slug: "architecture", label: "Physical Design", number: "05", question: "What must shortlisted sites physically support?" },
   { slug: "economics", label: "Economics", number: "06", question: "What does the ten-year investment case cost?" },
   { slug: "scenario-lab", label: "Scenarios", number: "07", question: "Which assumptions can change the recommendation?" },
-  { slug: "evidence", label: "Evidence", number: "08", question: "What is verified, assumed, calculated, or still unknown?" },
+  { slug: "evidence", label: "Evidence & Walkthrough", number: "08", question: "How does the decision case work, and what is verified or still unknown?" },
 ] as const;
