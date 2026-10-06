@@ -39,6 +39,19 @@ function conversationalReply(message: string): string | null {
   return null;
 }
 
+function withRelevantPage(reply: string, question: string, generalConversation: boolean): string {
+  if (!generalConversation || /(?:自杀|自残|伤害自己|急救|疾病|病症|治疗|药物|医疗|法律危机|suicid|self.harm|medical emergency|legal emergency)/i.test(question) || /(?:不能帮助|无法协助|I can.t help|I cannot help)/i.test(reply)) return reply;
+  const page = /(?:热泵|制冷|冷却|空调|电力|能源|发电|heat pump|cooling|electricity|power)/i.test(question)
+    ? "Physical Design"
+    : /(?:GPU|算力|模型训练|人工智能|machine learning|AI model|compute)/i.test(question)
+      ? "Demand"
+      : /(?:成本|价格|投资|预算|cost|price|investment|budget)/i.test(question)
+        ? "Economics"
+        : null;
+  if (!page || reply.includes(page)) return reply;
+  return `${reply}\n\n${/[\u3400-\u9fff]/.test(question) ? `若想联系到这个项目，可在网站导航中看「${page}」页面。` : `To connect this to the project, see the ${page} page in the site navigation.`}`;
+}
+
 function publicAnswer(reply: string, citations: Citation[]): { reply: string; citations: Citation[] } {
   const citationNumbers = new Map(citations.map((citation, index) => [citation.id, index + 1]));
   return {
@@ -118,7 +131,7 @@ function streamAnswer(upstream: Response, citationMap: Map<string, Citation>, st
         const citations = !failed && completed ? verifiedCitations(reply.trim(), citationMap, allowGeneralAnswer) : null;
         if (citations) {
           const answer = publicAnswer(reply.trim(), citations);
-          send({ type: "delta", text: answer.reply });
+          send({ type: "delta", text: withRelevantPage(answer.reply, question, allowGeneralAnswer) });
           send({ type: "done", citations: answer.citations });
         } else if (!failed && completed) {
           send({ type: "delta", text: unsupportedAnswer(question) });
@@ -325,6 +338,7 @@ Distinguish verified fact, estimate, deterministic calculation, planning assumpt
     const citations = verifiedCitations(reply, citationMap, generalConversation);
     if (!citations) return directAnswerResponse(unsupportedAnswer(message), [], false);
     const answer = publicAnswer(reply, citations);
+    answer.reply = withRelevantPage(answer.reply, message, generalConversation);
     console.info("Research assistant timing", JSON.stringify({ totalMs: Date.now() - startedAt, completed: true }));
     return Response.json(answer, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {

@@ -519,7 +519,7 @@ function ResearchAssistant({ section }: { section: string }) {
   return <Sheet onOpenChange={stopOnClose}>
     <SheetTrigger className="assistant-trigger"><Bot size={18}/><span>AI Research Assistant</span></SheetTrigger>
     <SheetContent className="assistant-sheet">
-      <SheetHeader><SheetTitle>AI Research Assistant</SheetTitle><SheetDescription>Short answers grounded in saved research evidence.</SheetDescription></SheetHeader>
+      <SheetHeader><SheetTitle>AI Research Assistant</SheetTitle><SheetDescription>General chat, with project answers grounded in saved evidence.</SheetDescription></SheetHeader>
       <div className="assistant-body" ref={threadRef} role="log" aria-label="Research assistant conversation" aria-live="polite" aria-busy={busy}>
         <div className="assistant-intro"><CircleHelp size={22}/><strong>Ask a question</strong><p>{registeredReady ? "Signed in and registered. Ask anything; project-specific answers use the site's evidence." : needsRegistration ? "Signed in. Register this site once to use the assistant." : needsSignIn ? "Sign in with ChatGPT, then register this site once to ask." : accessCheckFailed ? "Account status could not be checked. You can still try a question." : "Checking account access…"}</p><p>Limit: 20 questions per hour.</p></div>
         <div className="chat-thread">{messages.map((item, index) => <div key={index} className={`chat-message chat-message--${item.role}${item.isError ? " chat-message--error" : ""}`}>
