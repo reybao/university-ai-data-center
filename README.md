@@ -2,6 +2,12 @@
 
 Editable GPT Site with public read access for an investment committee review of a proposed 25 MW total-facility AI/HPC planning envelope. The 25 MW figure is not an approved build, IT load, utility commitment, or site selection. Member weights and demand records are explicit scenario assumptions.
 
+## Demo video
+
+[![Watch the University AI Data Center website walkthrough](https://img.youtube.com/vi/KLyuDxZtm64/hqdefault.jpg)](https://youtu.be/KLyuDxZtm64)
+
+[Watch the University AI Data Center website walkthrough on YouTube](https://youtu.be/KLyuDxZtm64). The video follows the decision path through demand, delivery options, country screening, physical design, economics, scenarios, and evidence.
+
 ## Where to edit
 
 - `components/site-view.tsx`: the decision pages and assistant panel.
