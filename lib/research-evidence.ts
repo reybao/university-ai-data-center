@@ -24,6 +24,7 @@ const sources = [
   ["uk_water", "UK Environment Agency", "National Framework for Water Resources 2025: data centres and AI", "https://www.gov.uk/government/publications/national-framework-for-water-resources-2025-water-for-growth-nature-and-a-resilient-future/9-taking-action-on-other-significant-water-using-sectors-and-emerging-demands-national-framework-for-water-resources-2025", "2025"],
   ["us_cooling", "U.S. Department of Energy", "Cooling Water Efficiency Opportunities for Federal Data Centers", "https://www.energy.gov/cmei/femp/cooling-water-efficiency-opportunities-federal-data-centers", null],
   ["gb_carbon_api", "National Energy System Operator", "Great Britain Carbon Intensity API", "https://api.carbonintensity.org.uk/", null],
+  ["eia_930_erco", "U.S. Energy Information Administration", "Form EIA-930 · ERCOT hourly demand and day-ahead forecast", "https://www.eia.gov/electricity/gridmonitor/dashboard/electric_overview/balancing_authority/ERCO", null],
   ["eia_price", "U.S. Energy Information Administration", "2024 industrial average electricity price by state", "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_4.pdf", "2025"],
   ["course_power_us", "GlobalPetrolPrices / prior course dataset", "U.S. business retail electricity price · archived course snapshot", "https://www.globalpetrolprices.com/USA/electricity_prices/", "2025-12"],
   ["course_power_cn", "GlobalPetrolPrices / prior course dataset", "China business retail electricity price · archived course snapshot", "https://www.globalpetrolprices.com/China/electricity_prices/", "2025-12"],
@@ -53,6 +54,8 @@ const indicators = [
   ["uk_carbon", "UK", "GB electricity-supplied emissions intensity", "107", "g CO₂e/kWh", "fact", "2024", "gb_carbon_annual_2024", "DESNZ Clean Power 2030 Metrics Table 3. GB electricity supplied, not a UK data-centre footprint or lifecycle factor; carbon measures across countries are not directly comparable."],
   ["uk_cooling", "UK", "Cooling and water constraint", "Water availability must be checked early; some catchments restrict new abstraction", null, "fact", "2025 guidance", "uk_water", "Qualitative planning constraint, not a site-specific water allocation."],
   ["gb_live_carbon", "UK", "GB grid carbon intensity · current half-hour", null, "g CO₂/kWh", "unknown", "TBD", "gb_carbon_api", "Refresh from NESO API. Forecast is identified as forecast if actual is unavailable."],
+  ["us_tx_grid_demand", "US", "ERCOT hourly electricity demand", null, "MWh", "unknown", "TBD", "eia_930_erco", "Refresh from EIA Form EIA-930. Preliminary balancing-authority demand; not evidence of site-level power availability."],
+  ["us_tx_grid_forecast", "US", "ERCOT day-ahead demand forecast", null, "MWh", "unknown", "TBD", "eia_930_erco", "Day-ahead forecast for the same hour as the latest actual demand. It is a regional planning signal, not a utility capacity commitment."],
   ["us_tx_price", "US", "Texas industrial retail-price proxy", "6.12", "¢/kWh", "fact", "2024", "eia_price", "Historical state blended average; not a 2030 data-centre tariff or a city quote."],
   ["course_us_business_power", "US", "Business retail electricity · archived course snapshot", "0.145", "USD/kWh", "estimate", "2025-12", "course_power_us", "Prior course energy-data.csv, accessed 2026-09-16. Standard 1 million kWh/year business benchmark, not a 12 MW data-center tariff; source page may now show newer data."],
   ["course_cn_business_power", "CN", "Business retail electricity · archived course snapshot", "0.117", "USD/kWh", "estimate", "2025-12", "course_power_cn", "Prior course energy-data.csv, accessed 2026-09-16. Standard 1 million kWh/year business benchmark, not a 12 MW data-center tariff; source page may now show newer data."],
@@ -105,10 +108,10 @@ export async function ensureEvidenceSeeded(db: D1Database) {
     const updates: D1PreparedStatement[] = newClaims.map(row =>
       db.prepare("INSERT INTO research_claims (id,statement,evidence_type,source_id,indicator_id) VALUES (?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET statement=excluded.statement,evidence_type=excluded.evidence_type,source_id=excluded.source_id,indicator_id=excluded.indicator_id,updated_at=CURRENT_TIMESTAMP").bind(...row)
     );
-    for (const row of sources.filter(source => source[0].startsWith("course_power_") || source[0] === "tt_dc_cost_2025" || source[0] === "cbre_colo_q1_2025" || source[0] === "china_post_colo_2025")) {
+    for (const row of sources.filter(source => source[0].startsWith("course_power_") || source[0] === "tt_dc_cost_2025" || source[0] === "cbre_colo_q1_2025" || source[0] === "china_post_colo_2025" || source[0] === "eia_930_erco")) {
       updates.push(db.prepare("INSERT OR IGNORE INTO evidence_sources (id,publisher,title,url,published_at,retrieved_at) VALUES (?,?,?,?,?,?)").bind(...row, "2026-10-05"));
     }
-    for (const row of indicators.filter(indicator => indicator[0].startsWith("course_") || indicator[0] === "us_sv_construction" || indicator[0] === "uk_london_construction" || indicator[0] === "us_phoenix_colo" || indicator[0] === "cn_post_colo" || indicator[0] === "uk_london_colo")) {
+    for (const row of indicators.filter(indicator => indicator[0].startsWith("course_") || indicator[0] === "us_sv_construction" || indicator[0] === "uk_london_construction" || indicator[0] === "us_phoenix_colo" || indicator[0] === "cn_post_colo" || indicator[0] === "uk_london_colo" || indicator[0] === "us_tx_grid_demand" || indicator[0] === "us_tx_grid_forecast")) {
       updates.push(db.prepare("INSERT OR IGNORE INTO indicators (id,country_code,label,value,unit,evidence_type,reporting_period,retrieved_at,source_id,method_note) VALUES (?,?,?,?,?,?,?,?,?,?)").bind(row[0],row[1],row[2],row[3],row[4],row[5],row[6],"2026-10-05",row[7],row[8]));
     }
     if (ukPrior?.evidence_type === "unknown" && ukPrior.value === null && ukPrior.source_id === "uk_carbon_table") {

@@ -72,7 +72,7 @@ export function evidenceScopeForIntent(intent: ResearchIntent): EvidenceScope {
   switch (intent) {
     case "data_inventory":
       return {
-        indicators: ["us_dc_2024", "us_mix", "us_carbon", "us_cooling", "cn_dc_2024", "cn_mix", "cn_carbon", "cn_cooling", "uk_dc_2024", "uk_dc_count", "uk_mix", "uk_carbon", "uk_cooling", "us_tx_price", "gb_live_carbon", "course_us_business_power", "course_cn_business_power", "course_uk_business_power", "us_sv_construction", "uk_london_construction", "us_phoenix_colo", "cn_post_colo", "uk_london_colo"],
+        indicators: ["us_dc_2024", "us_mix", "us_carbon", "us_cooling", "cn_dc_2024", "cn_mix", "cn_carbon", "cn_cooling", "uk_dc_2024", "uk_dc_count", "uk_mix", "uk_carbon", "uk_cooling", "us_tx_price", "us_tx_grid_demand", "us_tx_grid_forecast", "gb_live_carbon", "course_us_business_power", "course_cn_business_power", "course_uk_business_power", "us_sv_construction", "uk_london_construction", "us_phoenix_colo", "cn_post_colo", "uk_london_colo"],
         claims: ["model_demand", "model_demand_mix", "country_price_screen", "model_power", "model_staging", "model_cost", "model_stress", "carbon_basis", "cooling_gate"],
         assumptions: ["member_units", "pue", "first_module", "later_module", "envelope", "colo_share", "discount_rate", "research_region"],
       };
@@ -114,7 +114,7 @@ export function evidenceScopeForIntent(intent: ResearchIntent): EvidenceScope {
       };
     case "location":
       return {
-        indicators: ["us_tx_price"],
+        indicators: ["us_tx_price", "us_tx_grid_demand", "us_tx_grid_forecast"],
         claims: ["research_location", "cooling_gate"],
         assumptions: ["research_region", "envelope"],
       };
@@ -132,7 +132,7 @@ export function evidenceScopeForIntent(intent: ResearchIntent): EvidenceScope {
       };
     case "evidence":
       return {
-        indicators: ["gb_live_carbon", "us_tx_price"],
+        indicators: ["gb_live_carbon", "us_tx_price", "us_tx_grid_demand", "us_tx_grid_forecast"],
         claims: ["analysis_framework", "model_demand", "model_power", "model_cost", "model_stress", "research_location", "carbon_basis", "cooling_gate"],
         assumptions: ["member_units", "research_region", "first_module", "later_module", "envelope", "pue", "discount_rate"],
       };

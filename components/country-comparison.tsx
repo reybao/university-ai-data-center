@@ -15,8 +15,9 @@ type ResearchData = { countries: Country[]; indicators: Indicator[]; error?: str
 
 export function CountryComparison() {
   const [data, setData] = useState<ResearchData | null>(null);
-  const [message, setMessage] = useState("");
-  const [busy, setBusy] = useState(false);
+  const [loadMessage, setLoadMessage] = useState("");
+  const [messages, setMessages] = useState<{ eia?: string; neso?: string }>({});
+  const [busy, setBusy] = useState<"eia" | "neso" | null>(null);
   const [needsSignIn, setNeedsSignIn] = useState(false);
   const load = useCallback(async () => {
     const response = await fetch("/api/research", { cache: "no-store" });
@@ -24,30 +25,37 @@ export function CountryComparison() {
     if (!response.ok) throw new Error(result.error || "Research evidence is unavailable.");
     setData(result);
   }, []);
-  useEffect(() => { load().catch(error => setMessage(error instanceof Error ? error.message : "Research evidence is unavailable.")); }, [load]);
-  async function refresh() {
-    setBusy(true); setMessage(""); setNeedsSignIn(false);
+  useEffect(() => { load().catch(error => setLoadMessage(error instanceof Error ? error.message : "Research evidence is unavailable.")); }, [load]);
+  async function refresh(provider: "eia" | "neso") {
+    setBusy(provider); setMessages(previous => ({ ...previous, [provider]: "" })); setNeedsSignIn(false);
     try {
-      const response = await fetch("/api/research/refresh", { method: "POST" });
+      const response = await fetch(provider === "eia" ? "/api/research/refresh/eia" : "/api/research/refresh", { method: "POST" });
       const result = await response.json() as { error?: string };
       await load();
       setNeedsSignIn(response.status === 401);
-      setMessage(response.ok ? "GB carbon intensity updated from NESO." : result.error || "Update failed. Previous valid data is retained.");
-    } catch { setMessage("Update failed. Previous valid data is retained."); }
-    finally { setBusy(false); }
+      const success = provider === "eia" ? "ERCOT demand and matching forecast updated from EIA." : "GB carbon intensity updated from NESO.";
+      setMessages(previous => ({ ...previous, [provider]: response.ok ? success : result.error || "Update failed. Previous valid data is retained." }));
+    } catch { setMessages(previous => ({ ...previous, [provider]: "Update failed. Previous valid data is retained." })); }
+    finally { setBusy(null); }
   }
   const live = data?.indicators.find(row => row.id === "gb_live_carbon");
+  const ercotActual = data?.indicators.find(row => row.id === "us_tx_grid_demand");
+  const ercotForecast = data?.indicators.find(row => row.id === "us_tx_grid_forecast");
+  const actualValue = ercotActual?.value ? Number(ercotActual.value) : null;
+  const forecastValue = ercotForecast?.value ? Number(ercotForecast.value) : null;
+  const forecastDelta = actualValue !== null && forecastValue !== null ? actualValue - forecastValue : null;
+  const excludedLiveIds = new Set(["gb_live_carbon", "us_tx_price", "us_tx_grid_demand", "us_tx_grid_forecast"]);
   return <>
     <section className="panel country-lead">
       <div className="eyebrow">COUNTRY LENS · SOURCE BOUNDARIES SHOWN</div>
       <h2>United States · China · United Kingdom</h2>
       <p>These records compare published evidence, not candidate sites. IEA estimates for the US and China use a modelled 2024 global denominator. The 2024 Great Britain figure counts a narrower set of operational centres. Carbon figures also use different accounting boundaries; no cross-country score or ranking is implied.</p>
     </section>
-    {!data && <section className="panel" role="status">{message || "Loading D1 research records…"}</section>}
+    {!data && <section className="panel" role="status">{loadMessage || "Loading D1 research records…"}</section>}
     {data && <div className="country-grid">{data.countries.map(country => <section className="panel country-card" key={country.code}>
       <div className="country-card-head"><span>{country.code}</span><h2>{country.name}</h2></div>
       <p className="country-scope">{country.scope_note}</p>
-      <div className="country-indicators">{data.indicators.filter(row => row.country_code === country.code && row.id !== "gb_live_carbon" && row.id !== "us_tx_price").map(row => <article key={row.id}>
+      <div className="country-indicators">{data.indicators.filter(row => row.country_code === country.code && !excludedLiveIds.has(row.id)).map(row => <article key={row.id}>
         <div className="country-indicator-head"><strong>{row.label}</strong><span className={`evidence-type type-${row.evidence_type}`}>{row.evidence_type.toUpperCase()}</span></div>
         <div className="country-value">{row.value ?? "TBD"} {row.unit && <small>{row.unit}</small>}</div>
         <p>{row.method_note}</p>
@@ -56,8 +64,12 @@ export function CountryComparison() {
       </article>)}</div>
     </section>)}</div>}
     <section className="panel live-evidence">
+      <div><div className="eyebrow">EXTERNAL DATA API · U.S. ENERGY INFORMATION ADMINISTRATION</div><h2>ERCOT hourly electricity demand</h2><p>The latest actual demand is paired with EIA&apos;s day-ahead forecast for the same UTC hour. This shows regional operating context and forecast error; it does not prove that a candidate site can receive power.</p></div>
+      <div className="live-evidence-result"><strong>{actualValue === null ? "TBD" : actualValue.toLocaleString()} {actualValue === null ? "" : ercotActual?.unit}</strong><span>Actual · {ercotActual?.reporting_period ?? "not yet refreshed"}</span><span>Day-ahead forecast: {forecastValue === null ? "TBD" : `${forecastValue.toLocaleString()} ${ercotForecast?.unit ?? ""}`}</span><span>Actual minus forecast: {forecastDelta === null ? "TBD" : `${forecastDelta >= 0 ? "+" : ""}${forecastDelta.toLocaleString()} MWh`}</span><span>Last successful update: {ercotActual?.last_success_at ?? "Never"}</span>{ercotActual?.refresh_status === "failed" && <span className="refresh-failed">Update failed: {ercotActual.last_error_at}. Showing last valid values.</span>}<a href="https://www.eia.gov/electricity/gridmonitor/dashboard/electric_overview/balancing_authority/ERCO" target="_blank" rel="noreferrer">EIA Hourly Electric Grid Monitor ↗</a><button onClick={() => refresh("eia")} disabled={busy !== null}>{busy === "eia" ? "Updating…" : "Authorized refresh from EIA API"}</button>{messages.eia && <p role="status">{messages.eia}</p>}{needsSignIn && <a href="/signin-with-chatgpt?return_to=%2Flocation" target="_top">Sign in with ChatGPT</a>}</div>
+    </section>
+    <section className="panel live-evidence">
       <div><div className="eyebrow">EXTERNAL DATA API · NATIONAL ENERGY SYSTEM OPERATOR</div><h2>Great Britain grid carbon intensity</h2><p>Current half-hour API reading. The service labels actual readings and forecasts separately. This is a grid indicator, not an annual UK data-centre footprint.</p></div>
-      <div className="live-evidence-result"><strong>{live?.value ?? "TBD"} {live?.value ? live.unit : ""}</strong><span>{live?.evidence_type ?? "unknown"} · {live?.reporting_period ?? "not yet refreshed"}</span><span>Last successful update: {live?.last_success_at ?? "Never"}</span><span>Latest retrieval: {live?.retrieved_at ?? "TBD"}</span>{live?.refresh_status === "failed" && <span className="refresh-failed">Update failed: {live.last_error_at}. Showing last valid value.</span>}<button onClick={refresh} disabled={busy}>{busy ? "Updating…" : "Authorized refresh from NESO API"}</button>{message && <p role="status">{message}</p>}{needsSignIn && <a href="/signin-with-chatgpt?return_to=%2Fcountries" target="_top">Sign in with ChatGPT</a>}</div>
+      <div className="live-evidence-result"><strong>{live?.value ?? "TBD"} {live?.value ? live.unit : ""}</strong><span>{live?.evidence_type ?? "unknown"} · {live?.reporting_period ?? "not yet refreshed"}</span><span>Last successful update: {live?.last_success_at ?? "Never"}</span><span>Latest retrieval: {live?.retrieved_at ?? "TBD"}</span>{live?.refresh_status === "failed" && <span className="refresh-failed">Update failed: {live.last_error_at}. Showing last valid value.</span>}<button onClick={() => refresh("neso")} disabled={busy !== null}>{busy === "neso" ? "Updating…" : "Authorized refresh from NESO API"}</button>{messages.neso && <p role="status">{messages.neso}</p>}{needsSignIn && <a href="/signin-with-chatgpt?return_to=%2Flocation" target="_top">Sign in with ChatGPT</a>}</div>
     </section>
     <section className="panel country-caveat"><strong>Evidence rule</strong><p>Facts, estimates, calculations, assumptions and unknowns are recorded separately in D1. Each indicator shows its reporting period, retrieval date, source and scope note. Comparable national carbon and cooling benchmarks remain TBD until matching definitions are verified.</p></section>
   </>;

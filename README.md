@@ -13,6 +13,7 @@ Editable GPT Site with public read access for an investment committee review of 
 - `lib/research-evidence.ts`: curated initial records, sources, and narrowly scoped corrections for earlier placeholders.
 - `app/api/research/route.ts`: D1 evidence read API.
 - `app/api/research/refresh/route.ts`: server-side NESO carbon-intensity refresh.
+- `app/api/research/refresh/eia/route.ts`: server-side EIA Form EIA-930 refresh for ERCOT actual and day-ahead demand.
 - `app/api/research/admin/route.ts`: role-protected manual evidence and assumption updates.
 - `app/api/chat/route.ts`: authenticated, registered-user, rate-limited assistant with D1 citations.
 
@@ -23,6 +24,8 @@ The parent ChatGPT project's `sources/` files are read-only reference material. 
 The first `/api/research` request imports curated records into D1. Subsequent reads use D1 values. Verified Great Britain carbon and China water/PUE policy records update only their original placeholder rows, preserving edited records. For future evidence updates, add an explicit idempotent correction or ingestion route; editing the seed array alone does not overwrite existing D1 rows.
 
 Only a signed-in, registered D1 user with `role=admin` can refresh from the NESO API or edit research records. The server validates the half-hour record before writing it. A failed update preserves the last valid value and records the failure time. The live reading is a GB grid indicator, not annual data-centre emissions.
+
+The ERCOT refresh uses the free EIA API and requires `EIA_API_KEY` as a production Secret. Register for a free key at https://www.eia.gov/opendata/register.php. The server fetches the latest actual ERCOT demand and the day-ahead forecast for the same UTC hour, validates both records, and writes only the verified values to D1. These regional values do not establish site-level utility capacity, delivery date, connection cost, or a power reservation.
 
 ## AI Research Assistant
 
