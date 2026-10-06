@@ -25,7 +25,7 @@ function verifiedCitations(reply: string, citationMap: Map<string, Citation>, al
 }
 
 function isGeneralConversation(message: string): boolean {
-  return !/(?:这个|本)(?:网站|网页|研究|项目|方案|模型)|(?:AI\s*)?数据中心|联盟|选址|接电|机房|算力|\b(?:this|our)\s+(?:site|website|study|project|model|proposal)\b|\b(?:data[ -]?cent(?:er|re)|consortium|ERCOT|Texas|PUE)\b|\b(?:B200|H200|L40S)\b/i.test(message);
+  return !/(?:这个|本)(?:网站|网页|研究|项目|方案|模型)|(?:AI\s*)?数据中心|联盟|选址|接电|机房|算力|托管|机柜租赁|中美英|\b(?:this|our)\s+(?:site|website|study|project|model|proposal)\b|\b(?:data[ -]?cent(?:er|re)|consortium|ERCOT|Texas|PUE|colocation)\b|\b(?:B200|H200|L40S)\b/i.test(message);
 }
 
 function conversationalReply(message: string): string | null {
