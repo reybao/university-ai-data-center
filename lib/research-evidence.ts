@@ -29,6 +29,8 @@ const sources = [
   ["course_power_cn", "GlobalPetrolPrices / prior course dataset", "China business retail electricity price · archived course snapshot", "https://www.globalpetrolprices.com/China/electricity_prices/", "2025-12"],
   ["course_power_uk", "GlobalPetrolPrices / prior course dataset", "UK business retail electricity price · archived course snapshot", "https://www.globalpetrolprices.com/United-Kingdom/electricity_prices/", "2025-12"],
   ["tt_dc_cost_2025", "Turner & Townsend", "Data Centre Construction Cost Index 2025–26 · city benchmarks", "https://www.turnerandtownsend.com/news-old/ai-data-centre-rush-raises-alarm-over-construction-supply-chain/", "2025-11"],
+  ["cbre_colo_q1_2025", "CBRE", "Global Data Center Trends 2025 · Phoenix and London asking rents", "https://www.cbre.com/insights/reports/global-data-center-trends-2025", "2025-Q1"],
+  ["china_post_colo_2025", "China Post", "2025 remote IDC colocation procurement ceiling", "https://www.chinapost.com.cn/cn/report/2507/1151-1.html", "2025-07"],
   ["model_demand", "University Consortium planning model", "Demand and workload model · illustrative 2026-10-04 snapshot", "/demand", "2026-10-04"],
   ["model_architecture", "University Consortium planning model", "Architecture and power model · illustrative 2026-10-04 snapshot", "/architecture", "2026-10-04"],
   ["model_economics", "University Consortium planning model", "Economics model · illustrative 2026-10-04 snapshot", "/economics", "2026-10-04"],
@@ -57,6 +59,9 @@ const indicators = [
   ["course_uk_business_power", "UK", "Business retail electricity · archived course snapshot", "0.451", "USD/kWh", "estimate", "2025-12", "course_power_uk", "Prior course energy-data.csv, accessed 2026-09-16. Standard 1 million kWh/year business benchmark, not a 12 MW data-center tariff; source page may now show newer data."],
   ["us_sv_construction", "US", "Traditional data-center construction · Silicon Valley", "13.3", "USD/IT W", "estimate", "2025", "tt_dc_cost_2025", "City benchmark, not a US national average or AI liquid-cooled project quote. Excludes site-specific power access, land and active IT."],
   ["uk_london_construction", "UK", "Traditional data-center construction · London", "12.0", "USD/IT W", "estimate", "2025", "tt_dc_cost_2025", "City benchmark, not a UK national average or AI liquid-cooled project quote. Excludes site-specific power access, land and active IT."],
+  ["us_phoenix_colo", "US", "Phoenix colocation asking rent", "190", "USD/IT kW-month", "estimate", "2025-Q1", "cbre_colo_q1_2025", "CBRE market average for the 250–500 kW segment. Extrapolation to 10 MW IT is a model assumption, not a wholesale offer; power inclusion and contract terms require checking."],
+  ["cn_post_colo", "CN", "China Post IDC cabinet rent ceiling", "641.67", "CNY/IT kW-month", "calculation", "2025-07", "china_post_colo_2025", "CNY 38,500/year per 5 kW cabinet divided by 5 kW and 12 months. Public procurement ceiling, not a China market average or 10 MW IT offer; service bundle differs from CBRE."],
+  ["uk_london_colo", "UK", "London colocation asking rent midpoint", "197.5", "USD/IT kW-month", "calculation", "2025-Q1", "cbre_colo_q1_2025", "Midpoint of CBRE USD 180–215/kW-month range for the 250–500 kW market segment. Extrapolation to 10 MW IT is a model assumption, not a wholesale offer."],
 ] as const;
 
 const assumptions = [
@@ -80,7 +85,7 @@ const claims = [
   ["cooling_gate", "Cooling design, water availability and annual PUE need local engineering and service-provider evidence before site underwriting.", "assumption", "uk_water", null],
   ["model_demand", "Five planning member profiles sum to 3.5 MIT-reference demand units; the weights and future utilization are model assumptions rather than measured use.", "assumption", "model_demand", null],
   ["model_demand_mix", "The illustrative four-task 2030 base workload totals 26.02 million reference-equivalent GPU-hours; a 3.0x versus 2.0x multiplier yields 39.04 million in 2035, or 50% growth. Reference hours are not additive to the mixed B200/H200/L40S device-hours.", "calculation", "model_demand", null],
-  ["country_price_screen", "The archived course dataset lists 2025-12 business retail electricity price proxies of US $0.145, China $0.117 and UK $0.451 per kWh. Applying each to the same assumed 12 MW facility input at 60% average use is a screening calculation, not a site tariff, invoice or three-country investment ranking. Colocation quotes and comparable Chinese construction cost remain unknown.", "calculation", null, null],
+  ["country_price_screen", "The archived course dataset lists 2025-12 business electricity proxies of US $0.145, China $0.117 and UK $0.451/kWh. At 12 MW facility input and 60% average use, 63.072 GWh/year gives annual screens of $9.15m, $7.38m and $28.45m respectively. Separate colocation reference points are Phoenix $190/IT kW-month, China Post public procurement ceiling CNY 641.67/IT kW-month and London range midpoint $197.5/IT kW-month. A 12 MW facility at assumed PUE 1.20 implies 10 MW IT, but the 10 MW annual rent extrapolations are not comparable market offers: sources represent different sizes and service bundles. Do not add power cost unless rent excludes power. Chinese same-method construction cost is unverified.", "calculation", null, null],
   ["model_power", "The illustrative three-tier planning base calculates 13.204 MW total facility design input for the full modeled 2030 workload and 19.795 MW for 2035; these are model outputs, not measured demand or utility capacity.", "calculation", "model_architecture", null],
   ["model_staging", "The base hybrid case models 12 MW total-facility commitment in 2030 and conditional 15 MW from 2033; the 25 MW envelope remains uncommitted.", "assumption", "model_economics", null],
   ["model_cost", "For 2027–2036, the illustrative staged 70% colo / 30% eligible-cloud hybrid cost NPV is about $1.192bn; the flexible-capacity hybrid is about $1.177bn and the all-cloud public-anchor proxy about $1.152bn. These are cost estimates, not vendor bids.", "calculation", "model_economics", null],
@@ -100,10 +105,10 @@ export async function ensureEvidenceSeeded(db: D1Database) {
     const updates: D1PreparedStatement[] = newClaims.map(row =>
       db.prepare("INSERT INTO research_claims (id,statement,evidence_type,source_id,indicator_id) VALUES (?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET statement=excluded.statement,evidence_type=excluded.evidence_type,source_id=excluded.source_id,indicator_id=excluded.indicator_id,updated_at=CURRENT_TIMESTAMP").bind(...row)
     );
-    for (const row of sources.filter(source => source[0].startsWith("course_power_") || source[0] === "tt_dc_cost_2025")) {
+    for (const row of sources.filter(source => source[0].startsWith("course_power_") || source[0] === "tt_dc_cost_2025" || source[0] === "cbre_colo_q1_2025" || source[0] === "china_post_colo_2025")) {
       updates.push(db.prepare("INSERT OR IGNORE INTO evidence_sources (id,publisher,title,url,published_at,retrieved_at) VALUES (?,?,?,?,?,?)").bind(...row, "2026-10-05"));
     }
-    for (const row of indicators.filter(indicator => indicator[0].startsWith("course_") || indicator[0] === "us_sv_construction" || indicator[0] === "uk_london_construction")) {
+    for (const row of indicators.filter(indicator => indicator[0].startsWith("course_") || indicator[0] === "us_sv_construction" || indicator[0] === "uk_london_construction" || indicator[0] === "us_phoenix_colo" || indicator[0] === "cn_post_colo" || indicator[0] === "uk_london_colo")) {
       updates.push(db.prepare("INSERT OR IGNORE INTO indicators (id,country_code,label,value,unit,evidence_type,reporting_period,retrieved_at,source_id,method_note) VALUES (?,?,?,?,?,?,?,?,?,?)").bind(row[0],row[1],row[2],row[3],row[4],row[5],row[6],"2026-10-05",row[7],row[8]));
     }
     if (ukPrior?.evidence_type === "unknown" && ukPrior.value === null && ukPrior.source_id === "uk_carbon_table") {

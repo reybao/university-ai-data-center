@@ -6,9 +6,11 @@
   "basis": "Business retail electricity benchmark at 1,000,000 kWh per year; includes supply, transmission, distribution, taxes and fees. Archived course snapshot, not a 12 MW data-center quote.",
   "screen_facility_mw": 12,
   "screen_average_use_fraction": 0.6,
+  "screen_pue": 1.2,
+  "colocation_note": "Market screening proxies only: Phoenix and London CBRE Q1 2025 asking rents are for 250–500 kW deployments; the China Post July 2025 figure is a public procurement ceiling for 5/20 kW cabinets. Different deal sizes and service bundles; do not treat as comparable 10 MW offers or add electricity unless contract terms exclude power.",
   "rows": [
-    { "country": "United States", "code": "US", "usd_per_kwh": 0.145, "source_url": "https://www.globalpetrolprices.com/USA/electricity_prices/", "construction_market": "Silicon Valley", "construction_usd_per_it_watt": 13.3 },
-    { "country": "China", "code": "CN", "usd_per_kwh": 0.117, "source_url": "https://www.globalpetrolprices.com/China/electricity_prices/", "construction_market": null, "construction_usd_per_it_watt": null },
-    { "country": "United Kingdom", "code": "GB", "usd_per_kwh": 0.451, "source_url": "https://www.globalpetrolprices.com/United-Kingdom/electricity_prices/", "construction_market": "London", "construction_usd_per_it_watt": 12.0 }
+    { "country": "United States", "code": "US", "usd_per_kwh": 0.145, "source_url": "https://www.globalpetrolprices.com/USA/electricity_prices/", "construction_market": "Silicon Valley", "construction_usd_per_it_watt": 13.3, "colo_market": "Phoenix", "colo_rate_per_it_kw_month": 190, "colo_currency_symbol": "$", "colo_source_url": "https://www.cbre.com/insights/reports/global-data-center-trends-2025", "colo_basis": "CBRE Q1 2025 average asking rent; 250–500 kW market series" },
+    { "country": "China", "code": "CN", "usd_per_kwh": 0.117, "source_url": "https://www.globalpetrolprices.com/China/electricity_prices/", "construction_market": null, "construction_usd_per_it_watt": null, "colo_market": "China Post procurement", "colo_rate_per_it_kw_month": 641.6666666667, "colo_currency_symbol": "¥", "colo_source_url": "https://www.chinapost.com.cn/cn/report/2507/1151-1.html", "colo_basis": "July 2025 ceiling: ¥38,500/year per 5 kW cabinet; not an average" },
+    { "country": "United Kingdom", "code": "GB", "usd_per_kwh": 0.451, "source_url": "https://www.globalpetrolprices.com/United-Kingdom/electricity_prices/", "construction_market": "London", "construction_usd_per_it_watt": 12.0, "colo_market": "London", "colo_rate_per_it_kw_month": 197.5, "colo_currency_symbol": "$", "colo_source_url": "https://www.cbre.com/insights/reports/global-data-center-trends-2025", "colo_basis": "Midpoint of CBRE Q1 2025 $180–215/kW-month range; 250–500 kW series" }
   ]
 }
