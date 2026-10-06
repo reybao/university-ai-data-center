@@ -345,6 +345,7 @@ function ResearchAssistant({ section }: { section: string }) {
   const [needsRegistration, setNeedsRegistration] = useState(false);
   const [needsSignIn, setNeedsSignIn] = useState(false);
   const [registeredReady, setRegisteredReady] = useState(false);
+  const [accessCheckFailed, setAccessCheckFailed] = useState(false);
   const [busy, setBusy] = useState(false);
   const [voiceFormat, setVoiceFormat] = useState("");
   const [voiceStatus, setVoiceStatus] = useState<"idle" | "requesting" | "recording" | "transcribing">("idle");
@@ -369,18 +370,19 @@ function ResearchAssistant({ section }: { section: string }) {
   useEffect(() => { if (threadRef.current) threadRef.current.scrollTop = threadRef.current.scrollHeight; }, [messages, busy]);
 
   async function checkRegistration() {
+    setAccessCheckFailed(false);
     try {
       const response = await fetch("/api/auth/register", { cache: "no-store" });
       if (response.status === 401) {
         setNeedsSignIn(true); setNeedsRegistration(false); setRegisteredReady(false);
         return;
       }
-      if (!response.ok) return;
+      if (!response.ok) { setAccessCheckFailed(true); return; }
       const data = await response.json() as { registered?: boolean };
       setNeedsSignIn(false);
       setNeedsRegistration(!data.registered);
       setRegisteredReady(Boolean(data.registered));
-    } catch { /* The chat endpoint still enforces access if this status check fails. */ }
+    } catch { setAccessCheckFailed(true); /* The chat endpoint still enforces access. */ }
   }
 
   async function register() {
@@ -390,7 +392,7 @@ function ResearchAssistant({ section }: { section: string }) {
       if (!r.ok) throw new Error(d.error || "Registration is unavailable.");
       setNeedsRegistration(false);
       setRegisteredReady(true);
-      setMessages(previous => [...previous, { role: "assistant", content: "Registration complete. You can now ask a question." }]);
+      setMessages(previous => [...previous.filter(item => item.content !== "Register your account before using the research assistant."), { role: "assistant", content: "Registration complete. You can now ask a question." }]);
     } catch (error) {
       setMessages(previous => [...previous, { role: "assistant", content: error instanceof Error ? error.message : "Registration is unavailable.", isError: true }]);
     }
@@ -519,7 +521,7 @@ function ResearchAssistant({ section }: { section: string }) {
     <SheetContent className="assistant-sheet">
       <SheetHeader><SheetTitle>AI Research Assistant</SheetTitle><SheetDescription>Short answers grounded in saved research evidence.</SheetDescription></SheetHeader>
       <div className="assistant-body" ref={threadRef} role="log" aria-label="Research assistant conversation" aria-live="polite" aria-busy={busy}>
-        <div className="assistant-intro"><CircleHelp size={22}/><strong>Ask a research question</strong><p>Sign in with ChatGPT and register this site once to ask. Answers cite available evidence. Limit: 20 questions per hour.</p>{registeredReady && <p>Registered · ready to ask.</p>}</div>
+        <div className="assistant-intro"><CircleHelp size={22}/><strong>Ask a question</strong><p>{registeredReady ? "Signed in and registered. Ask anything; project-specific answers use the site's evidence." : needsRegistration ? "Signed in. Register this site once to use the assistant." : needsSignIn ? "Sign in with ChatGPT, then register this site once to ask." : accessCheckFailed ? "Account status could not be checked. You can still try a question." : "Checking account access…"}</p><p>Limit: 20 questions per hour.</p></div>
         <div className="chat-thread">{messages.map((item, index) => <div key={index} className={`chat-message chat-message--${item.role}${item.isError ? " chat-message--error" : ""}`}>
           <span className="chat-message-label">{item.role === "user" ? "You" : `AI Research Assistant${item.isPending ? " · writing…" : ""}`}</span>
           <div className="chat-bubble">{renderChatText(item.content || "Reading evidence…", item.role === "assistant" ? (item.citations || []).map(citation => citation.id) : undefined)}</div>
