@@ -282,6 +282,17 @@ export async function POST(request: Request) {
       const citations = verifiedCitations(reply, citationMap);
       if (citations) return directAnswerResponse(reply, citations, payload.stream === true);
     }
+    if (intents.includes("countries") && /(?:托管|机柜租赁|colocation)/i.test(message) && /(?:价格|成本|参考|平均|限价|price|rent|rate|average|ceiling)/i.test(message)) {
+      const rent = (id: string) => indicators.find(row => row.id === id)?.value;
+      const required = ["I:us_phoenix_colo", "I:cn_post_colo", "I:uk_london_colo"];
+      if (required.every(id => citationMap.has(id)) && required.every(id => rent(id.slice(2)))) {
+        const reply = /[\u3400-\u9fff]/.test(message)
+          ? `三国托管参考值：美国 Phoenix 为 $${rent("us_phoenix_colo")}/IT kW·月（CBRE 2025 Q1 市场平均挂牌租金）[I:us_phoenix_colo]；英国 London 为 $${rent("uk_london_colo")}/IT kW·月（CBRE $180–215 区间的中点）[I:uk_london_colo]；中国为 ¥${rent("cn_post_colo")}/IT kW·月（中国邮政公开采购的机柜租赁限价折算）[I:cn_post_colo]。中国数字不是市场平均价。三者的租用规模和服务范围不同，只可作初筛，不能据此认定 10 MW 项目在哪国更便宜。`
+          : `Colocation references: Phoenix $${rent("us_phoenix_colo")}/IT kW-month (CBRE Q1 2025 market average asking rent) [I:us_phoenix_colo]; London $${rent("uk_london_colo")}/IT kW-month (midpoint of CBRE's $180–215 range) [I:uk_london_colo]; China ¥${rent("cn_post_colo")}/IT kW-month (derived from China Post's public procurement ceiling) [I:cn_post_colo]. The China figure is not a market average. These differ in deal size and service bundle, so they do not establish which country has the cheaper 10 MW offer.`;
+        const citations = verifiedCitations(reply, citationMap);
+        if (citations) return directAnswerResponse(reply, citations, payload.stream === true);
+      }
+    }
     const asksForCoreRecommendation = intents.includes("recommendation") ||
       (intents.includes("strategy") && /(?:为什么|为何|why|reason|recommend|建议|推荐).{0,16}(?:混合|分阶段|hybrid)|(?:混合|分阶段|hybrid).{0,16}(?:建议|推荐|recommend)/i.test(message));
     const costClaim = claims.find(row => row.id === "model_cost")?.statement ?? "";
