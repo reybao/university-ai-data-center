@@ -35,7 +35,7 @@ const rules: Array<[ResearchIntent, RegExp]> = [
   ["data_inventory", /(?:使用|用了|依据|依赖|包含|罗列|列出|哪些|所有).{0,12}(?:数据|资料|指标|来源|数据框架)|(?:数据|资料|指标|来源|数据框架).{0,12}(?:使用|用了|依据|依赖|包含|罗列|列出|哪些|所有)|\b(?:what|which|list|all)\b.{0,35}\b(?:data|datasets|inputs|sources|metrics)\b|\b(?:data|datasets|inputs|sources|metrics)\b.{0,35}\b(?:used|underlying|included)\b/i],
   ["recommendation", /\b(?:final|overall|investment|committee|ic)\s+(?:recommendation|decision|verdict|conclusion)\b|\bwhat\s+should\s+(?:the\s+)?(?:committee|ic|we)\s+(?:approve|do)\b|最终建议|总体建议|投资建议|最终结论|建议是什么|应该批准|是否批准/i],
   ["framework", /\b(decision|analysis|research)\s+(logic|framework|tree|process|steps?)\b|\bhow\s+(?:should|do|would)\s+(?:we|you)\s+(?:analyse|analyze|decide)\b|决策逻辑|分析逻辑|分析框架|决策框架|分析步骤|研究逻辑|如何分析|如何决策/i],
-  ["countries", /\b(?:compare|comparison|rank|ranking)\b.{0,40}\b(?:countries|country|us|usa|united states|china|uk|united kingdom)\b|国家比较|国家对比|美国.{0,12}中国|中国.{0,12}英国/i],
+  ["countries", /\b(?:compare|comparison|rank|ranking)\b.{0,40}\b(?:countries|country|us|usa|united states|china|uk|united kingdom)\b|\b(?:electricity prices?|construction costs?)\b.{0,35}\b(?:country|countries|china|uk|united states)\b|国家比较|国家对比|美国.{0,12}中国|中国.{0,12}英国|中美英.{0,12}(?:电价|成本)|三国.{0,12}(?:电价|成本)/i],
   ["location", /\b(?:texas|ercot|parcel|site selection|regional? screen|location|utility commitment|power delivery)\b|德州|得州|选址|地块|地区筛选|电网接入地点/i],
   ["demand", /\b(?:demand|workload|gpu.hours?|utili[sz]ation|users?|member institutions?|capacity need|right.?si[sz]e)\b|需求|工作负载|GPU\s*小时|利用率|用户|成员机构|规模是否/i],
   ["strategy", /\b(?:build|buy|rent|lease|colo|colocation|hybrid|ownership|own versus|alternative)\b|自建|租用|混合方案|持有|所有权|方案比较|替代方案/i],
@@ -72,8 +72,8 @@ export function evidenceScopeForIntent(intent: ResearchIntent): EvidenceScope {
   switch (intent) {
     case "data_inventory":
       return {
-        indicators: ["us_dc_2024", "us_mix", "us_carbon", "us_cooling", "cn_dc_2024", "cn_mix", "cn_carbon", "cn_cooling", "uk_dc_2024", "uk_dc_count", "uk_mix", "uk_carbon", "uk_cooling", "us_tx_price", "gb_live_carbon"],
-        claims: ["model_demand", "model_power", "model_staging", "model_cost", "model_stress", "carbon_basis", "cooling_gate"],
+        indicators: ["us_dc_2024", "us_mix", "us_carbon", "us_cooling", "cn_dc_2024", "cn_mix", "cn_carbon", "cn_cooling", "uk_dc_2024", "uk_dc_count", "uk_mix", "uk_carbon", "uk_cooling", "us_tx_price", "gb_live_carbon", "course_us_business_power", "course_cn_business_power", "course_uk_business_power", "us_sv_construction", "uk_london_construction"],
+        claims: ["model_demand", "model_demand_mix", "country_price_screen", "model_power", "model_staging", "model_cost", "model_stress", "carbon_basis", "cooling_gate"],
         assumptions: ["member_units", "pue", "first_module", "later_module", "envelope", "colo_share", "discount_rate", "research_region"],
       };
     case "recommendation":
@@ -91,7 +91,7 @@ export function evidenceScopeForIntent(intent: ResearchIntent): EvidenceScope {
     case "demand":
       return {
         indicators: [],
-        claims: ["model_demand", "model_power", "model_staging"],
+        claims: ["model_demand", "model_demand_mix", "model_power", "model_staging"],
         assumptions: ["member_units", "pue", "first_module", "later_module", "envelope"],
       };
     case "strategy":
@@ -108,8 +108,8 @@ export function evidenceScopeForIntent(intent: ResearchIntent): EvidenceScope {
       };
     case "countries":
       return {
-        indicators: ["us_dc_2024", "us_dc_2023", "us_mix", "us_carbon", "us_cooling", "cn_dc_2024", "cn_mix", "cn_carbon", "cn_cooling", "uk_dc_2024", "uk_dc_count", "uk_mix", "uk_carbon", "uk_cooling", "gb_live_carbon"],
-        claims: ["iea_scope", "uk_scope", "carbon_basis", "cooling_gate"],
+        indicators: ["us_dc_2024", "us_dc_2023", "us_mix", "us_carbon", "us_cooling", "cn_dc_2024", "cn_mix", "cn_carbon", "cn_cooling", "uk_dc_2024", "uk_dc_count", "uk_mix", "uk_carbon", "uk_cooling", "gb_live_carbon", "course_us_business_power", "course_cn_business_power", "course_uk_business_power", "us_sv_construction", "uk_london_construction"],
+        claims: ["iea_scope", "uk_scope", "carbon_basis", "cooling_gate", "country_price_screen"],
         assumptions: [],
       };
     case "location":

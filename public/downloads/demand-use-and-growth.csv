@@ -1,0 +1,6 @@
+primary_use,users,2030_reference_gpu_hours,2030_share_percent,2035_reference_gpu_hours,evidence_type
+Model training,Research groups,6138720,23.59,9208080,model assumption
+Fine-tuning / RL,Labs and faculty,5524848,21.23,8287272,model assumption
+Scientific AI / HPC,Scientific teams,12430908,47.77,18646362,model assumption
+Inference + coding agents,"Students, faculty, staff",1929280,7.41,2893918,model assumption
+Total,Five assumed members,26023756,100,39035632,calculation

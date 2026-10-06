@@ -1,0 +1,14 @@
+{
+  "dataset": "Prior course energy-data.csv, selected three-country business electricity rows",
+  "price_period": "2025-12",
+  "retrieved_at": "2026-09-16",
+  "source_publisher": "GlobalPetrolPrices",
+  "basis": "Business retail electricity benchmark at 1,000,000 kWh per year; includes supply, transmission, distribution, taxes and fees. Archived course snapshot, not a 12 MW data-center quote.",
+  "screen_facility_mw": 12,
+  "screen_average_use_fraction": 0.6,
+  "rows": [
+    { "country": "United States", "code": "US", "usd_per_kwh": 0.145, "source_url": "https://www.globalpetrolprices.com/USA/electricity_prices/", "construction_market": "Silicon Valley", "construction_usd_per_it_watt": 13.3 },
+    { "country": "China", "code": "CN", "usd_per_kwh": 0.117, "source_url": "https://www.globalpetrolprices.com/China/electricity_prices/", "construction_market": null, "construction_usd_per_it_watt": null },
+    { "country": "United Kingdom", "code": "GB", "usd_per_kwh": 0.451, "source_url": "https://www.globalpetrolprices.com/United-Kingdom/electricity_prices/", "construction_market": "London", "construction_usd_per_it_watt": 12.0 }
+  ]
+}

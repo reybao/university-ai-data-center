@@ -25,6 +25,10 @@ const sources = [
   ["us_cooling", "U.S. Department of Energy", "Cooling Water Efficiency Opportunities for Federal Data Centers", "https://www.energy.gov/cmei/femp/cooling-water-efficiency-opportunities-federal-data-centers", null],
   ["gb_carbon_api", "National Energy System Operator", "Great Britain Carbon Intensity API", "https://api.carbonintensity.org.uk/", null],
   ["eia_price", "U.S. Energy Information Administration", "2024 industrial average electricity price by state", "https://www.eia.gov/electricity/sales_revenue_price/pdf/table_4.pdf", "2025"],
+  ["course_power_us", "GlobalPetrolPrices / prior course dataset", "U.S. business retail electricity price · archived course snapshot", "https://www.globalpetrolprices.com/USA/electricity_prices/", "2025-12"],
+  ["course_power_cn", "GlobalPetrolPrices / prior course dataset", "China business retail electricity price · archived course snapshot", "https://www.globalpetrolprices.com/China/electricity_prices/", "2025-12"],
+  ["course_power_uk", "GlobalPetrolPrices / prior course dataset", "UK business retail electricity price · archived course snapshot", "https://www.globalpetrolprices.com/United-Kingdom/electricity_prices/", "2025-12"],
+  ["tt_dc_cost_2025", "Turner & Townsend", "Data Centre Construction Cost Index 2025–26 · city benchmarks", "https://www.turnerandtownsend.com/news-old/ai-data-centre-rush-raises-alarm-over-construction-supply-chain/", "2025-11"],
   ["model_demand", "University Consortium planning model", "Demand and workload model · illustrative 2026-10-04 snapshot", "/demand", "2026-10-04"],
   ["model_architecture", "University Consortium planning model", "Architecture and power model · illustrative 2026-10-04 snapshot", "/architecture", "2026-10-04"],
   ["model_economics", "University Consortium planning model", "Economics model · illustrative 2026-10-04 snapshot", "/economics", "2026-10-04"],
@@ -48,6 +52,11 @@ const indicators = [
   ["uk_cooling", "UK", "Cooling and water constraint", "Water availability must be checked early; some catchments restrict new abstraction", null, "fact", "2025 guidance", "uk_water", "Qualitative planning constraint, not a site-specific water allocation."],
   ["gb_live_carbon", "UK", "GB grid carbon intensity · current half-hour", null, "g CO₂/kWh", "unknown", "TBD", "gb_carbon_api", "Refresh from NESO API. Forecast is identified as forecast if actual is unavailable."],
   ["us_tx_price", "US", "Texas industrial retail-price proxy", "6.12", "¢/kWh", "fact", "2024", "eia_price", "Historical state blended average; not a 2030 data-centre tariff or a city quote."],
+  ["course_us_business_power", "US", "Business retail electricity · archived course snapshot", "0.145", "USD/kWh", "estimate", "2025-12", "course_power_us", "Prior course energy-data.csv, accessed 2026-09-16. Standard 1 million kWh/year business benchmark, not a 12 MW data-center tariff; source page may now show newer data."],
+  ["course_cn_business_power", "CN", "Business retail electricity · archived course snapshot", "0.117", "USD/kWh", "estimate", "2025-12", "course_power_cn", "Prior course energy-data.csv, accessed 2026-09-16. Standard 1 million kWh/year business benchmark, not a 12 MW data-center tariff; source page may now show newer data."],
+  ["course_uk_business_power", "UK", "Business retail electricity · archived course snapshot", "0.451", "USD/kWh", "estimate", "2025-12", "course_power_uk", "Prior course energy-data.csv, accessed 2026-09-16. Standard 1 million kWh/year business benchmark, not a 12 MW data-center tariff; source page may now show newer data."],
+  ["us_sv_construction", "US", "Traditional data-center construction · Silicon Valley", "13.3", "USD/IT W", "estimate", "2025", "tt_dc_cost_2025", "City benchmark, not a US national average or AI liquid-cooled project quote. Excludes site-specific power access, land and active IT."],
+  ["uk_london_construction", "UK", "Traditional data-center construction · London", "12.0", "USD/IT W", "estimate", "2025", "tt_dc_cost_2025", "City benchmark, not a UK national average or AI liquid-cooled project quote. Excludes site-specific power access, land and active IT."],
 ] as const;
 
 const assumptions = [
@@ -70,6 +79,8 @@ const claims = [
   ["carbon_basis", "The US operational CO₂ measure is a generator factor, distinct from lifecycle carbon accounting; a harmonized carbon ranking is TBD.", "fact", "eia_emissions", "us_carbon"],
   ["cooling_gate", "Cooling design, water availability and annual PUE need local engineering and service-provider evidence before site underwriting.", "assumption", "uk_water", null],
   ["model_demand", "Five planning member profiles sum to 3.5 MIT-reference demand units; the weights and future utilization are model assumptions rather than measured use.", "assumption", "model_demand", null],
+  ["model_demand_mix", "The illustrative four-task 2030 base workload totals 26.02 million reference-equivalent GPU-hours; a 3.0x versus 2.0x multiplier yields 39.04 million in 2035, or 50% growth. Reference hours are not additive to the mixed B200/H200/L40S device-hours.", "calculation", "model_demand", null],
+  ["country_price_screen", "The archived course dataset lists 2025-12 business retail electricity price proxies of US $0.145, China $0.117 and UK $0.451 per kWh. Applying each to the same assumed 12 MW facility input at 60% average use is a screening calculation, not a site tariff, invoice or three-country investment ranking. Colocation quotes and comparable Chinese construction cost remain unknown.", "calculation", null, null],
   ["model_power", "The illustrative three-tier planning base calculates 13.204 MW total facility design input for the full modeled 2030 workload and 19.795 MW for 2035; these are model outputs, not measured demand or utility capacity.", "calculation", "model_architecture", null],
   ["model_staging", "The base hybrid case models 12 MW total-facility commitment in 2030 and conditional 15 MW from 2033; the 25 MW envelope remains uncommitted.", "assumption", "model_economics", null],
   ["model_cost", "For 2027–2036, the illustrative staged 70% colo / 30% eligible-cloud hybrid cost NPV is about $1.192bn; the flexible-capacity hybrid is about $1.177bn and the all-cloud public-anchor proxy about $1.152bn. These are cost estimates, not vendor bids.", "calculation", "model_economics", null],
@@ -85,10 +96,16 @@ export async function ensureEvidenceSeeded(db: D1Database) {
       db.prepare("SELECT evidence_type,value,source_id FROM indicators WHERE id='cn_cooling'").first<{ evidence_type: string; value: string | null; source_id: string | null }>(),
       db.prepare("SELECT statement,source_id FROM research_claims WHERE id='research_location'").first<{ statement: string; source_id: string | null }>(),
     ]);
-    const newClaims = claims.filter(row => row[0] === "analysis_framework" || row[0] === "decision_recommendation");
+    const newClaims = claims.filter(row => row[0] === "analysis_framework" || row[0] === "decision_recommendation" || row[0] === "model_demand_mix" || row[0] === "country_price_screen");
     const updates: D1PreparedStatement[] = newClaims.map(row =>
       db.prepare("INSERT INTO research_claims (id,statement,evidence_type,source_id,indicator_id) VALUES (?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET statement=excluded.statement,evidence_type=excluded.evidence_type,source_id=excluded.source_id,indicator_id=excluded.indicator_id,updated_at=CURRENT_TIMESTAMP").bind(...row)
     );
+    for (const row of sources.filter(source => source[0].startsWith("course_power_") || source[0] === "tt_dc_cost_2025")) {
+      updates.push(db.prepare("INSERT OR IGNORE INTO evidence_sources (id,publisher,title,url,published_at,retrieved_at) VALUES (?,?,?,?,?,?)").bind(...row, "2026-10-05"));
+    }
+    for (const row of indicators.filter(indicator => indicator[0].startsWith("course_") || indicator[0] === "us_sv_construction" || indicator[0] === "uk_london_construction")) {
+      updates.push(db.prepare("INSERT OR IGNORE INTO indicators (id,country_code,label,value,unit,evidence_type,reporting_period,retrieved_at,source_id,method_note) VALUES (?,?,?,?,?,?,?,?,?,?)").bind(row[0],row[1],row[2],row[3],row[4],row[5],row[6],"2026-10-05",row[7],row[8]));
+    }
     if (ukPrior?.evidence_type === "unknown" && ukPrior.value === null && ukPrior.source_id === "uk_carbon_table") {
       const source = sources.find(row => row[0] === "gb_carbon_annual_2024")!;
       updates.push(
