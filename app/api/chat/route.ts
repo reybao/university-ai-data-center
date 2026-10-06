@@ -218,6 +218,8 @@ export async function POST(request: Request) {
       const id = `C:${row.id}`;
       const title = row.id === "research_location"
         ? "Provisional region; site and power TBD"
+        : row.id === "system_api_integration"
+          ? "Website API and D1 integration record"
         : row.id === "analysis_framework"
           ? "Investment decision framework"
           : row.id === "decision_recommendation"
@@ -247,6 +249,19 @@ export async function POST(request: Request) {
       }
     }
     const locationClaim = claims.find(row => row.id === "research_location")?.statement ?? "";
+    const asksAboutApiIntegration = /(?:外部|外界|第三方|实时|这个|本|研究|网站|项目|你).{0,16}(?:api|接口)|(?:api|接口).{0,16}(?:接入|连接|调用|使用|有哪些|有吗|有没有|外部|外界|实时)|(?:EIA|NESO|D1|Responses API).{0,16}(?:接入|连接|调用|使用|关系|架构|怎么|如何|作用)|\b(?:external|third.party|live)\s+apis?\b|\bapis?\b.{0,30}\b(?:integrat|connect|call|use|access)\b|\b(?:how|what)\b.{0,24}\b(?:EIA|NESO|D1|Responses API)\b/i.test(message);
+    if (asksAboutApiIntegration && citationMap.has("C:system_api_integration")) {
+      const eiaActual = indicators.find(row => row.id === "us_tx_grid_demand");
+      const eiaForecast = indicators.find(row => row.id === "us_tx_grid_forecast");
+      const neso = indicators.find(row => row.id === "gb_live_carbon");
+      const ref = (id: string) => citationMap.has(id) ? `[${id}]` : "";
+      const timestamp = (row: typeof eiaActual) => row?.retrieved_at ?? "尚未成功刷新";
+      const reply = /[\u3400-\u9fff]/.test(message)
+        ? `有。这个网站接入了三类外部 API：OpenAI Responses API 用于生成回答；EIA Form EIA-930 API 用于 ERCOT 实际需求和日前预测；NESO Carbon Intensity API 用于英国电网碳强度。${ref("C:system_api_integration")}\n\n但聊天助手不会在每次提问时任意浏览互联网，也不会直接调用 EIA 或 NESO。受保护的服务器刷新接口先获取并校验数据，再把最后有效值写入 D1；我回答项目问题时读取经过范围筛选的 D1 证据。${ref("C:system_api_integration")}\n\n当前保存的 API 证据：EIA 实际需求 ${eiaActual?.value ?? "TBD"} ${eiaActual?.unit ?? ""}、同小时预测 ${eiaForecast?.value ?? "TBD"} ${eiaForecast?.unit ?? ""}，获取时间 ${timestamp(eiaActual)}。${ref("I:us_tx_grid_demand")}${ref("I:us_tx_grid_forecast")} NESO 碳强度 ${neso?.value ?? "TBD"} ${neso?.unit ?? ""}，获取时间 ${timestamp(neso)}。${ref("I:gb_live_carbon")}`
+        : `Yes. This website integrates three external APIs: the OpenAI Responses API for answer generation, EIA Form EIA-930 for ERCOT actual demand and day-ahead forecasts, and the NESO Carbon Intensity API for Great Britain grid carbon intensity. ${ref("C:system_api_integration")}\n\nThe chat assistant does not freely browse the internet or call EIA or NESO for every question. Protected server refresh routes fetch and validate those records, preserve the last valid values in D1, and the assistant reads scoped D1 evidence. ${ref("C:system_api_integration")}\n\nCurrent saved API evidence: EIA actual demand ${eiaActual?.value ?? "TBD"} ${eiaActual?.unit ?? ""} and same-hour forecast ${eiaForecast?.value ?? "TBD"} ${eiaForecast?.unit ?? ""}, retrieved ${timestamp(eiaActual)}. ${ref("I:us_tx_grid_demand")}${ref("I:us_tx_grid_forecast")} NESO carbon intensity ${neso?.value ?? "TBD"} ${neso?.unit ?? ""}, retrieved ${timestamp(neso)}. ${ref("I:gb_live_carbon")}`;
+      const citations = verifiedCitations(reply, citationMap);
+      if (citations) return directAnswerResponse(reply, citations, payload.stream === true);
+    }
     const asksForSitePowerCommitment = /具体地块|书面.{0,12}(?:接电|供电)|接电(?:承诺|日期|时间)|(?:parcel|site).{0,25}(?:secured|selected|verified)|(?:power|grid|utility).{0,25}(?:commitment|energization|service date|delivery date)/i.test(message);
     if (asksForSitePowerCommitment && /no parcel or power-delivery commitment/i.test(locationClaim) && citationMap.has("C:research_location")) {
       const reply = /[\u3400-\u9fff]/.test(message)
@@ -317,6 +332,8 @@ export async function POST(request: Request) {
     const instructions = `You are a conversational assistant for the University Consortium AI data-centre website. Answer the CURRENT question naturally in the user's language, in plain text, and lead with a direct answer. You may answer greetings, general knowledge and ordinary conversation without forcing project evidence into them. For general questions, give a useful answer first, then optionally point to one relevant website page if the connection is natural. Do not force a site connection for personal or sensitive topics. You have no live general web search: qualify time-sensitive outside facts you cannot verify.
 
 For claims about THIS website's research, design, numbers, recommendation or sources, use only the scoped D1 records supplied by the server, and cite the exact relevant IDs in [I:...] / [C:...] / [A:...] / [S:...] form next to substantive claims. General-knowledge explanations do not need D1 citations; do not pretend that a project source supports unrelated facts. The question may combine several topics; answer each requested part. S records are the current user's saved scenario inputs. If present, use them when the user asks about that scenario or its changed inputs; distinguish them from the D1 planning baseline. The server verifies IDs and converts them to numbered references for the browser. Never invent an ID or treat a D1 planning record as an external source. For project questions, you may guide the reader to Decision, Demand, Strategy, Location, Physical Design, Economics, Scenarios or Evidence by its menu label.
+
+When asked about APIs, integrations, live data, D1, or how the assistant obtains evidence, distinguish the website's server-side integrations from the assistant's own capabilities. The website uses protected refresh routes for EIA and NESO, stores validated last-good values in D1, and uses the OpenAI Responses API for answer generation. The assistant does not freely browse the internet or call EIA or NESO on every question.
 
 If asked what data or data framework was used, give five short numbered groups: (1) member demand, (2) engineering and capacity, (3) three-country published indicators, (4) regional price screening, (5) ten-year economics and stress cases. For each group, name the data type, its status, and representative publishers or D1 planning records, with one or two citations. In the country group, explicitly say "facts and estimates" when both types appear; identify the publisher for each country's data-centre electricity figure. Do not describe all published indicators as facts: check each row's type field. Mention the most consequential missing data in one final sentence. Do not list every metric value or every source unless the user explicitly asks for a row-by-row inventory. A methodology statement alone is not a data inventory.
 

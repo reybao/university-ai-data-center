@@ -1,5 +1,6 @@
 export type ResearchIntent =
   | "data_inventory"
+  | "implementation"
   | "recommendation"
   | "framework"
   | "demand"
@@ -28,10 +29,11 @@ const sectionIntent: Record<string, ResearchIntent> = {
   "risk-delivery": "architecture",
   "scenario-lab": "scenario",
   evidence: "evidence",
-  assurance: "evidence",
+  assurance: "implementation",
 };
 
 const rules: Array<[ResearchIntent, RegExp]> = [
+  ["implementation", /(?:外部|外界|第三方|实时|这个|本|研究|网站|项目|你).{0,16}(?:api|接口)|(?:api|接口).{0,16}(?:接入|连接|调用|使用|有哪些|有吗|有没有|外部|外界|实时)|\b(?:external|third.party|live)\s+apis?\b|\bapis?\b.{0,30}\b(?:integrat|connect|call|use|access)\b|\b(?:EIA|NESO|D1|Responses API)\b/i],
   ["data_inventory", /(?:使用|用了|依据|依赖|包含|罗列|列出|哪些|所有)[^。？！?]{0,12}(?:数据|资料|指标|来源|数据框架)|(?:数据|资料|指标|来源|数据框架)[^。？！?]{0,12}(?:使用|用了|依据|依赖|包含|罗列|列出|哪些|所有)|\b(?:what|which|list|all)\b[^.!?]{0,35}\b(?:data|datasets|inputs|sources|metrics)\b|\b(?:data|datasets|inputs|sources|metrics)\b[^.!?]{0,35}\b(?:used|underlying|included)\b/i],
   ["recommendation", /\b(?:final|overall|investment|committee|ic)\s+(?:recommendation|decision|verdict|conclusion)\b|\bwhat\s+should\s+(?:the\s+)?(?:committee|ic|we)\s+(?:approve|do)\b|最终建议|总体建议|投资建议|最终结论|建议是什么|应该批准|是否批准/i],
   ["framework", /\b(decision|analysis|research)\s+(logic|framework|tree|process|steps?)\b|\bhow\s+(?:should|do|would)\s+(?:we|you)\s+(?:analyse|analyze|decide)\b|决策逻辑|分析逻辑|分析框架|决策框架|分析步骤|研究逻辑|如何分析|如何决策/i],
@@ -70,6 +72,12 @@ export function evidenceScopeForIntents(intents: ResearchIntent[]): EvidenceScop
 
 export function evidenceScopeForIntent(intent: ResearchIntent): EvidenceScope {
   switch (intent) {
+    case "implementation":
+      return {
+        indicators: ["us_tx_grid_demand", "us_tx_grid_forecast", "gb_live_carbon"],
+        claims: ["system_api_integration"],
+        assumptions: [],
+      };
     case "data_inventory":
       return {
         indicators: ["us_dc_2024", "us_mix", "us_carbon", "us_cooling", "cn_dc_2024", "cn_mix", "cn_carbon", "cn_cooling", "uk_dc_2024", "uk_dc_count", "uk_mix", "uk_carbon", "uk_cooling", "us_tx_price", "us_tx_grid_demand", "us_tx_grid_forecast", "gb_live_carbon", "course_us_business_power", "course_cn_business_power", "course_uk_business_power", "us_sv_construction", "uk_london_construction", "us_phoenix_colo", "cn_post_colo", "uk_london_colo"],

@@ -37,6 +37,8 @@ The ERCOT refresh uses the free EIA API and requires `EIA_API_KEY` as a producti
 
 Set `OPENAI_API_KEY` only as a **secret** in this Site's production runtime settings; never place it in source code, D1, or `.openai/hosting.json`. `OPENAI_MODEL` is optional; the route defaults to the Responses-compatible `gpt-5.4-mini`. A signed-in visitor must register before chatting; the route limits each registered user to 20 questions per hour. User-owned saved scenario inputs are included only when a valid scenario ID is supplied. The server selects a bounded D1 evidence set and rejects answers whose citation IDs cannot be verified.
 
+Questions about APIs, D1, live data, or the website's evidence architecture receive a verified system-capability answer. The assistant distinguishes server-side EIA and NESO refreshes from free-form web browsing: external records are validated and stored in D1 first, while OpenAI generates the cited response.
+
 ## Local checks
 
 Use Node.js 22.13 or later. From this directory, run `npm run db:generate` after schema changes, then `npx tsc --noEmit --incremental false` and `npm run build`. Publish through the Sites workflow; production D1 migrations are applied during deployment. Keep applied `drizzle/*.sql` and matching `drizzle/meta` files immutable.
